@@ -16,6 +16,8 @@ export type PointerKind = 'down' | 'move' | 'up';
 
 export interface Scene {
   readonly name: string;
+  /** Botões da cena, quando existem (os testes apontam para eles). */
+  readonly ui?: unknown;
   enter?(): void;
   exit?(): void;
   update(dt: number): void;

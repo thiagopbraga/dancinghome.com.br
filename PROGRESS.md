@@ -6,10 +6,10 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 | Etapa | Nome                                     | Status |
 | ----- | ---------------------------------------- | ------ |
-| 0     | Fundação                                 | 🟨     |
-| 1     | Dados e regras puras                     | ⬜     |
+| 0     | Fundação                                 | ✅     |
+| 1     | Dados e regras puras                     | ✅     |
 | 2     | Áudio e relógio                          | ✅     |
-| 3     | Câmera e esqueleto                       | ⬜     |
+| 3     | Câmera e esqueleto                       | ✅     |
 | 4     | Cena de dança                            | ⬜     |
 | 5     | Fluxo completo da partida                | ⬜     |
 | 6     | Narração, progresso e as 5 músicas (MVP) | ⬜     |
@@ -50,3 +50,9 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 - Feito: `SongClock` (`src/core/clock.ts`) sobre `AudioContext.currentTime`, descontando `offsetMs` e `outputLatency`; `AudioEngine` (`src/core/audio.ts`) com tocar, pausar, retomar, `playbackRate` e fade; música de demonstração sintetizada (`src/core/demoSong.ts`); efeitos sonoros com osciladores (`src/core/sfx.ts`); tela do metrônomo em `?cena=metronomo`.
 - Verificado: `npm run check` (`tests/unit/clock.test.ts`: tempo de batida, latência, pausa e retomada sem salto, velocidade 0,5x, contagem negativa, duração da demonstração) e `npm run test:e2e` (`tests/e2e/etapa2.spec.ts`: 2 batidas por segundo com erro abaixo de 50 ms, contra o relógio do áudio e contra o relógio de parede). Screenshot: `tests/e2e/screens/etapa2-metronomo.png`.
+
+### Etapa 3 · Câmera e esqueleto
+
+- Feito: `camera.ts` (frontal, 640x480), `MediaPipePoseSource` com GPU e recuo para CPU carregando wasm e modelo de `public/mediapipe/`, filtro One Euro, `SimulatedPoseSource` (`?sim=1`), `PoseTracker`, gestos (`gestures.ts`), cena do vídeo espelhado com esqueleto (`?cena=esqueleto`), painel `?debug=1` com fps, visibilidade média, os 8 ângulos e "braço direito" ou "braço esquerdo", tela amigável quando a câmera não liga.
+- Verificado: `npm run check` (`tests/unit/gestures.test.ts`) e `npm run test:e2e` (`tests/e2e/etapa3.spec.ts`): com `?sim=1` o esqueleto aparece, o pulso sobe quando o roteiro levanta o braço direito e o painel escreve "braço direito"; com a câmera recusada aparece a tela "Precisamos da câmera" sem erro de página; com a câmera falsa do Chromium o MediaPipe de verdade carrega só de `localhost` e entrega quadros. Screenshots: `etapa3-esqueleto.png`, `etapa3-sem-camera.png`.
+- Fica para o teste manual: levantar o braço direito de verdade e o painel dizer "braço direito".

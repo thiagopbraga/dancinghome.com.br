@@ -23,3 +23,12 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - **Energia cheia = 5 alturas de tronco** de deslocamento somado (pulsos, cotovelos, joelhos e tornozelos) entre duas poses. Levantar os dois braços do descanso já passa de 2.
 - **Cotovelo dobra para dentro e joelho para baixo no boneco.** O ângulo sozinho não diz o lado da dobra; essa regra desenha todas as 18 poses de forma reconhecível.
 - **Os contratos ficam em `src/core/types.ts`**; `PoseSource` ganhou o campo `aspect` (largura/altura do vídeo), que o cálculo dos ângulos exige.
+
+## Etapas 2 e 3
+
+- **Pausa retoma do ponto que estava sendo ouvido** (posição menos a latência de saída), e o relógio fica parado nesse ponto até o som voltar: assim o tempo nunca anda para trás.
+- **A pose simulada fica em `src/core/simPose.ts`**, separada de `poseSource.ts`, e é carregada com `import()` só no servidor de desenvolvimento: `?sim=1` e `window.__ensaio` não existem no build de produção.
+- **O cursor da mão é relativo ao corpo** (meio dos ombros e altura do tronco), não à tela: funciona igual a 1 ou a 3 metros da câmera, e as mãos em descanso caem fora da tela, então nada é escolhido sem querer.
+- **O filtro One Euro usa o relógio de parede**, não o do áudio, porque o relógio do áudio para na pausa e no treino.
+- **A regra do ESLint que barra `TODO` só olha o começo do comentário**, porque "todo" é uma palavra comum em português.
+- **O teste "sem permissão de câmera" troca o `getUserMedia` por uma recusa**, já que o Chromium dos testes roda com a permissão sempre aceita (`--use-fake-ui-for-media-stream`).

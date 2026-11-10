@@ -11,7 +11,7 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       'no-console': ['error', { allow: ['warn', 'error'] }],
-      'no-warning-comments': ['error', { terms: ['todo', 'fixme'], location: 'anywhere' }],
+      'no-warning-comments': ['error', { terms: ['todo', 'fixme'], location: 'start' }],
     },
   },
   { files: ['scripts/**'], rules: { 'no-console': 'off' } },
