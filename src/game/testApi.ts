@@ -14,7 +14,7 @@ export function installTestApi(game: Game) {
   const api = {
     game,
     cena: () => game.engine.scene?.name ?? '',
-    beat: () => game.audio.clock?.beat() ?? 0,
+    beat: () => game.musicClock()?.beat() ?? 0,
     /** Tempo do AudioContext e batida no mesmo instante, para medir a precisão do relógio. */
     amostra: () => ({
       ctx: game.audio.ctx?.currentTime ?? 0,

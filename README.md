@@ -48,6 +48,27 @@ As cinco músicas aparecem no menu com cadeado até terem áudio: Brilho, Meu Pe
 
 Os arquivos de áudio nunca entram no repositório nem na publicação.
 
+### Tocar pelo YouTube (sem arquivo de áudio)
+
+Quem não tem o arquivo pode usar um vídeo do YouTube. A música toca dentro do jogo, num player pequeno no canto de cima, e começa sozinha junto com a dança. Não precisa abrir o YouTube nem dar play na hora certa.
+
+1. No YouTube, abra o vídeo da música e copie o link (Compartilhar → Copiar link).
+2. Na Área dos Pais, cole o link na linha "YouTube" da música e toque em "Salvar link". O cadeado some.
+3. Toque em "Testar a batida": o vídeo toca com um clique em cada batida (o clique mais agudo marca o começo de cada grupo de 4).
+4. Toque em "Começou a batida!" no primeiro tempo forte da música. Isso acerta a maior parte da diferença (vídeos costumam ter uma introdução).
+5. Acerte o resto com "−100 / −10 / +10 / +100 ms" até os cliques caírem junto com a batida. "+" faz os passos virem mais tarde e "−" mais cedo. O ajuste fica guardado para aquela música, naquele aparelho.
+
+Como funciona: o jogo usa a API oficial de player do YouTube (nada é baixado). O vídeo começa a carregar sem som enquanto ela se posiciona na calibração e fica parado no ponto certo; quando a contagem acaba, ele toca e o relógio da dança passa a ser o tempo do próprio vídeo. Se o vídeo engasgar para carregar, os cartões esperam junto; na pausa, o vídeo pausa e volta do mesmo ponto.
+
+Limitações:
+
+- Precisa de internet (o resto do jogo funciona offline; essas músicas não).
+- Pode aparecer anúncio antes do vídeo. O jogo tenta passar o anúncio sem som durante a calibração, mas um anúncio longo pode atrasar o começo.
+- Alguns vídeos não deixam tocar fora do YouTube (muitos clipes oficiais de gravadora). Nesse caso a Área dos Pais mostra o aviso no teste e, na dança, o jogo segue com palminhas no ritmo da música. Tente outro vídeo da mesma música (letra, áudio oficial, versão de fã).
+- Se o arquivo de áudio e o link existirem juntos, o jogo usa o arquivo (mais preciso e funciona sem internet).
+- O gravador de coreografias e "Marcar partes" continuam precisando do arquivo de áudio.
+- No iPhone, se a música não começar sozinha, aparece "Toque no vídeo para a música começar".
+
 ### Marcar as partes de cada música
 
 As coreografias já vêm com as partes e as poses de cada música, mas o tempo exato depende do arquivo que você carregou. Para acertar, toque em "Marcar partes" na música:
@@ -117,6 +138,7 @@ Primeiro o adulto, sozinho:
 4. Na Área dos Pais, carregar uma música, tocar "Marcar partes", acertar a batida de ouvido e marcar as partes.
 5. Jogar essa música e ver se os cartões chegam no tempo. Se chegarem cedo ou tarde, mexer no `offsetMs`.
 6. Desligar o Wi-Fi e os dados, fechar e abrir o jogo: ele tem que abrir normalmente.
+7. Colar o link do YouTube de uma música, "Testar a batida", acertar o ajuste e jogar: a música tem que começar sozinha no fim da contagem.
 
 Depois com a criança:
 

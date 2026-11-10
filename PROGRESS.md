@@ -117,6 +117,12 @@ npm ci && npm run setup:mediapipe && npm run check && npm run test:e2e
 | `README.md` em português com instalar, celular, músicas, partes, poses e Vercel | ✅       | `README.md`                                                              |
 | Este arquivo mostra as 12 etapas com status e prova                             | ✅       | tabela e diário acima                                                    |
 
+### Extra · Música pelo YouTube
+
+- Feito: link do YouTube por música na Área dos Pais, com "Testar a batida" (cliques em cada batida), "Começou a batida!" e ajuste de ±10/±100 ms; player pequeno no canto durante a dança; o relógio da dança segue o tempo do vídeo (pausa, engasgo e fim); vídeo preparado sem som durante a calibração; palminhas no ritmo quando o vídeo não pode tocar.
+- Verificado: `npm run check` (`tests/unit/youtube.test.ts`: links aceitos e recusados, relógio do vídeo com leituras em degraus de 250 ms, salto, pausa, ajuste, meia velocidade, palminhas e schema) e `npm run test:e2e` (`tests/e2e/youtube.spec.ts`, com YouTube falso: a dança toca pelo vídeo depois de um anúncio e fica a menos de 100 ms do vídeo, espera quando o vídeo engasga, pausa e volta sem perder a sincronia, vídeo bloqueado vira palminhas, e o fluxo da Área dos Pais guarda o link e o ajuste). Screenshots: `youtube-danca.png`, `youtube-pais.png`.
+- Fica para o teste em casa: um vídeo de verdade (internet, anúncio, celular e iPhone) e o ajuste fino de ouvido.
+
 ### O que não deu para provar aqui
 
 Os testes automáticos usam pose simulada, a câmera falsa do Chromium e áudio gerado em código. O que depende de gente, aparelho e arquivo de verdade ficou para o teste em casa (roteiro no fim do `README.md`):

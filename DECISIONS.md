@@ -94,3 +94,13 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - Detector de BPM: envelope de energia a 200 quadros por segundo, autocorrelação entre 80 e 180 BPM somando 4 múltiplos do período e, entre candidatos quase empatados, o mais rápido. Sem pulso claro, o modo surpresa usa 120 BPM.
 - Surpresa: o cartão só responde ao toque (o adulto escolhe o arquivo); o áudio fica só na memória, a fase não entra no menu e não guarda recorde. No fácil usa um trecho de até 75 s.
 - O editor da Área dos Pais ganhou o botão "Detectar BPM", que usa o mesmo detector.
+
+## Música pelo YouTube
+
+- O som vem do player oficial do YouTube (IFrame Player API) embutido num canto da tela. Nada é baixado nem extraído do YouTube.
+- O relógio da dança passa a ser o tempo do vídeo (`VideoClock` em `src/core/youtube.ts`): o player só informa a posição de tempos em tempos, então o relógio anda com o relógio da página entre uma leitura e outra e corrige 20% da diferença a cada leitura nova (salta só se a diferença passar de 250 ms). Carregando, pausado ou no fim, o relógio congela e os cartões esperam.
+- O vídeo é preparado sem som na hora em que a partida começa (durante a calibração e a contagem): toca até o conteúdo começar de verdade (passando um anúncio, se houver), para e volta para o ponto da primeira batida. Assim o começo na dança é rápido e o erro de "vídeo bloqueado" aparece antes.
+- `youtube: { id, offsetMs }` fica na coreografia (guardada no aparelho). O `offsetMs` do vídeo é separado do `offsetMs` do arquivo, porque o vídeo pode ter outra introdução. As danças gravadas usam o vídeo da música de origem.
+- Arquivo de áudio tem prioridade sobre o vídeo quando os dois existem.
+- Sem internet, vídeo bloqueado para embutir (erros 101/150) ou vídeo que não começa em 45 s: a dança segue com palminhas no BPM da música (`src/core/clickTrack.ts`) e o narrador avisa de um jeito positivo. Se o erro vier no meio da dança, as palminhas continuam da batida em que parou.
+- Os testes usam um `window.YT` falso (o container de testes não acessa o YouTube), que imita estados, anúncio, leituras em degraus de 250 ms, engasgo e erro 150.

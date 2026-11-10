@@ -55,7 +55,7 @@ export class GravadorScene implements Scene {
   private readonly songs: Choreo[];
 
   constructor(private readonly game: Game) {
-    this.songs = game.songs.filter((s) => s.origem !== 'gravada' && game.hasAudio(s));
+    this.songs = game.songs.filter((s) => s.origem !== 'gravada' && game.hasAudioFile(s));
     this.ui = new ButtonSet([], () => game.sfx.play('select'));
     this.showChoice();
   }

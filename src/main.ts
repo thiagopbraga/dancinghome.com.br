@@ -50,7 +50,7 @@ engine.beforeUpdate = (dt) => {
   companions.update(dt);
   // celular lento: detecta a pose em quadros alternados
   if (game.poseState === 'pronta' && !flags.sim) game.tracker.alternate = fpsWatch.update(dt);
-  game.tracker.update(game.audio.clock?.now() ?? game.time);
+  game.tracker.update(game.musicClock()?.now() ?? game.time);
 };
 engine.afterDraw = (g, v) => {
   drawCaption(g, game.narrator.caption?.text ?? null, engine.scene?.name === 'menu');

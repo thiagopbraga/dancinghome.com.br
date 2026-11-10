@@ -14,10 +14,20 @@ export interface PlayConfig {
   choreo?: Choreo;
 }
 
+/** Música do YouTube de uma partida. */
+export interface YoutubePlan {
+  id: string;
+  offsetMs: number;
+  /** Resolve quando o vídeo está pronto para começar (false: não deu, usar as palminhas). */
+  pronto: Promise<boolean>;
+}
+
 export interface MatchSetup {
   cfg: PlayConfig;
   choreo: Choreo;
-  buffer: AudioBuffer;
+  /** Áudio guardado no aparelho. Fica null quando a música vem do YouTube. */
+  buffer: AudioBuffer | null;
+  youtube?: YoutubePlan;
 }
 
 export interface Outcome {
