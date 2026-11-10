@@ -11,7 +11,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 2     | Áudio e relógio                          | ✅     |
 | 3     | Câmera e esqueleto                       | ✅     |
 | 4     | Cena de dança                            | ✅     |
-| 5     | Fluxo completo da partida                | ⬜     |
+| 5     | Fluxo completo da partida                | ✅     |
 | 6     | Narração, progresso e as 5 músicas (MVP) | ⬜     |
 | 7     | Celular e offline                        | ⬜     |
 | 8     | Área dos Pais e editor                   | ⬜     |
@@ -61,3 +61,8 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 - Feito: cena da dança (`src/game/scenes/Danca.ts`) com o espelho no centro, cartões de pose desenhados em código que deslizam até o alvo 4 batidas antes, nome da próxima pose em letras grandes, placar, barra de progresso, palavra de incentivo e estrelinhas a cada nota, poses seguradas com barra, fade de 2 s no fim do trecho, pausa (gesto, toque ou Esc) e tela de resultado com as estrelas.
 - Verificado: `npm run test:e2e` (`tests/e2e/etapa4.spec.ts`): com `?sim=1&cena=danca` a demonstração inteira no fácil avalia os 15 eventos na ordem, com 100% de Perfeito e sem erro de página; errando de propósito a nota cai e a pose seguinte volta a ser Perfeito. Screenshots vistos: `etapa4-danca.png` e `etapa4-resultado.png`.
+
+### Etapa 5 · Fluxo completo
+
+- Feito: menu com botões gigantes escolhidos pela mão (1 s com anel de progresso) ou por toque, escolha de música em cartões (cadeado nas que ainda não têm áudio), escolha de nível com os modos Dupla e Estátua, calibração com silhueta que fica verde quando o corpo inteiro aparece, aviso de pouca luz, contagem 3, 2, 1, pausa com as duas mãos para o alto e volta ao menu pelo resultado.
+- Verificado: `npm run test:e2e` (`tests/e2e/etapa5.spec.ts`): depois do toque em "Começar", a partida vai do menu ao resultado só com gestos simulados (menu, música, nível, calibração, contagem, dança, pausa e continuar, resultado, menu); quem não acerta nenhuma pose fica com 1 estrela; nenhuma fala tem palavra negativa; a calibração espera o corpo aparecer. Screenshots vistos: `etapa5-menu.png`, `etapa5-musicas.png`, `etapa5-nivel.png`, `etapa5-calibracao.png`, `etapa5-contagem.png`, `etapa5-pausa.png`, `etapa5-resultado.png`.
