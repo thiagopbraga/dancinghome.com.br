@@ -18,19 +18,27 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 4,
-          "poses": ["pose-de-idol", "microfone"]
+          "poses": [
+            "pose-de-idol",
+            "moldura-glam",
+            {
+              "pose": "moldura-glam",
+              "mirror": true
+            },
+            "microfone"
+          ]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 4,
-          "poses": ["microfone", "apontar", "coracao", "pose-de-idol"]
+          "poses": ["microfone", "moldura-glam", "apontar", "coroa-dourada", "coracao", "pose-de-idol"]
         },
         {
           "nome": "refrao",
           "inicioBeat": 80,
           "aCada": 4,
-          "poses": ["raio-de-sol", "bracos-pra-cima", "estrela", "coracao"]
+          "poses": ["coroa-dourada", "raio-de-sol", "bracos-pra-cima", "estrela", "coracao"]
         },
         {
           "nome": "final",
@@ -47,31 +55,56 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 2,
-          "poses": ["pose-de-idol", "microfone"]
+          "poses": [
+            "pose-de-idol",
+            "moldura-glam",
+            {
+              "pose": "moldura-glam",
+              "mirror": true
+            },
+            "microfone"
+          ]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 2,
-          "poses": ["microfone", "apontar", "coracao", "pose-de-idol"]
+          "poses": ["microfone", "moldura-glam", "apontar", "coroa-dourada", "coracao", "pose-de-idol"]
         },
         {
           "nome": "refrao",
           "inicioBeat": 80,
           "aCada": 2,
-          "poses": ["raio-de-sol", "bracos-pra-cima", "estrela", "coracao"]
+          "poses": ["coroa-dourada", "raio-de-sol", "bracos-pra-cima", "estrela", "coracao"]
         },
         {
           "nome": "verso2",
           "inicioBeat": 144,
           "aCada": 2,
-          "poses": ["microfone", "apontar", "coracao", "pose-de-idol"]
+          "poses": [
+            "microfone",
+            "moldura-glam",
+            {
+              "pose": "moldura-glam",
+              "mirror": true
+            },
+            "passo-de-diva",
+            "coracao",
+            "pose-de-idol"
+          ]
         },
         {
           "nome": "refrao2",
           "inicioBeat": 208,
           "aCada": 2,
-          "poses": ["raio-de-sol", "bracos-pra-cima", "perna-de-lado", "coracao"]
+          "poses": [
+            "coroa-dourada",
+            "raio-de-sol",
+            "bracos-pra-cima",
+            "perna-de-lado",
+            "passo-de-diva",
+            "coracao"
+          ]
         },
         {
           "nome": "final",

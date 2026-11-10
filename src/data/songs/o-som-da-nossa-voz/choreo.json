@@ -18,19 +18,38 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 4,
-          "poses": ["escudo", "coracao"]
+          "poses": [
+            "escudo",
+            "onda-de-som",
+            {
+              "pose": "onda-de-som",
+              "mirror": true
+            },
+            "coracao"
+          ]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 4,
-          "poses": ["microfone", "estrela", "escudo", "raio-de-sol"]
+          "poses": [
+            "microfone",
+            "voz-pro-ceu",
+            "onda-de-som",
+            {
+              "pose": "onda-de-som",
+              "mirror": true
+            },
+            "estrela",
+            "escudo",
+            "raio-de-sol"
+          ]
         },
         {
           "nome": "refrao",
           "inicioBeat": 80,
           "aCada": 4,
-          "poses": ["bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
+          "poses": ["voz-pro-ceu", "bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
         },
         {
           "nome": "final",
@@ -47,19 +66,38 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 2,
-          "poses": ["escudo", "coracao"]
+          "poses": [
+            "escudo",
+            "onda-de-som",
+            {
+              "pose": "onda-de-som",
+              "mirror": true
+            },
+            "coracao"
+          ]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 2,
-          "poses": ["microfone", "estrela", "escudo", "raio-de-sol"]
+          "poses": [
+            "microfone",
+            "voz-pro-ceu",
+            "onda-de-som",
+            {
+              "pose": "onda-de-som",
+              "mirror": true
+            },
+            "estrela",
+            "escudo",
+            "raio-de-sol"
+          ]
         },
         {
           "nome": "refrao",
           "inicioBeat": 80,
           "aCada": 2,
-          "poses": ["bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
+          "poses": ["voz-pro-ceu", "bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
         },
         {
           "nome": "verso2",
@@ -68,18 +106,20 @@
           "poses": [
             "microfone",
             "inclinacao",
+            "onda-de-som",
             "escudo",
             {
               "pose": "inclinacao",
               "mirror": true
-            }
+            },
+            "passo-unido"
           ]
         },
         {
           "nome": "refrao2",
           "inicioBeat": 208,
           "aCada": 2,
-          "poses": ["bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
+          "poses": ["voz-pro-ceu", "bracos-pra-cima", "passo-unido", "coracao", "estrela", "raio-de-sol"]
         },
         {
           "nome": "final",

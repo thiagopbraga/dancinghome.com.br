@@ -140,11 +140,11 @@ describe('expandSections', () => {
 describe('dados que vêm com o jogo', () => {
   const data = loadBaseData();
 
-  it('catálogo tem as 18 poses, 12 fáceis e 6 normais', () => {
+  it('catálogo tem as 33 poses (18 originais + 15 de K-pop), 22 fáceis e 11 normais', () => {
     const poses = Object.values(data.catalog);
-    expect(poses).toHaveLength(18);
-    expect(poses.filter((p) => p.nivel === 'facil')).toHaveLength(12);
-    expect(poses.filter((p) => p.nivel === 'normal')).toHaveLength(6);
+    expect(poses).toHaveLength(33);
+    expect(poses.filter((p) => p.nivel === 'facil')).toHaveLength(22);
+    expect(poses.filter((p) => p.nivel === 'normal')).toHaveLength(11);
     expect(data.catalog['mao-no-queixo']).toBeUndefined();
   });
 
@@ -206,6 +206,41 @@ describe('dados que vêm com o jogo', () => {
     expect(brilhoFinal).toMatchObject({ pose: 'raio-de-sol', holdBeats: 4 });
     const vozFinal = expandSections(by('o-som-da-nossa-voz'), 'normal').at(-1)!;
     expect(vozFinal).toMatchObject({ pose: 'coracao', holdBeats: 8 });
+  });
+
+  it('as 5 músicas base usam as novas poses inspiradas em K-pop nos níveis fácil e normal', () => {
+    const by = (id: string) => data.songs.find((s) => s.id === id)!;
+    const allPoses = (id: string, nivel: 'facil' | 'normal') =>
+      expandSections(by(id), nivel).map((e) => e.pose);
+
+    expect(allPoses('brilho', 'facil')).toEqual(expect.arrayContaining(['coroa-dourada', 'moldura-glam']));
+    expect(allPoses('brilho', 'normal')).toEqual(
+      expect.arrayContaining(['coroa-dourada', 'moldura-glam', 'passo-de-diva']),
+    );
+
+    expect(allPoses('meu-pequeno-guarana', 'facil')).toEqual(
+      expect.arrayContaining(['canudinho', 'tampinha']),
+    );
+    expect(allPoses('meu-pequeno-guarana', 'normal')).toEqual(
+      expect.arrayContaining(['canudinho', 'tampinha', 'pulo-pop']),
+    );
+
+    expect(allPoses('o-som-da-nossa-voz', 'facil')).toEqual(
+      expect.arrayContaining(['voz-pro-ceu', 'onda-de-som']),
+    );
+    expect(allPoses('o-som-da-nossa-voz', 'normal')).toEqual(
+      expect.arrayContaining(['voz-pro-ceu', 'onda-de-som', 'passo-unido']),
+    );
+
+    expect(allPoses('letal', 'facil')).toEqual(expect.arrayContaining(['arco-e-flecha', 'guarda-letal']));
+    expect(allPoses('letal', 'normal')).toEqual(
+      expect.arrayContaining(['arco-e-flecha', 'guarda-letal', 'base-de-guerreira']),
+    );
+
+    expect(allPoses('nao-tem-perdao', 'facil')).toEqual(expect.arrayContaining(['v-da-vitoria', 'swagger']));
+    expect(allPoses('nao-tem-perdao', 'normal')).toEqual(
+      expect.arrayContaining(['v-da-vitoria', 'swagger', 'pose-de-turne']),
+    );
   });
 
   it('a demonstração tem 120 BPM e 64 batidas', () => {
