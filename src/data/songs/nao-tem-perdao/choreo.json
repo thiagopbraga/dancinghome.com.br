@@ -1,0 +1,84 @@
+{
+  "id": "nao-tem-perdao",
+  "title": "Não Tem Perdão",
+  "tema": "a grande turnê",
+  "bpm": 160,
+  "offsetMs": 0,
+  "calibrado": false,
+  "duracaoBeats": 469,
+  "origem": "base",
+  "niveis": {
+    "facil": {
+      "trecho": {
+        "inicioBeat": 0,
+        "fimBeat": 200
+      },
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 8,
+          "poses": ["pose-de-idol", "bracos-pra-cima"]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 8,
+          "poses": ["apontar", "estrela", "microfone", "apontar"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 8,
+          "poses": ["estrela", "raio-de-sol", "espada-de-luz", "coracao"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 192,
+          "aCada": 8,
+          "poses": ["bracos-pra-cima"]
+        }
+      ]
+    },
+    "normal": {
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 4,
+          "poses": ["pose-de-idol", "bracos-pra-cima"]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 4,
+          "poses": ["ciclista", "patinadora", "microfone", "apontar"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 4,
+          "poses": ["estrela", "raio-de-sol", "espada-de-luz", "coracao"]
+        },
+        {
+          "nome": "verso2",
+          "inicioBeat": 144,
+          "aCada": 4,
+          "poses": ["ciclista", "patinadora", "microfone", "apontar"]
+        },
+        {
+          "nome": "refrao2",
+          "inicioBeat": 208,
+          "aCada": 4,
+          "poses": ["estrela", "raio-de-sol", "espada-de-luz", "coracao"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 460,
+          "aCada": 4,
+          "poses": ["bracos-pra-cima"]
+        }
+      ]
+    }
+  }
+}

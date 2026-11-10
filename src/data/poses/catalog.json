@@ -1,0 +1,110 @@
+{
+  "bracos-pra-cima": {
+    "nome": "Braços pra Cima",
+    "nivel": "facil",
+    "angles": { "lShoulder": 170, "rShoulder": 170, "lElbow": 170, "rElbow": 170 },
+    "descricao": "Os dois braços esticados para o alto"
+  },
+  "estrela": {
+    "nome": "Estrela",
+    "nivel": "facil",
+    "angles": { "lShoulder": 90, "rShoulder": 90, "lElbow": 170, "rElbow": 170 },
+    "descricao": "Braços abertos na altura dos ombros"
+  },
+  "coracao": {
+    "nome": "Coração",
+    "nivel": "facil",
+    "angles": { "lShoulder": 150, "rShoulder": 150, "lElbow": 60, "rElbow": 60 },
+    "descricao": "As mãos formam um coração em cima da cabeça"
+  },
+  "raio-de-sol": {
+    "nome": "Raio de Sol",
+    "nivel": "facil",
+    "angles": { "lShoulder": 140, "rShoulder": 140, "lElbow": 170, "rElbow": 170 },
+    "descricao": "Braços em V, esticados para cima e para fora"
+  },
+  "microfone": {
+    "nome": "Microfone",
+    "nivel": "facil",
+    "angles": { "rShoulder": 30, "rElbow": 40, "lShoulder": 40, "lElbow": 90 },
+    "descricao": "Mão direita perto da boca, mão esquerda na cintura"
+  },
+  "pose-de-idol": {
+    "nome": "Pose de Idol",
+    "nivel": "facil",
+    "angles": { "lShoulder": 40, "rShoulder": 40, "lElbow": 80, "rElbow": 80 },
+    "descricao": "As duas mãos na cintura"
+  },
+  "espada-de-luz": {
+    "nome": "Espada de Luz",
+    "nivel": "facil",
+    "angles": { "rShoulder": 150, "rElbow": 170, "lShoulder": 40, "lElbow": 90 },
+    "descricao": "Braço direito esticado na diagonal para cima, mão esquerda na cintura"
+  },
+  "escudo": {
+    "nome": "Escudo",
+    "nivel": "facil",
+    "angles": { "lShoulder": 60, "rShoulder": 60, "lElbow": 40, "rElbow": 40 },
+    "descricao": "Braços cruzados na frente do peito"
+  },
+  "apontar": {
+    "nome": "Apontar pra Galera",
+    "nivel": "facil",
+    "angles": { "rShoulder": 90, "rElbow": 175, "lShoulder": 20 },
+    "descricao": "Braço direito esticado para o lado, apontando"
+  },
+  "bolhas": {
+    "nome": "Bolhas de Refri",
+    "nivel": "facil",
+    "angles": { "lShoulder": 150, "lElbow": 100, "rShoulder": 30, "rElbow": 100 },
+    "descricao": "Uma mão alta e outra baixa, cotovelos dobrados"
+  },
+  "garrinha-de-gato": {
+    "nome": "Garrinha de Gato",
+    "nivel": "facil",
+    "angles": { "lShoulder": 50, "rShoulder": 50, "lElbow": 30, "rElbow": 30 },
+    "descricao": "Mãos em garra ao lado do rosto"
+  },
+  "orelhas-de-cachorro": {
+    "nome": "Orelhas de Cachorro",
+    "nivel": "facil",
+    "angles": { "lShoulder": 140, "rShoulder": 140, "lElbow": 30, "rElbow": 30 },
+    "descricao": "Mãos em cima da cabeça, como orelhas"
+  },
+  "joelho-pra-cima": {
+    "nome": "Joelho pra Cima",
+    "nivel": "normal",
+    "angles": { "rHip": 100, "rKnee": 90, "lShoulder": 90, "rShoulder": 90 },
+    "descricao": "Joelho direito levantado, braços abertos"
+  },
+  "ciclista": {
+    "nome": "Ciclista",
+    "nivel": "normal",
+    "angles": { "rHip": 100, "rKnee": 90, "lShoulder": 70, "rShoulder": 70, "lElbow": 120, "rElbow": 120 },
+    "descricao": "Joelho direito alto, mãos à frente segurando um guidão"
+  },
+  "patinadora": {
+    "nome": "Patinadora",
+    "nivel": "normal",
+    "angles": { "lKnee": 140, "rKnee": 140, "lShoulder": 160, "rShoulder": 20 },
+    "descricao": "Pernas afastadas, joelhos dobrados, um braço para cima e outro para baixo"
+  },
+  "mola": {
+    "nome": "Mola",
+    "nivel": "normal",
+    "angles": { "lHip": 120, "rHip": 120, "lKnee": 120, "rKnee": 120, "lShoulder": 90, "rShoulder": 90 },
+    "descricao": "Agachadinha com os braços esticados à frente"
+  },
+  "inclinacao": {
+    "nome": "Inclinação",
+    "nivel": "normal",
+    "angles": { "lShoulder": 170, "lElbow": 140, "rShoulder": 20 },
+    "descricao": "Tronco para o lado, braço esquerdo por cima da cabeça"
+  },
+  "perna-de-lado": {
+    "nome": "Perna de Lado",
+    "nivel": "normal",
+    "angles": { "rHip": 150, "rKnee": 175, "lShoulder": 140, "rShoulder": 140 },
+    "descricao": "Perna direita aberta para o lado, braços em V"
+  }
+}

@@ -40,3 +40,8 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 - Feito: projeto Vite + TypeScript `strict`, ESLint, Prettier, Vitest, Playwright, `zod`, `idb`, `@mediapipe/tasks-vision`, `vite-plugin-pwa`; `npm run setup:mediapipe` (copia o wasm e baixa os modelos `lite` e `full`); ícones do PWA gerados em código (`npm run icons`); motor de cenas com escala 16:9 (`src/game/engine.ts`); os três documentos em `docs/`.
 - Verificado: `npm run check` (tipos, lint, 3 testes de unidade, build) e `npm run test:e2e` (`tests/e2e/etapa0.spec.ts`: título e canvas 1280x720).
+
+### Etapa 1 · Dados e regras puras
+
+- Feito: `src/data/schema.ts` (zod), `catalog.json` com as 18 poses, as 6 coreografias (5 músicas + `ensaio-aquecimento`), `expandSections`, `angles.ts`, `skeleton.ts` (esqueleto a partir dos ângulos), `judge.ts` (tabela de nota, janela de ±300 ms, pesos, energia) e `stars.ts`.
+- Verificado com `npm run check`: `tests/unit/choreo.test.ts` (uma prova por regra de expansão, schema, poses citadas existem, variações de cada nível), `tests/unit/angles.test.ts` (90° e 180° com erro < 1°, ida e volta ângulos → esqueleto → ângulos para as 18 poses e suas espelhadas), `tests/unit/judge.test.ts` (100 / 70 / 40 / 10, pesos, visibilidade, `mirror`, janela, energia, estrelas).

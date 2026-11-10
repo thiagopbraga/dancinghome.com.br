@@ -1,0 +1,110 @@
+{
+  "id": "letal",
+  "title": "Letal",
+  "tema": "caçadora de monstros",
+  "bpm": 140,
+  "offsetMs": 0,
+  "calibrado": false,
+  "duracaoBeats": 424,
+  "origem": "base",
+  "niveis": {
+    "facil": {
+      "trecho": {
+        "inicioBeat": 0,
+        "fimBeat": 176
+      },
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 8,
+          "poses": ["escudo", "espada-de-luz"]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 8,
+          "poses": ["espada-de-luz", "escudo", "apontar", "pose-de-idol"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 8,
+          "poses": [
+            "espada-de-luz",
+            {
+              "pose": "espada-de-luz",
+              "mirror": true
+            },
+            "estrela",
+            "bracos-pra-cima"
+          ]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 168,
+          "aCada": 8,
+          "poses": ["espada-de-luz"]
+        }
+      ]
+    },
+    "normal": {
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 4,
+          "poses": ["escudo", "espada-de-luz"]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 4,
+          "poses": ["espada-de-luz", "escudo", "apontar", "pose-de-idol"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 4,
+          "poses": [
+            "espada-de-luz",
+            {
+              "pose": "espada-de-luz",
+              "mirror": true
+            },
+            "estrela",
+            "joelho-pra-cima",
+            "bracos-pra-cima"
+          ]
+        },
+        {
+          "nome": "verso2",
+          "inicioBeat": 144,
+          "aCada": 4,
+          "poses": ["espada-de-luz", "escudo", "apontar", "pose-de-idol"]
+        },
+        {
+          "nome": "refrao2",
+          "inicioBeat": 208,
+          "aCada": 4,
+          "poses": [
+            "espada-de-luz",
+            {
+              "pose": "espada-de-luz",
+              "mirror": true
+            },
+            "estrela",
+            "joelho-pra-cima",
+            "bracos-pra-cima"
+          ]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 416,
+          "aCada": 4,
+          "poses": ["espada-de-luz"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "id": "meu-pequeno-guarana",
+  "title": "Meu Pequeno Guaraná",
+  "tema": "festa das bolhas de guaraná",
+  "bpm": 126,
+  "offsetMs": 0,
+  "calibrado": false,
+  "duracaoBeats": 317,
+  "origem": "base",
+  "niveis": {
+    "facil": {
+      "trecho": {
+        "inicioBeat": 0,
+        "fimBeat": 156
+      },
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 4,
+          "poses": [
+            "bolhas",
+            {
+              "pose": "bolhas",
+              "mirror": true
+            }
+          ]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 4,
+          "poses": ["apontar", "garrinha-de-gato", "pose-de-idol", "orelhas-de-cachorro"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 4,
+          "poses": [
+            "bolhas",
+            "bracos-pra-cima",
+            {
+              "pose": "bolhas",
+              "mirror": true
+            },
+            "coracao"
+          ]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 148,
+          "aCada": 4,
+          "poses": ["pose-de-idol"]
+        }
+      ]
+    },
+    "normal": {
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 2,
+          "poses": [
+            "bolhas",
+            {
+              "pose": "bolhas",
+              "mirror": true
+            }
+          ]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 2,
+          "poses": ["apontar", "garrinha-de-gato", "pose-de-idol", "orelhas-de-cachorro"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 2,
+          "poses": [
+            "bolhas",
+            "mola",
+            {
+              "pose": "bolhas",
+              "mirror": true
+            },
+            "coracao"
+          ]
+        },
+        {
+          "nome": "verso2",
+          "inicioBeat": 144,
+          "aCada": 2,
+          "poses": ["apontar", "garrinha-de-gato", "pose-de-idol", "orelhas-de-cachorro"]
+        },
+        {
+          "nome": "refrao2",
+          "inicioBeat": 208,
+          "aCada": 2,
+          "poses": [
+            "bolhas",
+            "mola",
+            {
+              "pose": "bolhas",
+              "mirror": true
+            },
+            "coracao"
+          ]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 308,
+          "aCada": 2,
+          "poses": ["pose-de-idol"]
+        }
+      ]
+    }
+  }
+}

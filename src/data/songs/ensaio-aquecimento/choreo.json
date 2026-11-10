@@ -1,0 +1,58 @@
+{
+  "id": "ensaio-aquecimento",
+  "title": "Aquecimento",
+  "tema": "música de demonstração",
+  "bpm": 120,
+  "offsetMs": 0,
+  "calibrado": true,
+  "duracaoBeats": 64,
+  "origem": "demo",
+  "niveis": {
+    "facil": {
+      "secoes": [
+        {
+          "nome": "aquecimento",
+          "inicioBeat": 0,
+          "aCada": 4,
+          "poses": ["bracos-pra-cima", "estrela", "coracao", "pose-de-idol"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 32,
+          "aCada": 4,
+          "poses": ["raio-de-sol", "bracos-pra-cima", "estrela", "coracao"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 56,
+          "aCada": 4,
+          "poses": ["raio-de-sol"],
+          "segurar": 4
+        }
+      ]
+    },
+    "normal": {
+      "secoes": [
+        {
+          "nome": "aquecimento",
+          "inicioBeat": 0,
+          "aCada": 2,
+          "poses": ["bracos-pra-cima", "estrela", "pose-de-idol", "joelho-pra-cima"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 32,
+          "aCada": 2,
+          "poses": ["raio-de-sol", "mola", "estrela", "perna-de-lado"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 56,
+          "aCada": 2,
+          "poses": ["raio-de-sol"],
+          "segurar": 4
+        }
+      ]
+    }
+  }
+}

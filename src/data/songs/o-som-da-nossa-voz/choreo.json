@@ -1,0 +1,94 @@
+{
+  "id": "o-som-da-nossa-voz",
+  "title": "O Som da Nossa Voz",
+  "tema": "todo mundo junto",
+  "bpm": 120,
+  "offsetMs": 0,
+  "calibrado": false,
+  "duracaoBeats": 500,
+  "origem": "base",
+  "niveis": {
+    "facil": {
+      "trecho": {
+        "inicioBeat": 0,
+        "fimBeat": 152
+      },
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 4,
+          "poses": ["escudo", "coracao"]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 4,
+          "poses": ["microfone", "estrela", "escudo", "raio-de-sol"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 4,
+          "poses": ["bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 144,
+          "aCada": 4,
+          "poses": ["coracao"],
+          "segurar": 8
+        }
+      ]
+    },
+    "normal": {
+      "secoes": [
+        {
+          "nome": "intro",
+          "inicioBeat": 0,
+          "aCada": 2,
+          "poses": ["escudo", "coracao"]
+        },
+        {
+          "nome": "verso",
+          "inicioBeat": 16,
+          "aCada": 2,
+          "poses": ["microfone", "estrela", "escudo", "raio-de-sol"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 80,
+          "aCada": 2,
+          "poses": ["bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
+        },
+        {
+          "nome": "verso2",
+          "inicioBeat": 144,
+          "aCada": 2,
+          "poses": [
+            "microfone",
+            "inclinacao",
+            "escudo",
+            {
+              "pose": "inclinacao",
+              "mirror": true
+            }
+          ]
+        },
+        {
+          "nome": "refrao2",
+          "inicioBeat": 208,
+          "aCada": 2,
+          "poses": ["bracos-pra-cima", "coracao", "estrela", "raio-de-sol"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 492,
+          "aCada": 2,
+          "poses": ["coracao"],
+          "segurar": 8
+        }
+      ]
+    }
+  }
+}
