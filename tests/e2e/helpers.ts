@@ -39,3 +39,13 @@ export async function soltar(page: Page): Promise<void> {
 export async function esperarCena(page: Page, cena: string, timeout = 30_000): Promise<void> {
   await page.waitForFunction((c) => window.__ensaio?.cena() === c, cena, { timeout });
 }
+
+/** Espera a tela de resultado e devolve as estrelas de cada pessoa (o resultado é gravado antes de aparecer). */
+export async function estrelasDoResultado(page: Page, timeout = 60_000): Promise<number[]> {
+  await esperarCena(page, 'resultado', timeout);
+  await page.waitForFunction(() => !!(window.__ensaio!.cenaAtual() as { report: unknown }).report);
+  return page.evaluate(() => {
+    const c = window.__ensaio!.cenaAtual() as { report: { resumos: { stars: number }[] } };
+    return c.report.resumos.map((r) => r.stars);
+  });
+}

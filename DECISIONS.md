@@ -42,3 +42,11 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - Quando o aparelho não tem voz em português, as falas viram legenda grande no pé da tela; os botões do resultado ficam acima dela.
 - Sinalizador `?fim=N` (só no servidor de desenvolvimento): termina a música depois de N batidas, para os testes curtos.
 - A calibração tem um botão "Pular" que só funciona por toque, para o adulto.
+
+## Etapa 6
+
+- Um banco IndexedDB só (`ensaio-de-danca`), com as caixas `kv` (configurações, progresso e personagens), `audio`, `choreos` e `poses`. Se o navegador bloquear o IndexedDB, o jogo segue só na memória.
+- O recorde é guardado por `música:nível`; a primeira partida de uma música não conta como "Novo recorde!". Treino e modo surpresa não guardam recorde.
+- No modo dupla, vale a melhor das duas pessoas para o recorde.
+- A dica de água aparece a cada 3 músicas dançadas na mesma sessão (o treino não conta).
+- As medalhas e os desbloqueios são funções puras em `src/data/progress.ts`, testadas com progresso falso.

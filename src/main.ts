@@ -29,6 +29,7 @@ async function boot(): Promise<void> {
     const { installTestApi } = await import('./game/testApi');
     installTestApi(game);
   }
+  await game.init();
   if (flags.cena === 'metronomo') game.go('metronomo');
   else game.go('inicio', flags.cena ?? undefined);
   engine.start();

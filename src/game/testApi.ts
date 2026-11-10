@@ -67,6 +67,11 @@ export function installTestApi(game: Game) {
     falas: () => [...game.narrator.history],
     sons: () => ({ ...game.sfx.counts }),
     /** Dados da cena atual que os testes consultam (estrelas do resultado, calibração...). */
+    progresso: () => game.progress,
+    /** Progresso falso, para testar desbloqueios e medalhas. */
+    setProgresso: async (parcial: Record<string, unknown>): Promise<void> => {
+      await game.saveProgress({ ...game.progress, ...parcial } as typeof game.progress);
+    },
     cenaAtual: () => game.engine.scene as unknown as Record<string, unknown>,
   };
   window.__ensaio = api;

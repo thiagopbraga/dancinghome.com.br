@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { apontar, comecar, esperarCena, soltar } from './helpers';
+import { apontar, comecar, esperarCena, estrelasDoResultado, soltar } from './helpers';
 
 const NEGATIVAS = /errou|errado|ruim|perdeu|péssim|fraco|falhou|que pena|não conseguiu/i;
 
@@ -41,11 +41,7 @@ test('etapa 5: uma partida inteira só com gestos, do menu ao resultado', async 
   await page.waitForFunction(() => window.__ensaio!.danca()?.pausado === false);
   await soltar(page);
 
-  await esperarCena(page, 'resultado', 60_000);
-  const cena = await page.evaluate(() => {
-    const c = window.__ensaio!.cenaAtual() as { report: { resumos: { stars: number }[] } };
-    return c.report.resumos.map((r) => r.stars);
-  });
+  const cena = await estrelasDoResultado(page);
   expect(cena[0]).toBeGreaterThanOrEqual(1);
   const falas = await page.evaluate(() => window.__ensaio!.falas());
   expect(falas.length).toBeGreaterThan(0);
@@ -63,11 +59,7 @@ test('etapa 5: quem não acerta nenhuma pose ainda ganha 1 estrela e só ouve in
   await comecar(page, 'sim=1&cena=danca&fim=20');
   await esperarCena(page, 'danca');
   await page.evaluate(() => window.__ensaio!.roteiro({ errar: -60 }));
-  await esperarCena(page, 'resultado', 60_000);
-  const estrelas = await page.evaluate(() => {
-    const c = window.__ensaio!.cenaAtual() as { report: { resumos: { stars: number }[] } };
-    return c.report.resumos[0].stars;
-  });
+  const [estrelas] = await estrelasDoResultado(page);
   expect(estrelas).toBe(1);
   const falas = await page.evaluate(() => window.__ensaio!.falas());
   for (const f of falas) expect(f).not.toMatch(NEGATIVAS);

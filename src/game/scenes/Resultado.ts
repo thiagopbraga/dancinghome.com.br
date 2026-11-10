@@ -62,6 +62,7 @@ export class ResultadoScene implements Scene {
       this.estrelas = report.resumos.map((r) => r.stars);
       const melhor = Math.max(...this.estrelas);
       game.narrator.say(T.narrador.fim[melhor]);
+      if (report.novidades.includes(T.resultado.agua)) game.narrator.say(T.narrador.agua, { caption: false });
     });
   }
 
@@ -100,8 +101,8 @@ export class ResultadoScene implements Scene {
     big: boolean,
     cor?: string,
   ): void {
-    const r = big ? 72 : 46;
-    this.drawStars(g, cx, big ? 235 : 250, r, s.stars);
+    const r = big ? 66 : 46;
+    this.drawStars(g, cx, big ? 252 : 255, r, s.stars);
     const w = big ? 520 : 400;
     roundRect(g, cx - w / 2, 345, w, 118, 30);
     g.fillStyle = 'rgba(20,8,48,0.6)';
@@ -112,17 +113,23 @@ export class ResultadoScene implements Scene {
       g.stroke();
     }
     text(g, `${s.score + bonus} ${T.resultado.pontos}`, cx, 384, { size: big ? 50 : 40, maxWidth: w - 30 });
-    text(g, `${s.perfeitos} ${T.resultado.perfeitos} · ${s.energyPoints} ${T.resultado.energia}`, cx, 432, {
-      size: big ? 28 : 23,
-      color: COR.amarelo,
-      maxWidth: w - 30,
-    });
+    text(
+      g,
+      `${s.perfeitos} ${s.perfeitos === 1 ? T.resultado.perfeito : T.resultado.perfeitos} · ${s.energyPoints} ${T.resultado.energia}`,
+      cx,
+      432,
+      {
+        size: big ? 28 : 23,
+        color: COR.amarelo,
+        maxWidth: w - 30,
+      },
+    );
   }
 
   draw(g: CanvasRenderingContext2D, v: View): void {
     drawBackdrop(g, v, this.game.time, '#3d1a85', '#ff5fa8');
     const report = this.report;
-    text(g, T.resultado.titulo, BASE_W / 2, 80, { size: 78, outline: COR.roxo, maxWidth: 1100 });
+    text(g, T.resultado.titulo, BASE_W / 2, 68, { size: 72, outline: COR.roxo, maxWidth: 1100 });
     if (report) {
       if (report.resumos.length === 1) {
         this.drawSummary(g, report.resumos[0], this.outcome.bonus[0] ?? 0, BASE_W / 2, true);
@@ -135,8 +142,8 @@ export class ResultadoScene implements Scene {
       const news = [...(report.recorde ? [T.resultado.recorde] : []), ...report.novidades];
       if (news.length > 0) {
         const idx = Math.floor(this.age / 2.5) % news.length;
-        text(g, news[idx], BASE_W / 2, 150, {
-          size: 34,
+        text(g, news[idx], BASE_W / 2, 134, {
+          size: 32,
           color: COR.amarelo,
           outline: COR.roxo,
           maxWidth: 1150,

@@ -76,6 +76,7 @@ export const T = {
     estrelas: ['', 'Uma estrela!', 'Duas estrelas!', 'Três estrelas!'],
     pontos: 'pontos',
     energia: 'energia',
+    perfeito: 'perfeito',
     perfeitos: 'perfeitos',
     deNovo: 'De novo',
     menu: 'Menu',

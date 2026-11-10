@@ -11,11 +11,20 @@ import { PoseTracker } from '../core/tracker';
 import { DEMO_BPM, renderDemoSong } from '../core/demoSong';
 import { Sfx } from '../core/sfx';
 import type { Angles, Catalog, PoseResult } from '../core/types';
-import type { Choreo } from '../data/schema';
+import {
+  applyMatch,
+  bestStars,
+  newAchievements,
+  totalStars,
+  unlockedBetween,
+  type Conquista,
+} from '../data/progress';
+import type { Characters, Choreo, Progress, Settings } from '../data/schema';
 import { DEMO_ID, loadBaseData } from '../data/songs';
+import { defaultCharacters, defaultProgress, defaultSettings, Storage } from '../data/storage';
 import type { Engine, Scene, View } from './engine';
 import type { MatchSetup, Outcome, PlayConfig } from './match';
-import { T } from './texts';
+import { ACESSORIOS, CENARIOS, T, TURNE } from './texts';
 import type { Button } from './ui';
 
 export interface Flags {
@@ -109,6 +118,15 @@ export class Game {
   /** Lê os bytes do áudio guardado (preenchido pelo armazenamento). */
   loadAudioData: (id: string) => Promise<ArrayBuffer | null> = async () => null;
   private readonly audioCache = new Map<string, AudioBuffer>();
+  /** Dados guardados no aparelho. Fica null se o navegador não deixar usar o IndexedDB. */
+  store: Storage | null = null;
+  settings: Settings = defaultSettings();
+  progress: Progress = defaultProgress();
+  characters: Characters = defaultCharacters();
+  /** Músicas dançadas em seguida nesta sessão, para a dica de água. */
+  seguidas = 0;
+  /** Chamado quando uma medalha nova é liberada. */
+  onAchievements: ((novas: Conquista[]) => void) | null = null;
   private demoBuffer: AudioBuffer | null = null;
 
   constructor(
@@ -122,6 +140,77 @@ export class Game {
     this.baseSongs = base.songs;
     this.catalog = { ...base.catalog };
     this.songs = [...base.songs];
+  }
+
+  /** Abre o armazenamento e carrega tudo que está guardado. Sem IndexedDB o jogo segue só na memória. */
+  async init(): Promise<void> {
+    try {
+      this.store = await Storage.open();
+      this.loadAudioData = async (id) => (await this.store?.audio(id))?.dados ?? null;
+      await this.reload();
+    } catch (err) {
+      console.warn('Não consegui abrir os dados guardados', err);
+      this.store = null;
+    }
+    this.applySettings();
+  }
+
+  /** Relê do armazenamento: configurações, progresso, personagens, poses, músicas e lista de áudios. */
+  async reload(): Promise<void> {
+    const st = this.store;
+    if (!st) return;
+    this.settings = await st.settings();
+    this.progress = await st.progress();
+    this.characters = await st.characters();
+    this.catalog = { ...this.baseCatalog, ...(await st.poses()) };
+    const saved = await st.choreos();
+    const byId = new Map(saved.map((c) => [c.id, c]));
+    this.songs = [
+      ...this.baseSongs.map((c) => byId.get(c.id) ?? c),
+      ...saved.filter((c) => !this.baseSongs.some((b) => b.id === c.id)),
+    ];
+    this.audioIds.clear();
+    for (const id of await st.audioIds()) this.audioIds.add(id);
+    this.audioCache.clear();
+    this.applySettings();
+  }
+
+  applySettings(): void {
+    this.limites = { ...this.settings.limites };
+    this.narrator.enabled = this.settings.voz;
+    this.audio.setVolume(this.settings.volume);
+    this.cenario = this.characters.cenario;
+    this.groupName = this.characters.grupo;
+  }
+
+  async saveSettings(s: Settings): Promise<void> {
+    this.settings = s;
+    this.applySettings();
+    await this.store?.saveSettings(s);
+  }
+
+  async saveProgress(p: Progress): Promise<void> {
+    this.progress = p;
+    await this.store?.saveProgress(p);
+  }
+
+  async saveCharacters(c: Characters): Promise<void> {
+    this.characters = c;
+    this.applySettings();
+    await this.store?.saveCharacters(c);
+  }
+
+  /** Confere as medalhas, guarda as novas e devolve a lista delas. */
+  async checkAchievements(): Promise<Conquista[]> {
+    const novas = newAchievements(this.progress);
+    if (novas.length > 0) {
+      await this.saveProgress({
+        ...this.progress,
+        conquistas: [...this.progress.conquistas, ...novas.map((c) => c.id)],
+      });
+      this.onAchievements?.(novas);
+    }
+    return novas;
   }
 
   /** Troca de cena pelo nome registrado em scenes/index.ts. */
@@ -164,7 +253,7 @@ export class Game {
 
   /** Modelo do MediaPipe escolhido nas configurações. */
   poseModel(): 'lite' | 'full' {
-    return 'lite';
+    return this.settings.modelo;
   }
 
   /** Cursores das mãos da primeira pessoa, em coordenadas de tela. */
@@ -180,12 +269,12 @@ export class Game {
 
   /** Total de estrelas (soma do melhor resultado de cada música e nível). */
   totalStars(): number {
-    return 0;
+    return totalStars(this.progress);
   }
 
   /** Melhor número de estrelas de uma música, em qualquer nível. */
-  bestStars(_songId: string): number {
-    return 0;
+  bestStars(songId: string): number {
+    return bestStars(this.progress, songId);
   }
 
   /** Cartões extras da seleção de músicas (o modo surpresa entra aqui). */
@@ -237,7 +326,48 @@ export class Game {
 
   /** Fecha a partida: calcula estrelas e devolve o que a tela de resultado mostra. */
   async finishMatch(outcome: Outcome): Promise<MatchReport> {
-    return { resumos: outcome.resultados.map(summarize), recorde: false, novidades: [] };
+    const { cfg, choreo } = outcome;
+    const resumos = outcome.resultados.map(summarize);
+    const novidades: string[] = [];
+    // no modo dupla, vale a melhor das duas para o recorde da música
+    let melhor = 0;
+    resumos.forEach((r, i) => {
+      if (r.score + (outcome.bonus[i] ?? 0) > resumos[melhor].score + (outcome.bonus[melhor] ?? 0))
+        melhor = i;
+    });
+    const treino = cfg.modo === 'treino';
+    const surpresa = choreo.origem === 'surpresa';
+    const antes = this.totalStars();
+    const { progress, recorde } = applyMatch(this.progress, {
+      key: treino || surpresa ? null : `${choreo.id}:${cfg.nivel}`,
+      summary: resumos[melhor],
+      pontos: resumos[melhor].score + (outcome.bonus[melhor] ?? 0),
+      treino,
+      dupla: cfg.dupla,
+      surpresa,
+      estatuas: this.estatuasFeitas,
+    });
+    this.estatuasFeitas = 0;
+    if (cfg.historia !== undefined && !treino && cfg.historia + 1 > progress.historia) {
+      progress.historia = Math.min(5, cfg.historia + 1);
+      const parada = TURNE[cfg.historia];
+      if (parada) novidades.push(`${T.narrador.historiaPet} ${parada.petNome}!`);
+    }
+    await this.saveProgress(progress);
+    const depois = this.totalStars();
+    for (const c of unlockedBetween(CENARIOS, antes, depois)) {
+      novidades.push(`${T.resultado.desbloqueou}: ${c.nome}!`);
+    }
+    for (const a of unlockedBetween(ACESSORIOS, antes, depois)) {
+      novidades.push(`${T.resultado.desbloqueou}: ${a.nome}!`);
+    }
+    for (const m of await this.checkAchievements())
+      novidades.push(`${T.resultado.novaConquista}: ${m.nome}!`);
+    if (!treino) {
+      this.seguidas += 1;
+      if (this.seguidas % 3 === 0) novidades.push(T.resultado.agua);
+    }
+    return { resumos, recorde, novidades };
   }
 
   song(id: string): Choreo | undefined {

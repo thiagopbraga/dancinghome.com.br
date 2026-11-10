@@ -12,7 +12,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 3     | Câmera e esqueleto                       | ✅     |
 | 4     | Cena de dança                            | ✅     |
 | 5     | Fluxo completo da partida                | ✅     |
-| 6     | Narração, progresso e as 5 músicas (MVP) | ⬜     |
+| 6     | Narração, progresso e as 5 músicas (MVP) | ✅     |
 | 7     | Celular e offline                        | ⬜     |
 | 8     | Área dos Pais e editor                   | ⬜     |
 | 9     | Gravador de coreografias e modo treino   | ⬜     |
@@ -66,3 +66,8 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 - Feito: menu com botões gigantes escolhidos pela mão (1 s com anel de progresso) ou por toque, escolha de música em cartões (cadeado nas que ainda não têm áudio), escolha de nível com os modos Dupla e Estátua, calibração com silhueta que fica verde quando o corpo inteiro aparece, aviso de pouca luz, contagem 3, 2, 1, pausa com as duas mãos para o alto e volta ao menu pelo resultado.
 - Verificado: `npm run test:e2e` (`tests/e2e/etapa5.spec.ts`): depois do toque em "Começar", a partida vai do menu ao resultado só com gestos simulados (menu, música, nível, calibração, contagem, dança, pausa e continuar, resultado, menu); quem não acerta nenhuma pose fica com 1 estrela; nenhuma fala tem palavra negativa; a calibração espera o corpo aparecer. Screenshots vistos: `etapa5-menu.png`, `etapa5-musicas.png`, `etapa5-nivel.png`, `etapa5-calibracao.png`, `etapa5-contagem.png`, `etapa5-pausa.png`, `etapa5-resultado.png`.
+
+### Etapa 6 · Narração e progresso
+
+- Feito: narrador com as falas de `texts.ts` (boas-vindas, instruções, nome da pose quando o cartão aparece no fácil, comemoração no resultado) e legenda grande quando não há voz pt-BR; armazenamento no IndexedDB (`src/data/storage.ts`) e regras de progresso (`src/data/progress.ts`): melhor resultado por música e nível, total de estrelas no menu, "Novo recorde!", dica de água a cada 3 músicas seguidas; as 5 músicas no menu com cadeado e "Peça para um adulto carregar a música" enquanto não têm áudio.
+- Verificado: `npm run check` (`tests/unit/progress.test.ts`: recorde, soma de estrelas, treino, medalhas, desbloqueios em 5, 15 e 30, ida e volta do armazenamento e exportar/importar sem áudio) e `npm run test:e2e` (`tests/e2e/etapa6.spec.ts`): o progresso é igual depois de recarregar a página; com `?semvoz=1` a frase aparece na tela; as 5 músicas aparecem com cadeado, apontar para uma delas faz o jogo pedir um adulto, e a demonstração é jogável do menu ao resultado; a dica de água vem na terceira música seguida. Screenshots vistos: `etapa6-menu-com-estrelas.png`, `etapa6-legenda.png`, `etapa6-musicas-2.png`, `etapa6-agua.png`.
