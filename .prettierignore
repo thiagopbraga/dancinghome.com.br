@@ -1,0 +1,6 @@
+dist
+node_modules
+public/mediapipe
+docs
+tests/e2e/screens
+package-lock.json

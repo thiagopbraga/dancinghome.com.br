@@ -1,0 +1,9 @@
+node_modules
+dist
+dev-dist
+public/mediapipe/*
+!public/mediapipe/.gitkeep
+test-results
+playwright-report
+*.local
+.DS_Store
