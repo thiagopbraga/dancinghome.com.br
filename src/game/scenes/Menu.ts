@@ -137,7 +137,7 @@ export class MenuScene implements Scene {
   draw(g: CanvasRenderingContext2D, v: View): void {
     const game = this.game;
     drawBackdrop(g, v, game.time);
-    game.drawCompanions?.(g, v, game.time * 2, null);
+    game.drawCompanions?.(g, v, game.time * 2, null, 'menu');
     text(g, game.groupName || T.titulo, BASE_W / 2, 60, { size: 58, outline: COR.roxo, maxWidth: 760 });
     // total de estrelas
     roundRect(g, 40, 26, 190, 72, 36);

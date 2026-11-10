@@ -13,6 +13,7 @@ import { MenuScene } from './Menu';
 import { MetronomoScene } from './Metronomo';
 import { MusicasScene, type MusicasParams } from './Musicas';
 import { PaisScene, type PaisParams } from './Pais';
+import { PersonagensScene } from './Personagens';
 import { ResultadoScene } from './Resultado';
 import { SemCameraScene } from './SemCamera';
 
@@ -38,5 +39,6 @@ export function registerScenes(game: Game): void {
   r.gravarPose = (g, p) => new GravarPoseScene(g, (p as string | undefined) ?? 'estrela');
   r.gravador = (g) => new GravadorScene(g);
   r.treinoMusicas = (g) => new MusicasScene(g, { modo: 'treino' });
+  r.personagens = (g) => new PersonagensScene(g);
   r.resultado = (g, p) => new ResultadoScene(g, p as Outcome);
 }

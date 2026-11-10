@@ -76,3 +76,11 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - Retrato parecido com uma pose do catálogo (diferença média de até 15°, mesmos ângulos) reaproveita a pose; o resto vira pose nova, com nome "Pose nova N" até alguém dar outro nome na caixa "Dar nomes" (só por toque).
 - A fase gravada usa o áudio da música de origem (`audioDe`), guarda `eventos` e vai para o nível fácil (ou normal, se tiver pose com perna). Precisa de pelo menos 2 poses para salvar.
 - O treino entra pelo botão "Treinar" do menu, sem dupla nem estátua, e não mexe nos recordes.
+
+## Etapa 10
+
+- As 3 idols são o boneco das poses com cabelo (4 penteados), cor de figurino e acessório, tudo desenhado em código. Na dança elas imitam a pose da vez; fora dela, balançam no ritmo.
+- Desbloqueios por total de estrelas: 5 (Palco, Laço, 2 cores), 15 (Parque de patins, Óculos de estrela, 2 cores) e 30 (Ciclovia, Coroa, 1 cor). O cadeado mostra quantas estrelas faltam.
+- O desenho dela é reduzido para até 360 px, perde o papel (pixels claros e sem cor) e é recortado; fica guardado como PNG junto com as personagens. Foto pela câmera só aparece quando há câmera de verdade; "Escolher foto" funciona sempre.
+- Nomes (grupo, idols, cachorro e gato) são digitados numa caixa aberta só por toque.
+- No menu, a legenda do narrador aparece no alto da tela, para não cobrir os botões.

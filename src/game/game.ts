@@ -22,6 +22,7 @@ import {
 import type { Characters, Choreo, Progress, Settings } from '../data/schema';
 import { DEMO_ID, loadBaseData } from '../data/songs';
 import { defaultCharacters, defaultProgress, defaultSettings, Storage } from '../data/storage';
+import type { Companions } from './companions';
 import type { Engine, Scene, View } from './engine';
 import type { MatchSetup, Outcome, PlayConfig } from './match';
 import { ACESSORIOS, CENARIOS, T, TURNE } from './texts';
@@ -97,8 +98,17 @@ export class Game {
   /** Ganchos preenchidos por outras partes do jogo. */
   onMusic: ((playing: boolean) => void) | null = null;
   onPerfect: (() => void) | null = null;
-  drawCompanions: ((g: CanvasRenderingContext2D, v: View, beat: number, pose: Angles | null) => void) | null =
-    null;
+  drawCompanions:
+    | ((
+        g: CanvasRenderingContext2D,
+        v: View,
+        beat: number,
+        pose: Angles | null,
+        where: 'danca' | 'menu',
+      ) => void)
+    | null = null;
+  /** O grupo que dança junto (idols, pets e o desenho dela). */
+  companions: Companions | null = null;
   /** Chamado no toque em "Começar" (tela cheia, Wake Lock...). */
   onStart: (() => void) | null = null;
   /** Tempo de parede em segundos, para animações. */

@@ -501,7 +501,7 @@ export class DancaScene implements Scene {
     const clock = this.clock;
     const beat = clock ? clock.beat() : 0;
     drawScenario(g, v, game.cenario, beat);
-    game.drawCompanions?.(g, v, beat, this.currentTarget(beat));
+    game.drawCompanions?.(g, v, beat, this.currentTarget(beat), 'danca');
 
     // espelho com o esqueleto
     const aspect = game.tracker.aspect;

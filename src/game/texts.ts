@@ -183,6 +183,11 @@ export const T = {
     grupo: 'Nome do grupo',
     fotoDica: 'Mostre o desenho num papel branco, bem perto da câmera',
     capturar: 'Capturar',
+    cadeado: 'o número no cadeado é quantas estrelas faltam',
+    semDesenho: 'Não achei o desenho. Use papel branco e um traço bem forte.',
+    idol: 'Nome da idol',
+    cachorro: 'Nome do cachorro',
+    gato: 'Nome do gato',
   },
 
   album: {

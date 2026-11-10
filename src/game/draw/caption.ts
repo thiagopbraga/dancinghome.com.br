@@ -1,7 +1,8 @@
 // Legenda grande da narração, para quando não há voz pt-BR no aparelho.
 import { COR, font, roundRect, wrapLines } from './util';
 
-export function drawCaption(g: CanvasRenderingContext2D, caption: string | null): void {
+/** `top`: desenha no alto da tela (no menu, onde os botões ocupam a parte de baixo). */
+export function drawCaption(g: CanvasRenderingContext2D, caption: string | null, top = false): void {
   if (!caption) return;
   g.save();
   const size = 44;
@@ -10,7 +11,7 @@ export function drawCaption(g: CanvasRenderingContext2D, caption: string | null)
   const lh = size * 1.2;
   const w = Math.min(1080, Math.max(...lines.map((l) => g.measureText(l).width)) + 80);
   const h = lines.length * lh + 36;
-  const y = 700 - h;
+  const y = top ? 14 : 700 - h;
   roundRect(g, 640 - w / 2, y, w, h, 30);
   g.fillStyle = 'rgba(255,250,240,0.96)';
   g.fill();

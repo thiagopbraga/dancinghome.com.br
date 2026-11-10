@@ -16,7 +16,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 7     | Celular e offline                        | ✅     |
 | 8     | Área dos Pais e editor                   | ✅     |
 | 9     | Gravador de coreografias e modo treino   | ✅     |
-| 10    | Personagens, pets e desbloqueios         | ⬜     |
+| 10    | Personagens, pets e desbloqueios         | ✅     |
 | 11    | Extras                                   | ⬜     |
 
 ## Critérios de aceite
@@ -88,3 +88,9 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 - Feito: gravador de coreografias (`src/game/scenes/Gravador.ts` e regras puras em `src/core/recorder.ts`) com os 5 passos: escolher a música e o intervalo (4 ou 8 batidas), dançar com a música, retrato a cada N batidas, revisão (tirar ou recolocar retratos, dar nome à dança e às poses novas) e salvar como fase com `eventos`. Retratos com pouca visibilidade ou parados são descartados e os membros que não se mexeram saem da pose. Modo treino a 0,5x pelo botão "Treinar": a música pausa na batida de cada pose até "Muito bem" ou 6 s.
 - Verificado: `npm run check` (`tests/unit/recorder.test.ts`) e `npm run test:e2e` (`tests/e2e/etapa9.spec.ts`): com `?sim=1`, gravar 16 batidas gera uma fase com 2 poses (uma do catálogo e uma nova, com o nome dado), que aparece no menu de músicas, é jogável com 100% de Perfeito e continua lá depois de recarregar; no treino a música toca a 0,5x, para na batida 4 enquanto ela está parada e só anda depois da pose, sem mexer nos recordes. Screenshots vistos: `etapa9-escolha.png`, `etapa9-gravando.png`, `etapa9-revisao.png`, `etapa9-nomes.png`, `etapa9-no-menu.png`, `etapa9-treino.png`.
+
+### Etapa 10 · Personagens e cenários
+
+- Feito: grupo de 3 idols originais desenhadas em código (`src/game/draw/idol.ts`), com nome, cor, penteado, cor do cabelo e acessório editáveis na tela "Meu grupo" (`Personagens.ts`); cachorro e gato (`draw/pets.ts`) que balançam no ritmo e pulam a cada "Perfeito!"; personagem a partir da foto do desenho dela (arquivo ou câmera, papel branco removido em `src/core/drawing.ts`, balanço no ritmo); 3 cenários novos (Palco, Parque de patins, Ciclovia) e figurinos liberados com 5, 15 e 30 estrelas.
+- Verificado: `npm run check` (`tests/unit/drawing.test.ts`) e `npm run test:e2e` (`tests/e2e/etapa10.spec.ts`): com progresso falso de 4, 5, 14, 15, 29 e 30 estrelas os cadeados abrem nos limites certos; cor por gesto, cabelo, acessório, nomes e cenário ficam guardados depois de recarregar; o contador de pulos dos pets é igual ao número de Perfeitos da partida; os 4 cenários aparecem na dança; uma "foto" de teste vira desenho recortado com fundo transparente e um papel em branco é recusado com explicação. Screenshots vistos: `etapa10-grupo-4-estrelas.png`, `etapa10-grupo-30-estrelas.png`, `etapa10-grupo-editado.png`, `etapa10-menu.png`, `etapa10-desenho.png` e `etapa10-cenario-{sala,palco,patins,ciclovia}.png`.
+- Fica para o teste manual: fotografar um desenho de verdade com a câmera do celular.
