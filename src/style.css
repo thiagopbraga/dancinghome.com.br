@@ -97,6 +97,17 @@ body {
   font-size: 24px;
   margin: 0 0 4px;
 }
+.painel h3 {
+  font-size: 17px;
+  margin: 16px 0 4px;
+}
+.painel .marca button {
+  margin-top: 6px;
+  margin-right: 6px;
+}
+.painel [hidden] {
+  display: none !important;
+}
 .painel h2 {
   font-size: 19px;
   margin: 22px 0 8px;
@@ -247,4 +258,7 @@ body {
 .dialogo button.primario {
   background: #5b2bb5;
   color: #fff;
+}
+.painel .marca strong {
+  display: block;
 }

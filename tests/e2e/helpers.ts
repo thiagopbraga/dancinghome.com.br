@@ -49,3 +49,44 @@ export async function estrelasDoResultado(page: Page, timeout = 60_000): Promise
     return c.report.resumos.map((r) => r.stars);
   });
 }
+
+/** Um WAV mono de 16 bits com um clique por batida, para fazer de "música" nos testes. */
+export function wavDeTeste(segundos: number, bpm: number, sampleRate = 8000): Buffer {
+  const n = Math.floor(segundos * sampleRate);
+  const buf = Buffer.alloc(44 + n * 2);
+  buf.write('RIFF', 0);
+  buf.writeUInt32LE(36 + n * 2, 4);
+  buf.write('WAVEfmt ', 8);
+  buf.writeUInt32LE(16, 16);
+  buf.writeUInt16LE(1, 20);
+  buf.writeUInt16LE(1, 22);
+  buf.writeUInt32LE(sampleRate, 24);
+  buf.writeUInt32LE(sampleRate * 2, 28);
+  buf.writeUInt16LE(2, 32);
+  buf.writeUInt16LE(16, 34);
+  buf.write('data', 36);
+  buf.writeUInt32LE(n * 2, 40);
+  const beat = (60 / bpm) * sampleRate;
+  for (let i = 0; i < n; i++) {
+    const p = i % beat;
+    const env = Math.exp(-p / (sampleRate * 0.03));
+    const v = Math.sin((2 * Math.PI * 440 * i) / sampleRate) * env * 0.6;
+    buf.writeInt16LE(Math.round(v * 32767), 44 + i * 2);
+  }
+  return buf;
+}
+
+/** Abre a Área dos Pais como um adulto: segurando o botão por 3 segundos. */
+export async function abrirPais(page: Page): Promise<void> {
+  await esperarCena(page, 'menu');
+  await page.waitForFunction(() => window.__ensaio?.botoes().some((b) => b.id === 'pais'));
+  const b = await page.evaluate(() => window.__ensaio!.botoes().find((x) => x.id === 'pais')!);
+  const p = await paraPagina(page, b.x + b.w / 2, b.y + b.h / 2);
+  await page.mouse.move(p.x, p.y);
+  await page.mouse.down();
+  await page.waitForTimeout(1500);
+  // segurar pouco não abre
+  if ((await page.evaluate(() => window.__ensaio!.cena())) !== 'menu') throw new Error('abriu antes de 3 s');
+  await esperarCena(page, 'pais', 10_000);
+  await page.mouse.up();
+}

@@ -6,10 +6,12 @@ import { CalibracaoScene } from './Calibracao';
 import { ContagemScene } from './Contagem';
 import { DancaScene } from './Danca';
 import { EsqueletoScene } from './Esqueleto';
+import { GravarPoseScene } from './GravarPose';
 import { InicioScene } from './Inicio';
 import { MenuScene } from './Menu';
 import { MetronomoScene } from './Metronomo';
 import { MusicasScene, type MusicasParams } from './Musicas';
+import { PaisScene, type PaisParams } from './Pais';
 import { ResultadoScene } from './Resultado';
 import { SemCameraScene } from './SemCamera';
 
@@ -31,5 +33,7 @@ export function registerScenes(game: Game): void {
   r.calibracao = (g, p) => new CalibracaoScene(g, (p as MatchSetup | undefined) ?? demoSetup(g));
   r.contagem = (g, p) => new ContagemScene(g, (p as MatchSetup | undefined) ?? demoSetup(g));
   r.danca = (g, p) => new DancaScene(g, (p as MatchSetup | undefined) ?? demoSetup(g));
+  r.pais = (g, p) => new PaisScene(g, (p as PaisParams | undefined) ?? {});
+  r.gravarPose = (g, p) => new GravarPoseScene(g, (p as string | undefined) ?? 'estrela');
   r.resultado = (g, p) => new ResultadoScene(g, p as Outcome);
 }

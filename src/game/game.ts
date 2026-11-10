@@ -125,6 +125,12 @@ export class Game {
   characters: Characters = defaultCharacters();
   /** Músicas dançadas em seguida nesta sessão, para a dica de água. */
   seguidas = 0;
+  /** Ferramentas extras do editor de seções (o detector de BPM entra aqui). */
+  readonly editorTools: {
+    id: string;
+    nome: string;
+    run: (buffer: AudioBuffer) => { bpm?: number; offsetMs?: number; mensagem: string };
+  }[] = [];
   /** Chamado quando uma medalha nova é liberada. */
   onAchievements: ((novas: Conquista[]) => void) | null = null;
   private demoBuffer: AudioBuffer | null = null;

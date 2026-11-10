@@ -58,3 +58,12 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - Os testes automáticos não entram em tela cheia, para a janela não mudar de tamanho.
 - O service worker só é registrado no build de produção; o teste offline roda contra `vite preview`.
 - O aviso "Gire o celular" usa um celular desenhado em CSS, sem emoji.
+
+## Etapa 8
+
+- A Área dos Pais é um painel em HTML por cima do canvas (formulários, arquivos e rolagem funcionam melhor assim); o resto do jogo continua no canvas.
+- O editor marca 5 partes (Introdução, Verso 1, Refrão 1, Verso 2, Refrão 2). A pose final é calculada: no normal, 8 batidas antes do fim; no fácil, o trecho vai até 16 batidas depois do começo do Verso 2.
+- Ao carregar um áudio, a duração de verdade (em batidas) substitui a estimada, e a pose final acompanha.
+- O gravador de pose do catálogo usa contagem de 3 s e depois 2 s de média; guarda só os ângulos que a pose original já usava. Se o corpo aparece em menos de 60% das amostras, pede para tentar de novo.
+- A exportação leva configurações, progresso, personagens, coreografias e poses. O áudio nunca entra no arquivo.
+- Trocar o modelo (leve ou completo) vale na próxima vez que a câmera ligar.

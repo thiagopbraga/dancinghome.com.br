@@ -14,7 +14,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 5     | Fluxo completo da partida                | ✅     |
 | 6     | Narração, progresso e as 5 músicas (MVP) | ✅     |
 | 7     | Celular e offline                        | ✅     |
-| 8     | Área dos Pais e editor                   | ⬜     |
+| 8     | Área dos Pais e editor                   | ✅     |
 | 9     | Gravador de coreografias e modo treino   | ⬜     |
 | 10    | Personagens, pets e desbloqueios         | ⬜     |
 | 11    | Extras                                   | ⬜     |
@@ -77,3 +77,9 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 - Feito: `src/core/device.ts` (tela cheia e trava de paisagem no toque em "Começar", aviso "Gire o celular" na vertical, tela sempre acesa durante a música, detecção em quadros alternados abaixo de 20 fps), `devicePixelRatio` limitado a 2, opção de modelo `full` lida das configurações, manifest e service worker com pré-cache de tudo, incluindo `public/mediapipe/`, e cenário estendido nas laterais em telas 20:9.
 - Verificado: `npm run check` (`tests/unit/device.test.ts`) e `npm run test:e2e`: `tests/e2e/etapa7.spec.ts` (aviso na vertical; em 915x412 não há rolagem e todos os botões cabem na tela do menu ao resultado; virar o celular pausa a dança; a trava de tela é pedida quando a música começa e solta quando acaba) e `tests/e2e/offline.spec.ts` contra o build (depois de uma visita, com a rede desligada, o jogo recarrega, abre o menu e o modelo de pose vem do cache, sem nenhum pedido de rede falho). Screenshots vistos: `etapa7-gire.png`, `etapa7-celular-menu.png`, `etapa7-celular-musicas.png`, `etapa7-celular-danca.png`, `etapa7-celular-resultado.png`, `etapa7-offline-menu.png`.
 - Fica para o teste manual: tela cheia, trava de paisagem e tela acesa num celular de verdade.
+
+### Etapa 8 · Área dos Pais
+
+- Feito: Área dos Pais (`src/game/scenes/Pais.ts`), aberta segurando o botão "Pais" por 3 s: carregar o áudio de cada música (guardado como Blob no IndexedDB, com o aviso de que não sai do aparelho), editor de partes (toca a música e o botão "Marcar" ou a barra de espaço marca cada parte na batida mais próxima), ajuste de `offsetMs` e BPM com metrônomo por cima da música, gravador de pose do catálogo (`GravarPose.ts`), exportar e importar os dados em JSON, e configurações (modelo, volume, voz, limites de nota).
+- Verificado: `npm run check` (`tests/unit/editor.test.ts`: marcações, pose final, duração, média de ângulos) e `npm run test:e2e` (`tests/e2e/etapa8.spec.ts`): carregar um WAV gerado no teste libera "Brilho" no menu e a partida roda com ele a 123 BPM; marcar as 5 partes com a barra de espaço grava `"calibrado": true`, o `offsetMs` novo e as seções, e tudo continua depois de recarregar; regravar a pose "Estrela" troca os ângulos pelos medidos (erro de até 3°) e "Voltar ao original" desfaz; exportar num contexto e importar em outro devolve o mesmo arquivo, sem áudio, e um arquivo errado é recusado com mensagem clara. Screenshots vistos: `etapa8-pais.png`, `etapa8-editor.png`, `etapa8-gravar-pose.png`, `etapa8-musica-liberada.png`.
+- Fica para o teste manual: carregar MP3 de verdade no celular e acertar o `offsetMs` de cada arquivo de ouvido.
