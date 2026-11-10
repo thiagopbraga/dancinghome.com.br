@@ -100,3 +100,29 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 - Feito: modo dupla (duas pessoas, cada uma com cor, nota e estrelas), álbum com 12 medalhas (`Album.ts`, regras em `src/data/progress.ts`), modo história "A Grande Turnê" (`Historia.ts`: 5 shows, cada um resgata um amigo e três deles abrem cenário), pose congelada "Estátua" (a música para 3 s e quem fica parado ganha 50 pontos), modo surpresa (música do aparelho, BPM detectado em `src/core/bpm.ts`, poses sorteadas em `src/data/surprise.ts`) e o botão "Detectar BPM" no editor da Área dos Pais.
 - Verificado: `npm run check` (`tests/unit/bpm.test.ts`: batidas sintéticas de 100, 120 e 140 BPM com erro abaixo de 2, fase da batida, música de demonstração, silêncio; fase surpresa válida) e `npm run test:e2e` (`tests/e2e/etapa11.spec.ts`): duas pessoas simuladas recebem duas notas diferentes (3 estrelas e 1 estrela); as medalhas liberam com progresso falso e aparecem no álbum, e uma partida de verdade avisa "Medalha nova" no resultado; na turnê, o show 1 resgata a Coelhinha Pluma, abre o Palco e libera o show 2; na estátua a música para, parada dá bônus e mexendo não dá; no modo surpresa um WAV de 123 BPM é detectado, a fase usa só poses fáceis, é jogável e não fica guardada. Screenshots vistos: `etapa11-dupla.png`, `etapa11-dupla-resultado.png`, `etapa11-album.png`, `etapa11-turne-inicio.png`, `etapa11-turne-1-show.png`, `etapa11-estatua.png`, `etapa11-surpresa.png`.
 - Fica para o teste manual: detector de BPM com músicas de verdade (o adulto pode corrigir o BPM no editor) e dupla com duas pessoas na câmera.
+
+## Fechamento
+
+Verificação final, feita num clone limpo do repositório:
+
+```bash
+npm ci && npm run setup:mediapipe && npm run check && npm run test:e2e
+```
+
+| "Pronto quando"                                                                 | Situação | Prova                                                                   |
+| ------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------- |
+| `npm run check` e `npm run test:e2e` passam num clone limpo                     | ✅       | RESULTADO_CHECK                                                         |
+| Com `?sim=1`, a demonstração vai do menu ao resultado só com gestos             | ✅       | `tests/e2e/etapa5.spec.ts`                                              |
+| As 5 músicas aparecem no menu e ficam jogáveis depois de carregar o áudio       | ✅       | `tests/e2e/etapa6.spec.ts` (cadeado) e `tests/e2e/etapa8.spec.ts` (WAV) |
+| `README.md` em português com instalar, celular, músicas, partes, poses e Vercel | ✅       | `README.md`                                                             |
+| Este arquivo mostra as 12 etapas com status e prova                             | ✅       | tabela e diário acima                                                   |
+
+### O que não deu para provar aqui
+
+Os testes automáticos usam pose simulada, a câmera falsa do Chromium e áudio gerado em código. O que depende de gente, aparelho e arquivo de verdade ficou para o teste em casa (roteiro no fim do `README.md`):
+
+- Câmera de verdade: precisão das poses com uma criança, luz da sala e distância; conferir "braço direito" no painel `?debug=1`.
+- Celular de verdade: tela cheia, trava de paisagem, tela acesa, desempenho do modelo leve e instalação na tela inicial.
+- Músicas de verdade: o BPM e as partes das 5 coreografias vêm dos documentos e estão com `"calibrado": false`; o `offsetMs` e o começo de cada parte precisam ser marcados no editor para o arquivo que for carregado.
+- Detector de BPM em música de verdade (provado só com batidas sintéticas), foto de um desenho de verdade e modo dupla com duas pessoas.
+- Publicação na Vercel: o `vercel.json` está pronto, mas nenhuma publicação foi feita daqui.
