@@ -8,7 +8,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | ----- | ---------------------------------------- | ------ |
 | 0     | Fundação                                 | 🟨     |
 | 1     | Dados e regras puras                     | ⬜     |
-| 2     | Áudio e relógio                          | ⬜     |
+| 2     | Áudio e relógio                          | ✅     |
 | 3     | Câmera e esqueleto                       | ⬜     |
 | 4     | Cena de dança                            | ⬜     |
 | 5     | Fluxo completo da partida                | ⬜     |
@@ -45,3 +45,8 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 - Feito: `src/data/schema.ts` (zod), `catalog.json` com as 18 poses, as 6 coreografias (5 músicas + `ensaio-aquecimento`), `expandSections`, `angles.ts`, `skeleton.ts` (esqueleto a partir dos ângulos), `judge.ts` (tabela de nota, janela de ±300 ms, pesos, energia) e `stars.ts`.
 - Verificado com `npm run check`: `tests/unit/choreo.test.ts` (uma prova por regra de expansão, schema, poses citadas existem, variações de cada nível), `tests/unit/angles.test.ts` (90° e 180° com erro < 1°, ida e volta ângulos → esqueleto → ângulos para as 18 poses e suas espelhadas), `tests/unit/judge.test.ts` (100 / 70 / 40 / 10, pesos, visibilidade, `mirror`, janela, energia, estrelas).
+
+### Etapa 2 · Áudio e relógio
+
+- Feito: `SongClock` (`src/core/clock.ts`) sobre `AudioContext.currentTime`, descontando `offsetMs` e `outputLatency`; `AudioEngine` (`src/core/audio.ts`) com tocar, pausar, retomar, `playbackRate` e fade; música de demonstração sintetizada (`src/core/demoSong.ts`); efeitos sonoros com osciladores (`src/core/sfx.ts`); tela do metrônomo em `?cena=metronomo`.
+- Verificado: `npm run check` (`tests/unit/clock.test.ts`: tempo de batida, latência, pausa e retomada sem salto, velocidade 0,5x, contagem negativa, duração da demonstração) e `npm run test:e2e` (`tests/e2e/etapa2.spec.ts`: 2 batidas por segundo com erro abaixo de 50 ms, contra o relógio do áudio e contra o relógio de parede). Screenshot: `tests/e2e/screens/etapa2-metronomo.png`.
