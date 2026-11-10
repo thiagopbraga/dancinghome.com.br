@@ -89,7 +89,7 @@ npm run check      # tipos, lint, testes de unidade e build
 npm run test:e2e   # Playwright: jogo em modo dev e teste offline contra o build
 ```
 
-Os testes não usam câmera nem música de verdade. Estes parâmetros de endereço ajudam (só em modo dev):
+Na primeira vez, `npx playwright install chromium` baixa o navegador dos testes. Os testes não usam câmera nem música de verdade. Estes parâmetros de endereço ajudam (só em modo dev):
 
 | Parâmetro         | Para que serve                                                 |
 | ----------------- | -------------------------------------------------------------- |
