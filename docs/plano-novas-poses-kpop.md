@@ -24,7 +24,7 @@ Expandir o catálogo de poses (`src/data/poses/catalog.json`) com **15 novas pos
 | **Letal** (*Takedown*) | `base-de-guerreira` | Base de Guerreira | `normal` | Perna E flexionada em avanço de combate, braço E erguido em ataque diagonal e mão D na cintura | `lHip: 115, lKnee: 110, rHip: 150, rKnee: 170, lShoulder: 145, lElbow: 170, rShoulder: 45, rElbow: 80` |
 | **Não Tem Perdão** (*How It's Done*) | `v-da-vitoria` | V da Vitória | `facil` | Braço D erguido fazendo um V vibrante ao lado da cabeça e braço E cruzado no peito | `rShoulder: 165, rElbow: 145, lShoulder: 55, lElbow: 50` |
 | **Não Tem Perdão** (*How It's Done*) | `swagger` | Ombro de Idol | `facil` | Pose de atitude hip-hop K-pop (*How It's Done*): cotovelo D erguido apontando pro lado e mão E na cintura | `rShoulder: 115, rElbow: 55, lShoulder: 35, lElbow: 115` |
-| **Não Tem Perdão** (*How It's Done*) | `pose-de-turne` | Pose de Turnê | `normal` | Grande chute/joelho E no alto com braço D cravado lá em cima e braço E aberto na horizontal | `lHip: 100, lKnee: 90, rShoulder: 165, rElbow: 170, lShoulder: 85, lElbow: 170` |
+| **Não Tem Perdão** (*How It's Done*) | `pose-de-turne` | Pose de Turnê | `normal` | Grande chute/joelho E no alto com braço D cravado lá em cima e braço E aberto na horizontal | `lHip: 100, lKnee: 90, rShoulder: 165, lShoulder: 85` |
 
 ## Coreografias Atualizadas
 

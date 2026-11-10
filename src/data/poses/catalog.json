@@ -71,6 +71,66 @@
     "angles": { "lShoulder": 140, "rShoulder": 140, "lElbow": 30, "rElbow": 30 },
     "descricao": "Mãos em cima da cabeça, como orelhas"
   },
+  "coroa-dourada": {
+    "nome": "Coroa Dourada",
+    "nivel": "facil",
+    "angles": { "lShoulder": 115, "rShoulder": 115, "lElbow": 85, "rElbow": 85 },
+    "descricao": "Cotovelos abertos no alto emoldurando a cabeça como uma coroa dourada"
+  },
+  "moldura-glam": {
+    "nome": "Moldura Glam",
+    "nivel": "facil",
+    "angles": { "lShoulder": 135, "lElbow": 75, "rShoulder": 45, "rElbow": 65 },
+    "descricao": "Braço esquerdo alto dobrado sobre a cabeça, braço direito dobrado no peito"
+  },
+  "canudinho": {
+    "nome": "Canudinho",
+    "nivel": "facil",
+    "angles": { "rShoulder": 45, "rElbow": 35, "lShoulder": 100, "lElbow": 165 },
+    "descricao": "Mão direita pertinho da boca tomando refri e braço esquerdo aberto"
+  },
+  "tampinha": {
+    "nome": "Estouro da Tampinha",
+    "nivel": "facil",
+    "angles": { "lShoulder": 110, "rShoulder": 110, "lElbow": 95, "rElbow": 95 },
+    "descricao": "Braços abertos com cotovelos dobrados para cima em L, como a tampinha subindo"
+  },
+  "voz-pro-ceu": {
+    "nome": "Voz pro Céu",
+    "nivel": "facil",
+    "angles": { "rShoulder": 40, "rElbow": 35, "lShoulder": 155, "lElbow": 170 },
+    "descricao": "Mão direita perto da boca soltando a voz e braço esquerdo esticado para o céu"
+  },
+  "onda-de-som": {
+    "nome": "Onda de Som",
+    "nivel": "facil",
+    "angles": { "lShoulder": 95, "lElbow": 170, "rShoulder": 75, "rElbow": 50 },
+    "descricao": "Braço esquerdo esticado na horizontal e braço direito dobrado no peito"
+  },
+  "arco-e-flecha": {
+    "nome": "Arco e Flecha",
+    "nivel": "facil",
+    "angles": { "lShoulder": 95, "lElbow": 175, "rShoulder": 95, "rElbow": 45 },
+    "descricao": "Braço esquerdo esticado mirando para o lado e braço direito puxando a corda do arco"
+  },
+  "guarda-letal": {
+    "nome": "Guarda Letal",
+    "nivel": "facil",
+    "angles": { "lShoulder": 135, "lElbow": 105, "rShoulder": 55, "rElbow": 45 },
+    "descricao": "Braço esquerdo alto protegendo a cabeça e braço direito em guarda baixa"
+  },
+  "v-da-vitoria": {
+    "nome": "V da Vitória",
+    "nivel": "facil",
+    "angles": { "rShoulder": 165, "rElbow": 145, "lShoulder": 55, "lElbow": 50 },
+    "descricao": "Braço direito erguido fazendo um V ao lado da cabeça e braço esquerdo no peito"
+  },
+  "swagger": {
+    "nome": "Ombro de Idol",
+    "nivel": "facil",
+    "angles": { "rShoulder": 115, "rElbow": 55, "lShoulder": 35, "lElbow": 115 },
+    "descricao": "Cotovelo direito erguido apontando para o lado com atitude e mão esquerda na cintura"
+  },
   "joelho-pra-cima": {
     "nome": "Joelho pra Cima",
     "nivel": "normal",
@@ -106,5 +166,53 @@
     "nivel": "normal",
     "angles": { "rHip": 150, "rKnee": 175, "lShoulder": 140, "rShoulder": 140 },
     "descricao": "Perna direita aberta para o lado, braços em V"
+  },
+  "passo-de-diva": {
+    "nome": "Passo de Diva",
+    "nivel": "normal",
+    "angles": { "lHip": 145, "lKnee": 170, "rShoulder": 155, "rElbow": 100, "lShoulder": 40, "lElbow": 85 },
+    "descricao": "Perna esquerda aberta em pose de palco, braço direito coroando no alto e mão esquerda na cintura"
+  },
+  "pulo-pop": {
+    "nome": "Pulo Pop",
+    "nivel": "normal",
+    "angles": { "lHip": 105, "lKnee": 95, "rShoulder": 145, "rElbow": 110, "lShoulder": 35, "lElbow": 70 },
+    "descricao": "Joelho esquerdo levantado no ritmo, braço direito no alto e braço esquerdo na cintura"
+  },
+  "passo-unido": {
+    "nome": "Passo Unido",
+    "nivel": "normal",
+    "angles": {
+      "lHip": 145,
+      "rHip": 145,
+      "lKnee": 145,
+      "rKnee": 145,
+      "lShoulder": 145,
+      "rShoulder": 145,
+      "lElbow": 65,
+      "rElbow": 65
+    },
+    "descricao": "Base firme com joelhos dobrados e braços formando um grande arco acima da cabeça"
+  },
+  "base-de-guerreira": {
+    "nome": "Base de Guerreira",
+    "nivel": "normal",
+    "angles": {
+      "lHip": 115,
+      "lKnee": 110,
+      "rHip": 150,
+      "rKnee": 170,
+      "lShoulder": 145,
+      "lElbow": 170,
+      "rShoulder": 45,
+      "rElbow": 80
+    },
+    "descricao": "Perna esquerda dobrada em base de combate, braço esquerdo no alto e mão direita na cintura"
+  },
+  "pose-de-turne": {
+    "nome": "Pose de Turnê",
+    "nivel": "normal",
+    "angles": { "lHip": 100, "lKnee": 90, "rShoulder": 165, "lShoulder": 85 },
+    "descricao": "Joelho esquerdo bem alto, braço direito esticado para cima e braço esquerdo aberto"
   }
 }

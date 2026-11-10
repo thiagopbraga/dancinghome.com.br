@@ -18,19 +18,29 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 8,
-          "poses": ["pose-de-idol", "bracos-pra-cima"]
+          "poses": ["swagger", "v-da-vitoria"]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 8,
-          "poses": ["apontar", "estrela", "microfone", "apontar"]
+          "poses": [
+            "swagger",
+            {
+              "pose": "swagger",
+              "mirror": true
+            },
+            "apontar",
+            "v-da-vitoria",
+            "estrela",
+            "microfone"
+          ]
         },
         {
           "nome": "refrao",
           "inicioBeat": 80,
           "aCada": 8,
-          "poses": ["estrela", "raio-de-sol", "espada-de-luz", "coracao"]
+          "poses": ["v-da-vitoria", "estrela", "raio-de-sol", "espada-de-luz", "coracao"]
         },
         {
           "nome": "final",
@@ -46,31 +56,31 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 4,
-          "poses": ["pose-de-idol", "bracos-pra-cima"]
+          "poses": ["swagger", "v-da-vitoria"]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 4,
-          "poses": ["ciclista", "patinadora", "microfone", "apontar"]
+          "poses": ["ciclista", "patinadora", "swagger", "pose-de-turne", "microfone", "apontar"]
         },
         {
           "nome": "refrao",
           "inicioBeat": 80,
           "aCada": 4,
-          "poses": ["estrela", "raio-de-sol", "espada-de-luz", "coracao"]
+          "poses": ["v-da-vitoria", "pose-de-turne", "estrela", "raio-de-sol", "espada-de-luz", "coracao"]
         },
         {
           "nome": "verso2",
           "inicioBeat": 144,
           "aCada": 4,
-          "poses": ["ciclista", "patinadora", "microfone", "apontar"]
+          "poses": ["ciclista", "patinadora", "swagger", "pose-de-turne", "microfone", "apontar"]
         },
         {
           "nome": "refrao2",
           "inicioBeat": 208,
           "aCada": 4,
-          "poses": ["estrela", "raio-de-sol", "espada-de-luz", "coracao"]
+          "poses": ["v-da-vitoria", "pose-de-turne", "estrela", "raio-de-sol", "espada-de-luz", "coracao"]
         },
         {
           "nome": "final",
