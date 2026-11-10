@@ -23,14 +23,23 @@
             {
               "pose": "bolhas",
               "mirror": true
-            }
+            },
+            "tampinha",
+            "canudinho"
           ]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 4,
-          "poses": ["apontar", "garrinha-de-gato", "pose-de-idol", "orelhas-de-cachorro"]
+          "poses": [
+            "canudinho",
+            "tampinha",
+            "apontar",
+            "garrinha-de-gato",
+            "pose-de-idol",
+            "orelhas-de-cachorro"
+          ]
         },
         {
           "nome": "refrao",
@@ -38,11 +47,13 @@
           "aCada": 4,
           "poses": [
             "bolhas",
+            "tampinha",
             "bracos-pra-cima",
             {
               "pose": "bolhas",
               "mirror": true
             },
+            "canudinho",
             "coracao"
           ]
         },
@@ -65,14 +76,23 @@
             {
               "pose": "bolhas",
               "mirror": true
-            }
+            },
+            "tampinha",
+            "canudinho"
           ]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 2,
-          "poses": ["apontar", "garrinha-de-gato", "pose-de-idol", "orelhas-de-cachorro"]
+          "poses": [
+            "canudinho",
+            "tampinha",
+            "apontar",
+            "garrinha-de-gato",
+            "pose-de-idol",
+            "orelhas-de-cachorro"
+          ]
         },
         {
           "nome": "refrao",
@@ -81,10 +101,12 @@
           "poses": [
             "bolhas",
             "mola",
+            "tampinha",
             {
               "pose": "bolhas",
               "mirror": true
             },
+            "pulo-pop",
             "coracao"
           ]
         },
@@ -92,7 +114,17 @@
           "nome": "verso2",
           "inicioBeat": 144,
           "aCada": 2,
-          "poses": ["apontar", "garrinha-de-gato", "pose-de-idol", "orelhas-de-cachorro"]
+          "poses": [
+            "canudinho",
+            "pulo-pop",
+            {
+              "pose": "pulo-pop",
+              "mirror": true
+            },
+            "garrinha-de-gato",
+            "tampinha",
+            "orelhas-de-cachorro"
+          ]
         },
         {
           "nome": "refrao2",
@@ -101,10 +133,12 @@
           "poses": [
             "bolhas",
             "mola",
+            "tampinha",
             {
               "pose": "bolhas",
               "mirror": true
             },
+            "pulo-pop",
             "coracao"
           ]
         },

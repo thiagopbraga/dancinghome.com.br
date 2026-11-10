@@ -18,13 +18,24 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 8,
-          "poses": ["escudo", "espada-de-luz"]
+          "poses": ["guarda-letal", "espada-de-luz"]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 8,
-          "poses": ["espada-de-luz", "escudo", "apontar", "pose-de-idol"]
+          "poses": [
+            "espada-de-luz",
+            "arco-e-flecha",
+            {
+              "pose": "arco-e-flecha",
+              "mirror": true
+            },
+            "guarda-letal",
+            "escudo",
+            "apontar",
+            "pose-de-idol"
+          ]
         },
         {
           "nome": "refrao",
@@ -36,6 +47,7 @@
               "pose": "espada-de-luz",
               "mirror": true
             },
+            "arco-e-flecha",
             "estrela",
             "bracos-pra-cima"
           ]
@@ -54,13 +66,24 @@
           "nome": "intro",
           "inicioBeat": 0,
           "aCada": 4,
-          "poses": ["escudo", "espada-de-luz"]
+          "poses": ["guarda-letal", "espada-de-luz"]
         },
         {
           "nome": "verso",
           "inicioBeat": 16,
           "aCada": 4,
-          "poses": ["espada-de-luz", "escudo", "apontar", "pose-de-idol"]
+          "poses": [
+            "espada-de-luz",
+            "arco-e-flecha",
+            {
+              "pose": "arco-e-flecha",
+              "mirror": true
+            },
+            "guarda-letal",
+            "escudo",
+            "apontar",
+            "pose-de-idol"
+          ]
         },
         {
           "nome": "refrao",
@@ -72,8 +95,10 @@
               "pose": "espada-de-luz",
               "mirror": true
             },
+            "arco-e-flecha",
             "estrela",
             "joelho-pra-cima",
+            "base-de-guerreira",
             "bracos-pra-cima"
           ]
         },
@@ -81,7 +106,17 @@
           "nome": "verso2",
           "inicioBeat": 144,
           "aCada": 4,
-          "poses": ["espada-de-luz", "escudo", "apontar", "pose-de-idol"]
+          "poses": [
+            "espada-de-luz",
+            "arco-e-flecha",
+            "base-de-guerreira",
+            {
+              "pose": "base-de-guerreira",
+              "mirror": true
+            },
+            "guarda-letal",
+            "pose-de-idol"
+          ]
         },
         {
           "nome": "refrao2",
@@ -93,8 +128,10 @@
               "pose": "espada-de-luz",
               "mirror": true
             },
+            "arco-e-flecha",
             "estrela",
             "joelho-pra-cima",
+            "base-de-guerreira",
             "bracos-pra-cima"
           ]
         },
