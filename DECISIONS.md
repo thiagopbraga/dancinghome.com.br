@@ -50,3 +50,11 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - No modo dupla, vale a melhor das duas pessoas para o recorde.
 - A dica de água aparece a cada 3 músicas dançadas na mesma sessão (o treino não conta).
 - As medalhas e os desbloqueios são funções puras em `src/data/progress.ts`, testadas com progresso falso.
+
+## Etapa 7
+
+- A detecção em quadros alternados liga depois de 2 s seguidos abaixo de 20 fps e fica ligada até o fim da sessão, para o celular não ficar ligando e desligando a economia.
+- Virar o celular para a vertical no meio da música pausa a dança; a tela cheia e a trava de paisagem são pedidas no toque em "Começar" e, onde o navegador não deixa (iPhone), o aviso "Gire o celular" resolve.
+- Os testes automáticos não entram em tela cheia, para a janela não mudar de tamanho.
+- O service worker só é registrado no build de produção; o teste offline roda contra `vite preview`.
+- O aviso "Gire o celular" usa um celular desenhado em CSS, sem emoji.

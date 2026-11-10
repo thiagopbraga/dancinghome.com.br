@@ -24,6 +24,8 @@ export interface Scene {
   draw(g: CanvasRenderingContext2D, view: View): void;
   pointer?(kind: PointerKind, x: number, y: number): void;
   key?(code: string): void;
+  /** O jogo foi interrompido (celular na vertical, aba escondida): quem está tocando pausa. */
+  interrupt?(): void;
 }
 
 export function computeView(cssW: number, cssH: number): View {

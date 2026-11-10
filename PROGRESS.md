@@ -13,7 +13,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 4     | Cena de dança                            | ✅     |
 | 5     | Fluxo completo da partida                | ✅     |
 | 6     | Narração, progresso e as 5 músicas (MVP) | ✅     |
-| 7     | Celular e offline                        | ⬜     |
+| 7     | Celular e offline                        | ✅     |
 | 8     | Área dos Pais e editor                   | ⬜     |
 | 9     | Gravador de coreografias e modo treino   | ⬜     |
 | 10    | Personagens, pets e desbloqueios         | ⬜     |
@@ -71,3 +71,9 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 
 - Feito: narrador com as falas de `texts.ts` (boas-vindas, instruções, nome da pose quando o cartão aparece no fácil, comemoração no resultado) e legenda grande quando não há voz pt-BR; armazenamento no IndexedDB (`src/data/storage.ts`) e regras de progresso (`src/data/progress.ts`): melhor resultado por música e nível, total de estrelas no menu, "Novo recorde!", dica de água a cada 3 músicas seguidas; as 5 músicas no menu com cadeado e "Peça para um adulto carregar a música" enquanto não têm áudio.
 - Verificado: `npm run check` (`tests/unit/progress.test.ts`: recorde, soma de estrelas, treino, medalhas, desbloqueios em 5, 15 e 30, ida e volta do armazenamento e exportar/importar sem áudio) e `npm run test:e2e` (`tests/e2e/etapa6.spec.ts`): o progresso é igual depois de recarregar a página; com `?semvoz=1` a frase aparece na tela; as 5 músicas aparecem com cadeado, apontar para uma delas faz o jogo pedir um adulto, e a demonstração é jogável do menu ao resultado; a dica de água vem na terceira música seguida. Screenshots vistos: `etapa6-menu-com-estrelas.png`, `etapa6-legenda.png`, `etapa6-musicas-2.png`, `etapa6-agua.png`.
+
+### Etapa 7 · Celular e offline
+
+- Feito: `src/core/device.ts` (tela cheia e trava de paisagem no toque em "Começar", aviso "Gire o celular" na vertical, tela sempre acesa durante a música, detecção em quadros alternados abaixo de 20 fps), `devicePixelRatio` limitado a 2, opção de modelo `full` lida das configurações, manifest e service worker com pré-cache de tudo, incluindo `public/mediapipe/`, e cenário estendido nas laterais em telas 20:9.
+- Verificado: `npm run check` (`tests/unit/device.test.ts`) e `npm run test:e2e`: `tests/e2e/etapa7.spec.ts` (aviso na vertical; em 915x412 não há rolagem e todos os botões cabem na tela do menu ao resultado; virar o celular pausa a dança; a trava de tela é pedida quando a música começa e solta quando acaba) e `tests/e2e/offline.spec.ts` contra o build (depois de uma visita, com a rede desligada, o jogo recarrega, abre o menu e o modelo de pose vem do cache, sem nenhum pedido de rede falho). Screenshots vistos: `etapa7-gire.png`, `etapa7-celular-menu.png`, `etapa7-celular-musicas.png`, `etapa7-celular-danca.png`, `etapa7-celular-resultado.png`, `etapa7-offline-menu.png`.
+- Fica para o teste manual: tela cheia, trava de paisagem e tela acesa num celular de verdade.

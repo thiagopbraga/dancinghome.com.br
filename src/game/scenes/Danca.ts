@@ -159,6 +159,10 @@ export class DancaScene implements Scene {
     if (cfg.modo === 'treino') game.narrator.say(T.narrador.treino);
   }
 
+  interrupt(): void {
+    this.setPaused(true);
+  }
+
   /** A pose simulada pode terminar de carregar depois da cena abrir. */
   private bindSim(): void {
     const { game } = this;
