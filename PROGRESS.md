@@ -109,13 +109,13 @@ Verificação final, feita num clone limpo do repositório:
 npm ci && npm run setup:mediapipe && npm run check && npm run test:e2e
 ```
 
-| "Pronto quando"                                                                 | Situação | Prova                                                                   |
-| ------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------- |
-| `npm run check` e `npm run test:e2e` passam num clone limpo                     | ✅       | RESULTADO_CHECK                                                         |
-| Com `?sim=1`, a demonstração vai do menu ao resultado só com gestos             | ✅       | `tests/e2e/etapa5.spec.ts`                                              |
-| As 5 músicas aparecem no menu e ficam jogáveis depois de carregar o áudio       | ✅       | `tests/e2e/etapa6.spec.ts` (cadeado) e `tests/e2e/etapa8.spec.ts` (WAV) |
-| `README.md` em português com instalar, celular, músicas, partes, poses e Vercel | ✅       | `README.md`                                                             |
-| Este arquivo mostra as 12 etapas com status e prova                             | ✅       | tabela e diário acima                                                   |
+| "Pronto quando"                                                                 | Situação | Prova                                                                    |
+| ------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------ |
+| `npm run check` e `npm run test:e2e` passam num clone limpo                     | ✅       | 93 testes de unidade, build e 36 testes Playwright (incluindo o offline) |
+| Com `?sim=1`, a demonstração vai do menu ao resultado só com gestos             | ✅       | `tests/e2e/etapa5.spec.ts`                                               |
+| As 5 músicas aparecem no menu e ficam jogáveis depois de carregar o áudio       | ✅       | `tests/e2e/etapa6.spec.ts` (cadeado) e `tests/e2e/etapa8.spec.ts` (WAV)  |
+| `README.md` em português com instalar, celular, músicas, partes, poses e Vercel | ✅       | `README.md`                                                              |
+| Este arquivo mostra as 12 etapas com status e prova                             | ✅       | tabela e diário acima                                                    |
 
 ### O que não deu para provar aqui
 
