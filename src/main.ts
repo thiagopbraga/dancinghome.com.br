@@ -1,4 +1,5 @@
 import './style.css';
+import { detectBpm, monoOf } from './core/bpm';
 import { enterFullscreen, FpsWatch, ScreenAwake, watchOrientation } from './core/device';
 import { Engine } from './game/engine';
 import { drawCaption } from './game/draw/caption';
@@ -17,6 +18,20 @@ const companions = new Companions(game);
 game.companions = companions;
 game.onPerfect = () => companions.onPerfect();
 game.drawCompanions = (g, v, beat, pose, where) => companions.draw(g, v, beat, pose, where);
+game.editorTools.push({
+  id: 'bpm',
+  nome: 'Detectar BPM',
+  run: (buffer) => {
+    const t = detectBpm(monoOf(buffer), buffer.sampleRate);
+    if (!t || t.confianca < 0.15)
+      return { mensagem: 'Não consegui achar a batida desta música. Digite o BPM.' };
+    return {
+      bpm: t.bpm,
+      offsetMs: t.offsetMs,
+      mensagem: `Achei ${t.bpm} BPM, com a batida começando em ${t.offsetMs} ms. Confira com o metrônomo.`,
+    };
+  },
+});
 const awake = new ScreenAwake();
 const fpsWatch = new FpsWatch();
 game.onStart = () => {

@@ -26,7 +26,6 @@ import type { Companions } from './companions';
 import type { Engine, Scene, View } from './engine';
 import type { MatchSetup, Outcome, PlayConfig } from './match';
 import { ACESSORIOS, CENARIOS, T, TURNE } from './texts';
-import type { Button } from './ui';
 
 export interface Flags {
   /** Troca a câmera pela pose simulada. Só no servidor de desenvolvimento. */
@@ -293,9 +292,13 @@ export class Game {
     return bestStars(this.progress, songId);
   }
 
-  /** Cartões extras da seleção de músicas (o modo surpresa entra aqui). */
-  extraSongCards(): Button[] {
-    return [];
+  /** Um cenário abre pelo total de estrelas ou pelo show da turnê que o entrega. */
+  cenarioLiberado(id: string): boolean {
+    const c = CENARIOS.find((x) => x.id === id);
+    if (!c) return false;
+    if (this.totalStars() >= c.estrelas) return true;
+    const show = TURNE.findIndex((p) => p.cenario === id);
+    return show >= 0 && show < this.progress.historia;
   }
 
   /** A música tem áudio pronto para tocar? (a demonstração sempre tem) */
@@ -368,6 +371,8 @@ export class Game {
       progress.historia = Math.min(5, cfg.historia + 1);
       const parada = TURNE[cfg.historia];
       if (parada) novidades.push(`${T.narrador.historiaPet} ${parada.petNome}!`);
+      const cen = CENARIOS.find((c) => c.id === parada?.cenario);
+      if (cen && antes < cen.estrelas) novidades.push(`${T.resultado.desbloqueou}: ${cen.nome}!`);
     }
     await this.saveProgress(progress);
     const depois = this.totalStars();

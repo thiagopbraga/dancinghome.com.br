@@ -234,7 +234,7 @@ export class PersonagensScene implements Scene {
       });
     });
     CENARIOS.forEach((c, i) => {
-      const falta = Math.max(0, c.estrelas - total);
+      const falta = game.cenarioLiberado(c.id) ? 0 : Math.max(0, c.estrelas - total);
       b.push({
         id: `cenario-${c.id}`,
         x: 690 + i * 144,

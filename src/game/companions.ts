@@ -81,7 +81,7 @@ export class Companions {
       Math.max(0, 1 - frac * 3) * 8 * (i % 2 === Math.floor(beat) % 2 ? 1 : 0.4);
     const ang = (i: number): Angles => pose ?? this.idle(beat, i);
     if (where === 'danca') {
-      drawIdol(g, idols[1], ang(1), 150, 230 - hop(1), 200);
+      drawIdol(g, idols[1], ang(1), 150, 240 - hop(1), 186);
       drawIdol(g, idols[0], ang(0), 1060, 290 - hop(0), 190);
       drawIdol(g, idols[2], ang(2), 1200, 290 - hop(2), 190);
       this.drawDrawing(g, 1130, 470, 96, beat);

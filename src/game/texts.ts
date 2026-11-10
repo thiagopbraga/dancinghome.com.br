@@ -28,6 +28,8 @@ export const T = {
     cadeado: 'Peça para um adulto carregar a música',
     surpresa: 'Surpresa',
     surpresaDica: 'Peça para um adulto escolher uma música do aparelho',
+    surpresaAbrindo: 'Ouvindo a música...',
+    surpresaErro: 'Não consegui abrir esta música. Tente outra!',
     facil: 'Fácil',
     normal: 'Normal',
     dupla: 'Dupla',

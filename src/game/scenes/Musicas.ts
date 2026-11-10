@@ -1,12 +1,14 @@
 // Seleção de música e de nível. Músicas sem áudio mostram um cadeado.
+import { detectBpm, monoOf } from '../../core/bpm';
 import type { Nivel } from '../../core/types';
 import { expandSections } from '../../data/choreo';
 import type { Choreo } from '../../data/schema';
 import { DEMO_ID } from '../../data/songs';
+import { buildSurprise } from '../../data/surprise';
 import { drawBackdrop } from '../draw/backdrop';
-import { iconArrow, iconDuo, iconIce } from '../draw/icons';
+import { iconArrow, iconDuo, iconGift, iconIce } from '../draw/icons';
 import { drawStickFigure } from '../draw/stickFigure';
-import { COR, drawStar, padlock, roundRect, text, textBlock } from '../draw/util';
+import { COR, drawStar, makeRng, padlock, roundRect, text, textBlock } from '../draw/util';
 import { BASE_W, type PointerKind, type Scene, type View } from '../engine';
 import type { Game } from '../game';
 import type { PlayConfig } from '../match';
@@ -29,6 +31,10 @@ export class MusicasScene implements Scene {
   readonly ui: ButtonSet;
   private page = 0;
   private chosen: Choreo | null = null;
+  /** Fase do modo surpresa, montada na hora (os testes leem). */
+  surpresa: { choreo: Choreo; bpmAchado: boolean } | null = null;
+  private surpresaMsg = '';
+  private readonly file: HTMLInputElement;
   private dupla = false;
   private estatua = false;
   private starting = false;
@@ -41,6 +47,12 @@ export class MusicasScene implements Scene {
     // A demonstração primeiro, depois as 5 músicas e as danças gravadas por ela.
     const order = (s: Choreo): number => (s.id === DEMO_ID ? 0 : s.origem === 'base' ? 1 : 2);
     this.songs = [...game.songs].sort((a, b) => order(a) - order(b));
+    this.file = document.createElement('input');
+    this.file.type = 'file';
+    this.file.accept = 'audio/*';
+    this.file.hidden = true;
+    this.file.id = 'surpresa-arquivo';
+    this.file.addEventListener('change', () => void this.loadSurprise());
     this.ui = new ButtonSet([], (kind) => {
       if (kind === 'select') game.sfx.play('select');
     });
@@ -49,6 +61,7 @@ export class MusicasScene implements Scene {
   }
 
   enter(): void {
+    document.getElementById('ui')!.append(this.file);
     this.game.narrator.say(this.params.aviso ?? T.narrador.escolhaMusica);
   }
 
@@ -58,7 +71,70 @@ export class MusicasScene implements Scene {
 
   /** Cartões extras no fim da lista (modo surpresa). */
   private extraCards(): Button[] {
-    return this.params.modo === 'show' ? this.game.extraSongCards() : [];
+    if (this.params.modo !== 'show') return [];
+    return [
+      {
+        id: 'surpresa',
+        x: 0,
+        y: 0,
+        w: 300,
+        h: 400,
+        label: T.musicas.surpresa,
+        color: '#2aa86a',
+        touchOnly: true,
+        content: (g, x, y, w) => {
+          iconGift(g, x + w / 2, y + 120, 150);
+          text(g, T.musicas.surpresa, x + w / 2, y + 248, { size: 36, outline: 'rgba(36,22,61,0.55)' });
+          g.save();
+          textBlock(g, this.surpresaMsg || T.musicas.surpresaDica, x + w / 2, y + 296, w - 36, {
+            size: 20,
+            weight: 600,
+          });
+          g.restore();
+        },
+        onSelect: () => this.file.click(),
+      },
+    ];
+  }
+
+  /** Música surpresa: abre o arquivo, acha o BPM e sorteia as poses. O áudio fica só na memória. */
+  private async loadSurprise(): Promise<void> {
+    const game = this.game;
+    const file = this.file.files?.[0];
+    this.file.value = '';
+    if (!file) return;
+    this.surpresaMsg = T.musicas.surpresaAbrindo;
+    try {
+      const buffer = await game.audio.decode(await file.arrayBuffer());
+      const tempo = detectBpm(monoOf(buffer), buffer.sampleRate);
+      const achou = !!tempo && tempo.confianca >= 0.15;
+      const id = `surpresa-${Date.now().toString(36)}`;
+      const choreo = buildSurprise(
+        {
+          id,
+          title: T.musicas.surpresa,
+          bpm: achou ? tempo.bpm : 120,
+          offsetMs: achou ? tempo.offsetMs : 0,
+          durationS: buffer.duration,
+        },
+        game.catalog,
+        makeRng(game.flags.semente ?? Math.floor(Math.random() * 1e9)),
+      );
+      game.tempAudio.clear();
+      game.tempAudio.set(id, buffer);
+      this.surpresaMsg = '';
+      this.surpresa = { choreo, bpmAchado: achou };
+      this.chosen = choreo;
+      game.narrator.say(T.narrador.escolhaNivel, { caption: false });
+      this.showLevels();
+    } catch (err) {
+      console.warn('Não consegui abrir o áudio', err);
+      this.surpresaMsg = T.musicas.surpresaErro;
+    }
+  }
+
+  exit(): void {
+    this.file.remove();
   }
 
   private backButton(onSelect: () => void): Button {
@@ -219,6 +295,7 @@ export class MusicasScene implements Scene {
       modo: this.params.modo,
       dupla: this.dupla,
       estatua: this.estatua,
+      choreo: this.chosen.origem === 'surpresa' ? this.chosen : undefined,
     };
     void this.game.startMatch(cfg).then((ok) => {
       if (!ok) this.starting = false;

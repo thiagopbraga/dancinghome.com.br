@@ -2,12 +2,14 @@
 import { DEMO_ID } from '../../data/songs';
 import type { Game } from '../game';
 import { defaultConfig, type MatchSetup, type Outcome } from '../match';
+import { AlbumScene } from './Album';
 import { CalibracaoScene } from './Calibracao';
 import { ContagemScene } from './Contagem';
 import { DancaScene } from './Danca';
 import { EsqueletoScene } from './Esqueleto';
 import { GravadorScene } from './Gravador';
 import { GravarPoseScene } from './GravarPose';
+import { HistoriaScene } from './Historia';
 import { InicioScene } from './Inicio';
 import { MenuScene } from './Menu';
 import { MetronomoScene } from './Metronomo';
@@ -40,5 +42,7 @@ export function registerScenes(game: Game): void {
   r.gravador = (g) => new GravadorScene(g);
   r.treinoMusicas = (g) => new MusicasScene(g, { modo: 'treino' });
   r.personagens = (g) => new PersonagensScene(g);
+  r.album = (g) => new AlbumScene(g);
+  r.historia = (g) => new HistoriaScene(g);
   r.resultado = (g, p) => new ResultadoScene(g, p as Outcome);
 }

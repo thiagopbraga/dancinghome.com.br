@@ -84,3 +84,13 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - O desenho dela é reduzido para até 360 px, perde o papel (pixels claros e sem cor) e é recortado; fica guardado como PNG junto com as personagens. Foto pela câmera só aparece quando há câmera de verdade; "Escolher foto" funciona sempre.
 - Nomes (grupo, idols, cachorro e gato) são digitados numa caixa aberta só por toque.
 - No menu, a legenda do narrador aparece no alto da tela, para não cobrir os botões.
+
+## Etapa 11
+
+- Dupla: quem aparece à esquerda da tela é a pessoa 1 (rosa) e quem aparece à direita é a pessoa 2 (azul); cada uma tem juiz, placar e estrelas próprios.
+- Álbum com 12 medalhas; elas são conferidas no fim de cada partida, ao salvar uma dança e ao abrir o álbum.
+- Turnê: 5 shows no nível fácil, na ordem das músicas. Cada show resgata um amigo; os shows 1, 3 e 5 também abrem Palco, Parque de patins e Ciclovia, mesmo sem as estrelas. Um show já feito pode ser repetido.
+- Estátua: até 2 paradas de 3 s por música, sorteadas no refrão, no meio do caminho entre duas poses; quem quase não se mexe ganha 50 pontos. `?semente=N` fixa o sorteio.
+- Detector de BPM: envelope de energia a 200 quadros por segundo, autocorrelação entre 80 e 180 BPM somando 4 múltiplos do período e, entre candidatos quase empatados, o mais rápido. Sem pulso claro, o modo surpresa usa 120 BPM.
+- Surpresa: o cartão só responde ao toque (o adulto escolhe o arquivo); o áudio fica só na memória, a fase não entra no menu e não guarda recorde. No fácil usa um trecho de até 75 s.
+- O editor da Área dos Pais ganhou o botão "Detectar BPM", que usa o mesmo detector.

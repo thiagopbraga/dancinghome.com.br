@@ -17,7 +17,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 8     | Área dos Pais e editor                   | ✅     |
 | 9     | Gravador de coreografias e modo treino   | ✅     |
 | 10    | Personagens, pets e desbloqueios         | ✅     |
-| 11    | Extras                                   | ⬜     |
+| 11    | Extras                                   | ✅     |
 
 ## Critérios de aceite
 
@@ -94,3 +94,9 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 - Feito: grupo de 3 idols originais desenhadas em código (`src/game/draw/idol.ts`), com nome, cor, penteado, cor do cabelo e acessório editáveis na tela "Meu grupo" (`Personagens.ts`); cachorro e gato (`draw/pets.ts`) que balançam no ritmo e pulam a cada "Perfeito!"; personagem a partir da foto do desenho dela (arquivo ou câmera, papel branco removido em `src/core/drawing.ts`, balanço no ritmo); 3 cenários novos (Palco, Parque de patins, Ciclovia) e figurinos liberados com 5, 15 e 30 estrelas.
 - Verificado: `npm run check` (`tests/unit/drawing.test.ts`) e `npm run test:e2e` (`tests/e2e/etapa10.spec.ts`): com progresso falso de 4, 5, 14, 15, 29 e 30 estrelas os cadeados abrem nos limites certos; cor por gesto, cabelo, acessório, nomes e cenário ficam guardados depois de recarregar; o contador de pulos dos pets é igual ao número de Perfeitos da partida; os 4 cenários aparecem na dança; uma "foto" de teste vira desenho recortado com fundo transparente e um papel em branco é recusado com explicação. Screenshots vistos: `etapa10-grupo-4-estrelas.png`, `etapa10-grupo-30-estrelas.png`, `etapa10-grupo-editado.png`, `etapa10-menu.png`, `etapa10-desenho.png` e `etapa10-cenario-{sala,palco,patins,ciclovia}.png`.
 - Fica para o teste manual: fotografar um desenho de verdade com a câmera do celular.
+
+### Etapa 11 · Extras
+
+- Feito: modo dupla (duas pessoas, cada uma com cor, nota e estrelas), álbum com 12 medalhas (`Album.ts`, regras em `src/data/progress.ts`), modo história "A Grande Turnê" (`Historia.ts`: 5 shows, cada um resgata um amigo e três deles abrem cenário), pose congelada "Estátua" (a música para 3 s e quem fica parado ganha 50 pontos), modo surpresa (música do aparelho, BPM detectado em `src/core/bpm.ts`, poses sorteadas em `src/data/surprise.ts`) e o botão "Detectar BPM" no editor da Área dos Pais.
+- Verificado: `npm run check` (`tests/unit/bpm.test.ts`: batidas sintéticas de 100, 120 e 140 BPM com erro abaixo de 2, fase da batida, música de demonstração, silêncio; fase surpresa válida) e `npm run test:e2e` (`tests/e2e/etapa11.spec.ts`): duas pessoas simuladas recebem duas notas diferentes (3 estrelas e 1 estrela); as medalhas liberam com progresso falso e aparecem no álbum, e uma partida de verdade avisa "Medalha nova" no resultado; na turnê, o show 1 resgata a Coelhinha Pluma, abre o Palco e libera o show 2; na estátua a música para, parada dá bônus e mexendo não dá; no modo surpresa um WAV de 123 BPM é detectado, a fase usa só poses fáceis, é jogável e não fica guardada. Screenshots vistos: `etapa11-dupla.png`, `etapa11-dupla-resultado.png`, `etapa11-album.png`, `etapa11-turne-inicio.png`, `etapa11-turne-1-show.png`, `etapa11-estatua.png`, `etapa11-surpresa.png`.
+- Fica para o teste manual: detector de BPM com músicas de verdade (o adulto pode corrigir o BPM no editor) e dupla com duas pessoas na câmera.
