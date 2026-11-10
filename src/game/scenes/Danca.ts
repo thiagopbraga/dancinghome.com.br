@@ -2,7 +2,7 @@
 import { mirrorAngles } from '../../core/angles';
 import { bothHandsUp, HoldDetector } from '../../core/gestures';
 import { EventJudge, movement } from '../../core/judge';
-import type { SongClock } from '../../core/clock';
+import type { MusicClock, MusicPlayer } from '../../core/clock';
 import type { Angles, ChoreoEvent, Landmark, PoseResult, Rating } from '../../core/types';
 import { expandSections, levelRange } from '../../data/choreo';
 import { CARD_H, CARD_W, drawPoseCard } from '../draw/card';
@@ -71,7 +71,14 @@ export class DancaScene implements Scene {
   frozen = false;
   /** Quantas vezes a música congelou (para os testes). */
   freezeCount = 0;
-  private clock!: SongClock;
+  private clock!: MusicClock;
+  /** Quem toca a música: o áudio do aparelho ou o vídeo do YouTube. */
+  private music!: MusicPlayer;
+  /** Esperando o vídeo do YouTube ficar pronto. */
+  loadingMusic = false;
+  /** A música virou palminhas porque o vídeo não pôde tocar. */
+  palminhas = false;
+  private exited = false;
   private readonly targets: Angles[];
   private readonly fim: number;
   private readonly inicio: number;
@@ -149,14 +156,65 @@ export class DancaScene implements Scene {
   enter(): void {
     const { game, setup } = this;
     const { choreo, cfg } = setup;
-    const rate = cfg.modo === 'treino' ? 0.5 : 1;
-    this.clock = game.audio.load(setup.buffer, choreo.bpm, choreo.offsetMs);
-    game.audio.play(this.clock.positionOfBeat(this.inicio), rate, 0.12);
+    const rate = this.playRate;
+    const yt = setup.youtube;
+    if (yt) {
+      // música do YouTube: o relógio da dança é o tempo do vídeo
+      this.music = game.youtube;
+      const clock = game.youtube.load(choreo.bpm, yt.offsetMs);
+      clock.seek(clock.positionOfBeat(this.inicio));
+      this.clock = clock;
+      this.loadingMusic = true;
+      void yt.pronto.then((ok) => {
+        if (this.exited) return;
+        this.loadingMusic = false;
+        if (ok) {
+          game.youtube.play(this.clock.positionOfBeat(this.inicio), rate);
+          if (this.paused || this.waiting || this.frozen) this.music.pause();
+        } else {
+          this.useClickTrack(this.inicio);
+        }
+      });
+    } else if (setup.buffer) {
+      this.music = game.audio;
+      this.clock = game.audio.load(setup.buffer, choreo.bpm, choreo.offsetMs);
+      game.audio.play(this.clock.positionOfBeat(this.inicio), rate, 0.12);
+    } else {
+      this.useClickTrack(this.inicio);
+    }
     this.bindSim();
     game.partida = { resultados: this.players.map((p) => p.results), cena: this };
     game.onMusic?.(true);
     document.addEventListener('visibilitychange', this.onVisibility);
     if (cfg.modo === 'treino') game.narrator.say(T.narrador.treino);
+  }
+
+  private get playRate(): number {
+    return this.setup.cfg.modo === 'treino' ? 0.5 : 1;
+  }
+
+  /** Sem vídeo (sem internet, vídeo bloqueado...): dança com palminhas no ritmo, a partir da batida `fromBeat`. */
+  private useClickTrack(fromBeat: number): void {
+    const { game, setup } = this;
+    game.youtube.stop();
+    this.palminhas = true;
+    const buffer = game.clickTrack(setup.choreo);
+    this.music = game.audio;
+    this.clock = game.audio.load(buffer, setup.choreo.bpm, 0);
+    game.audio.play(this.clock.positionOfBeat(Math.max(0, fromBeat)), this.playRate, 0.12);
+    if (this.paused || this.waiting || this.frozen) this.music.pause();
+    game.narrator.say(T.narrador.palminhas, { caption: false });
+    if (game.sim && this.simBound) {
+      this.simBound = false;
+      this.bindSim();
+    }
+  }
+
+  /** A música está parada esperando o vídeo (carregar, começar ou voltar de um engasgo). */
+  get musicWaiting(): boolean {
+    if (this.loadingMusic) return true;
+    if (this.music !== this.game.youtube) return false;
+    return this.game.youtube.waitingStart || this.game.youtube.buffering;
   }
 
   interrupt(): void {
@@ -172,7 +230,9 @@ export class DancaScene implements Scene {
   }
 
   exit(): void {
-    this.game.audio.stop();
+    this.exited = true;
+    this.music?.stop();
+    this.game.youtube.stop();
     this.game.sim?.clearTimeline();
     this.game.onMusic?.(false);
     document.removeEventListener('visibilitychange', this.onVisibility);
@@ -210,10 +270,10 @@ export class DancaScene implements Scene {
     this.ui.find('continuar')!.hidden = !p;
     this.ui.find('sair')!.hidden = !p;
     if (p) {
-      this.game.audio.pause();
+      this.music.pause();
       this.game.narrator.say(T.narrador.pausa, { caption: false });
-    } else if (!this.waiting && !this.frozen) {
-      this.game.audio.resume();
+    } else if (!this.waiting && !this.frozen && !this.loadingMusic) {
+      this.music.resume();
     }
     this.pauseHold.reset();
   }
@@ -299,6 +359,12 @@ export class DancaScene implements Scene {
       this.ui.update(dt, game.cursors());
       return;
     }
+    // vídeo do YouTube: se deu erro no meio, segue com as palminhas de onde parou
+    if (this.music === game.youtube && game.youtube.estado === 'erro') {
+      this.useClickTrack(this.clock.beat());
+    }
+    // esperando o vídeo: nada anda até a música tocar
+    if (this.musicWaiting && !this.waiting && !this.frozen) return;
     const clock = this.clock;
     const t = clock.now();
     const beat = clock.beat();
@@ -391,7 +457,7 @@ export class DancaScene implements Scene {
           this.waiting = false;
           this.trained.add(i);
           if (ok) game.sfx.play('boa');
-          game.audio.resume();
+          this.music.resume();
         }
         return;
       }
@@ -401,7 +467,7 @@ export class DancaScene implements Scene {
       if (i !== undefined && this.ending < 0) {
         this.waiting = true;
         this.waitTime = 0;
-        game.audio.pause();
+        this.music.pause();
         return;
       }
     }
@@ -438,9 +504,10 @@ export class DancaScene implements Scene {
     const trecho = this.fim < this.setup.choreo.duracaoBeats - 0.5;
     if (trecho && !this.fadeStarted && t >= fimTime - 2 * clock.rate) {
       this.fadeStarted = true;
-      game.audio.fadeOut(2);
+      this.music.fadeOut(2);
     }
-    const audioOver = clock.position() >= game.audio.duration - 0.03;
+    const audioOver =
+      clock.position() >= this.music.duration - 0.03 || (this.music === game.youtube && game.youtube.over);
     if (this.ending < 0 && (beat >= this.fim || audioOver)) {
       for (const i of this.open) this.players.forEach((pl) => this.rate(pl, i));
       this.finished += this.open.length;
@@ -458,7 +525,7 @@ export class DancaScene implements Scene {
     this.freezeTime = 0;
     this.freezeCount++;
     this.players.forEach((p) => (p.freezeMov = 0));
-    this.game.audio.pause();
+    this.music.pause();
     this.game.sfx.play('congela');
     this.game.narrator.say(T.narrador.estatua, { caption: false });
   }
@@ -479,7 +546,7 @@ export class DancaScene implements Scene {
       this.game.sfx.play('estrela');
       this.game.estatuasFeitas++;
     }
-    this.game.audio.resume();
+    this.music.resume();
   }
 
   private finish(): void {
@@ -553,6 +620,15 @@ export class DancaScene implements Scene {
         size: 60,
         color: '#dff6ff',
         outline: '#1d5fa8',
+        maxWidth: 640,
+      });
+    }
+    if (this.musicWaiting && !this.paused && !this.waiting && !this.frozen) {
+      const yt = game.youtube;
+      const demorou = yt.waitingStart && performance.now() / 1000 - yt.waitingSince > 4;
+      text(g, demorou ? T.danca.toqueVideo : T.danca.carregandoMusica, BASE_W / 2, 470, {
+        size: 34,
+        outline: COR.roxo,
         maxWidth: 640,
       });
     }
@@ -680,6 +756,8 @@ export class DancaScene implements Scene {
     esperando: boolean;
     congelado: boolean;
     congelamentos: number;
+    musica: 'youtube' | 'arquivo' | 'palminhas';
+    esperandoMusica: boolean;
   } {
     return {
       abertos: this.open.length,
@@ -689,6 +767,8 @@ export class DancaScene implements Scene {
       esperando: this.waiting,
       congelado: this.frozen,
       congelamentos: this.freezeCount,
+      musica: this.palminhas ? 'palminhas' : this.music === this.game.youtube ? 'youtube' : 'arquivo',
+      esperandoMusica: this.musicWaiting,
     };
   }
 }

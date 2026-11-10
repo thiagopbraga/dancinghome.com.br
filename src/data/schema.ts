@@ -71,6 +71,13 @@ export const ChoreoSchema = z.object({
   origem: z.enum(['base', 'demo', 'gravada', 'surpresa']).default('base'),
   /** Fases gravadas usam o áudio de outra música. */
   audioDe: z.string().optional(),
+  /**
+   * Vídeo do YouTube que toca a música dentro do jogo (quando não há arquivo de áudio no aparelho).
+   * offsetMs: onde cai a batida 0 no vídeo (o vídeo pode ter uma introdução diferente do arquivo).
+   */
+  youtube: z
+    .object({ id: z.string().regex(/^[A-Za-z0-9_-]{11}$/), offsetMs: z.number().default(0) })
+    .optional(),
   niveis: z
     .object({ facil: NivelDefSchema.optional(), normal: NivelDefSchema.optional() })
     .refine((n) => !!n.facil || !!n.normal, { message: 'a música precisa de pelo menos um nível' }),
@@ -143,6 +150,7 @@ export type Secao = z.infer<typeof SecaoSchema>;
 export type Evento = z.infer<typeof EventoSchema>;
 export type NivelDef = z.infer<typeof NivelDefSchema>;
 export type Choreo = z.infer<typeof ChoreoSchema>;
+export type YoutubeRef = NonNullable<Choreo['youtube']>;
 export type Limites = z.infer<typeof LimitesSchema>;
 export type Settings = z.infer<typeof SettingsSchema>;
 export type Melhor = z.infer<typeof MelhorSchema>;

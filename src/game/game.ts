@@ -1,5 +1,8 @@
 // Estado global do jogo: motor, áudio, dados e opções de URL. As cenas recebem este objeto.
 import { AudioEngine } from '../core/audio';
+import type { MusicClock } from '../core/clock';
+import { renderClickTrack } from '../core/clickTrack';
+import { YouTubeMusic } from '../core/youtube';
 import { DEFAULT_THRESHOLDS, type Thresholds } from '../core/judge';
 import { Narrator } from '../core/narrator';
 import { summarize, type Summary } from '../core/stars';
@@ -19,7 +22,8 @@ import {
   unlockedBetween,
   type Conquista,
 } from '../data/progress';
-import type { Characters, Choreo, Progress, Settings } from '../data/schema';
+import { levelRange } from '../data/choreo';
+import type { Characters, Choreo, Progress, Settings, YoutubeRef } from '../data/schema';
 import { DEMO_ID, loadBaseData } from '../data/songs';
 import { defaultCharacters, defaultProgress, defaultSettings, Storage } from '../data/storage';
 import type { Companions } from './companions';
@@ -61,6 +65,9 @@ export function readFlags(search: string, dev: boolean): Flags {
   };
 }
 
+/** Cenas em que o vídeo do YouTube da partida continua aberto. */
+const MATCH_SCENES = new Set(['calibracao', 'contagem', 'danca']);
+
 export type Route = (game: Game, params?: unknown) => Scene;
 /** O que a tela de resultado mostra além das estrelas. */
 export interface MatchReport {
@@ -74,6 +81,8 @@ export type PoseState = 'desligada' | 'carregando' | 'pronta' | 'erro';
 
 export class Game {
   readonly audio = new AudioEngine();
+  /** Música tocando de um vídeo do YouTube, quando a música não tem arquivo no aparelho. */
+  readonly youtube = new YouTubeMusic();
   readonly tracker = new PoseTracker();
   readonly routes: Record<string, Route> = {};
   readonly video = document.getElementById('camera') as HTMLVideoElement;
@@ -194,6 +203,7 @@ export class Game {
     this.limites = { ...this.settings.limites };
     this.narrator.enabled = this.settings.voz;
     this.audio.setVolume(this.settings.volume);
+    this.youtube.setVolume(this.settings.volume);
     this.cenario = this.characters.cenario;
     this.groupName = this.characters.grupo;
   }
@@ -233,6 +243,8 @@ export class Game {
     const route = this.routes[name];
     if (!route) throw new Error(`cena desconhecida: ${name}`);
     this.narrator.caption = null;
+    // o vídeo só fica aberto do começo da partida até o fim da dança
+    if (!MATCH_SCENES.has(name)) this.youtube.stop();
     this.engine.setScene(route(this, params));
   }
 
@@ -301,10 +313,49 @@ export class Game {
     return show >= 0 && show < this.progress.historia;
   }
 
-  /** A música tem áudio pronto para tocar? (a demonstração sempre tem) */
+  /** A música tem como tocar? Arquivo no aparelho ou vídeo do YouTube (a demonstração sempre tem). */
   hasAudio(choreo: Choreo): boolean {
+    return this.hasAudioFile(choreo) || !!this.youtubeOf(choreo);
+  }
+
+  /** A música tem arquivo de áudio no aparelho? (o gravador e o editor de partes precisam dele) */
+  hasAudioFile(choreo: Choreo): boolean {
     const id = choreo.audioDe ?? choreo.id;
     return id === DEMO_ID || this.audioIds.has(id) || this.tempAudio.has(id);
+  }
+
+  /** Vídeo do YouTube da música (as danças gravadas usam o da música de origem). */
+  youtubeOf(choreo: Choreo): YoutubeRef | null {
+    if (choreo.youtube) return choreo.youtube;
+    if (choreo.audioDe) return this.song(choreo.audioDe)?.youtube ?? null;
+    return null;
+  }
+
+  /** Guarda (ou tira, com null) o vídeo do YouTube de uma música. */
+  async saveYoutube(songId: string, ref: YoutubeRef | null): Promise<void> {
+    const song = this.song(songId);
+    if (!song) return;
+    const next: Choreo = { ...song };
+    if (ref) next.youtube = ref;
+    else delete next.youtube;
+    if (this.store) {
+      await this.store.saveChoreo(next);
+      await this.reload();
+    } else {
+      this.songs = this.songs.map((c) => (c.id === songId ? next : c));
+    }
+  }
+
+  /** Relógio da música que está tocando agora (arquivo ou YouTube). */
+  musicClock(): MusicClock | null {
+    return this.youtube.clock ?? this.audio.clock;
+  }
+
+  /** Palminhas no ritmo da música, para dançar quando o vídeo não pode tocar. */
+  clickTrack(choreo: Choreo): AudioBuffer {
+    const ctx = this.audio.ensure();
+    const rate = Math.min(ctx.sampleRate, 16000);
+    return this.audio.fromSamples(renderClickTrack(choreo.bpm, Math.ceil(choreo.duracaoBeats)), rate);
   }
 
   /** Áudio decodificado de uma música, ou null se ninguém carregou o arquivo ainda. */
@@ -333,12 +384,19 @@ export class Game {
     const choreo = cfg.choreo ?? this.song(cfg.songId);
     if (!choreo) return false;
     const buffer = await this.audioFor(choreo);
-    if (!buffer) {
+    const yt = buffer ? null : this.youtubeOf(choreo);
+    if (!buffer && !yt) {
       this.narrator.say(T.narrador.cadeado);
       return false;
     }
     void this.startPose(cfg.dupla ? 2 : 1);
     const setup: MatchSetup = { cfg, choreo, buffer };
+    if (yt) {
+      // o vídeo carrega enquanto ela se posiciona na calibração
+      const inicio = levelRange(choreo, cfg.nivel).inicio;
+      const start = (inicio * 60) / choreo.bpm + yt.offsetMs / 1000;
+      setup.youtube = { id: yt.id, offsetMs: yt.offsetMs, pronto: this.youtube.prepare(yt.id, start) };
+    }
     this.go('calibracao', setup);
     return true;
   }

@@ -16,6 +16,7 @@ import {
 } from '../../data/editor';
 import { describeZodError, type Choreo, type Settings } from '../../data/schema';
 import { BASE_SONG_IDS } from '../../data/songs';
+import { parseYouTubeId, type VideoClock } from '../../core/youtube';
 import { drawBackdrop } from '../draw/backdrop';
 import type { Scene, View } from '../engine';
 import type { Game } from '../game';
@@ -64,10 +65,18 @@ interface Editor {
   ultimaBatida: number;
 }
 
+/** Teste da sincronia com o vídeo do YouTube: o vídeo toca com um clique em cada batida. */
+interface YtTeste {
+  id: string;
+  clock: VideoClock | null;
+  ultimaBatida: number;
+}
+
 export class PaisScene implements Scene {
   readonly name = 'pais';
   private readonly root: HTMLDivElement;
   private editor: Editor | null = null;
+  private ytTeste: YtTeste | null = null;
   private aviso = '';
   private readonly onKey = (ev: KeyboardEvent): void => this.keydown(ev);
 
@@ -90,10 +99,12 @@ export class PaisScene implements Scene {
   exit(): void {
     document.removeEventListener('keydown', this.onKey, true);
     this.game.audio.stop();
+    this.game.youtube.stop();
     this.root.remove();
   }
 
   update(): void {
+    this.updateYtTeste();
     const ed = this.editor;
     if (!ed?.clock) return;
     const beat = ed.clock.beat();
@@ -167,6 +178,14 @@ export class PaisScene implements Scene {
         el('strong', {}, 'O áudio fica guardado só neste aparelho e não é enviado para lugar nenhum.'),
         ' Depois de carregar, use "Marcar partes" para acertar a batida e o começo de cada parte.',
       ),
+      el(
+        'p',
+        {},
+        el('strong', {}, 'Sem arquivo? Use um vídeo do YouTube. '),
+        'Cole o link do vídeo da música e toque em "Salvar link". A música toca dentro do jogo, num player pequeno no canto, e começa sozinha junto com a dança. ',
+        'Precisa de internet. Depois use "Testar a batida": o vídeo toca com um clique em cada batida. ',
+        'Toque em "Começou a batida!" no primeiro tempo forte da música e acerte o resto com os botões de ajuste até os cliques caírem junto com a música.',
+      ),
     );
     for (const id of BASE_SONG_IDS) {
       const song = game.song(id);
@@ -186,12 +205,14 @@ export class PaisScene implements Scene {
           el('span', { class: 'nome' }, song.title),
           el(
             'span',
-            { class: tem ? 'ok' : '' },
+            { class: tem || song.youtube ? 'ok' : '' },
             tem
               ? song.calibrado
                 ? 'com áudio · partes marcadas'
                 : 'com áudio · falta marcar as partes'
-              : 'sem áudio',
+              : song.youtube
+                ? 'toca pelo YouTube'
+                : 'sem áudio',
           ),
           el('label', { class: 'botao' }, tem ? 'Trocar o áudio' : 'Carregar música', input),
           tem &&
@@ -199,6 +220,7 @@ export class PaisScene implements Scene {
           tem &&
             el('button', { 'data-remover': id, onclick: () => void this.removeAudio(id) }, 'Remover o áudio'),
         ),
+        this.youtubeLinha(song),
       );
     }
     const gravadas = game.songs.filter((s) => s.origem === 'gravada');
@@ -251,6 +273,170 @@ export class PaisScene implements Scene {
       this.aviso = 'Não consegui abrir este arquivo. Tente um MP3, M4A ou WAV.';
     }
     this.render();
+  }
+
+  // ---------- YouTube ----------
+
+  private youtubeLinha(song: Choreo): HTMLElement {
+    const id = song.id;
+    const yt = song.youtube;
+    const testando = this.ytTeste?.id === id;
+    const campo = el('input', {
+      type: 'url',
+      'data-youtube': id,
+      placeholder: 'Link do YouTube (https://youtu.be/...)',
+      value: yt ? `https://youtu.be/${yt.id}` : '',
+    });
+    const ajuste = (delta: number): HTMLElement =>
+      el(
+        'button',
+        { 'data-youtube-ajuste': `${id}:${delta}`, onclick: () => void this.ajustarYoutube(id, delta) },
+        `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ms`,
+      );
+    return el(
+      'div',
+      { class: 'linha youtube', 'data-linha-youtube': id },
+      el('span', { class: 'nome' }, 'YouTube'),
+      campo,
+      el(
+        'button',
+        { 'data-youtube-salvar': id, onclick: () => void this.salvarYoutube(id, campo.value) },
+        'Salvar link',
+      ),
+      yt &&
+        el(
+          'button',
+          { 'data-youtube-testar': id, onclick: () => void this.testarYoutube(id) },
+          testando ? 'Parar o teste' : 'Testar a batida',
+        ),
+      yt &&
+        testando &&
+        el(
+          'button',
+          { class: 'primario', 'data-youtube-comecou': id, onclick: () => void this.marcarComeco(id) },
+          'Começou a batida!',
+        ),
+      yt && ajuste(-100),
+      yt && ajuste(-10),
+      yt &&
+        el(
+          'span',
+          { 'data-youtube-offset': id, title: 'Onde cai a primeira batida no vídeo' },
+          `ajuste: ${Math.round(yt.offsetMs)} ms`,
+        ),
+      yt && ajuste(10),
+      yt && ajuste(100),
+      yt && testando && el('span', { class: 'ok', id: 'yt-batida' }, '–'),
+      yt &&
+        el(
+          'button',
+          { 'data-youtube-remover': id, onclick: () => void this.removerYoutube(id) },
+          'Tirar o vídeo',
+        ),
+    );
+  }
+
+  private async salvarYoutube(id: string, link: string): Promise<void> {
+    const videoId = parseYouTubeId(link);
+    if (!videoId) {
+      this.say('Não entendi este link. Copie o endereço do vídeo no YouTube (Compartilhar → Copiar link).');
+      return;
+    }
+    const atual = this.game.song(id)?.youtube;
+    const offsetMs = atual?.id === videoId ? atual.offsetMs : (this.game.song(id)?.offsetMs ?? 0);
+    await this.game.saveYoutube(id, { id: videoId, offsetMs });
+    this.aviso = 'Vídeo guardado. Agora toque em "Testar a batida" para conferir a sincronia.';
+    this.render();
+  }
+
+  private async removerYoutube(id: string): Promise<void> {
+    if (this.ytTeste?.id === id) this.pararYoutube();
+    await this.game.saveYoutube(id, null);
+    this.aviso = 'Vídeo tirado desta música.';
+    this.render();
+  }
+
+  private pararYoutube(): void {
+    this.ytTeste = null;
+    this.game.youtube.stop();
+  }
+
+  private async testarYoutube(id: string): Promise<void> {
+    const game = this.game;
+    if (this.ytTeste) {
+      const era = this.ytTeste.id;
+      this.pararYoutube();
+      this.render();
+      if (era === id) return;
+    }
+    const song = game.song(id);
+    const yt = song?.youtube;
+    if (!song || !yt) return;
+    game.audio.stop();
+    game.audio.ensure(); // para o clique da batida
+    this.ytTeste = { id, clock: null, ultimaBatida: -1 };
+    this.render();
+    this.say('Abrindo o vídeo...');
+    const ok = await game.youtube.prepare(yt.id, 0);
+    if (this.ytTeste?.id !== id) return;
+    if (!ok) {
+      this.ytTeste = null;
+      this.render();
+      this.say(game.youtube.erro ?? 'O vídeo não abriu.');
+      return;
+    }
+    const clock = game.youtube.load(song.bpm, yt.offsetMs);
+    this.ytTeste.clock = clock;
+    this.ytTeste.ultimaBatida = Math.floor(clock.beat());
+    game.youtube.play(0, 1);
+    this.say('Tocando. Os cliques devem cair junto com a batida da música.');
+  }
+
+  private updateYtTeste(): void {
+    const t = this.ytTeste;
+    if (!t?.clock) return;
+    const beat = t.clock.beat();
+    const whole = Math.floor(beat);
+    const box = this.root.querySelector('#yt-batida');
+    if (box) box.textContent = t.clock.running && beat >= 0 ? `batida ${whole}` : '–';
+    if (t.clock.running && whole > t.ultimaBatida) {
+      t.ultimaBatida = whole;
+      if (whole >= 0) this.game.sfx.play(whole % 4 === 0 ? 'clique' : 'tick');
+    }
+  }
+
+  private async mudarOffset(id: string, offsetMs: number): Promise<void> {
+    const yt = this.game.song(id)?.youtube;
+    if (!yt) return;
+    const novo = Math.round(Math.max(-10_000, Math.min(120_000, offsetMs)));
+    await this.game.saveYoutube(id, { id: yt.id, offsetMs: novo });
+    const label = this.root.querySelector(`[data-youtube-offset="${id}"]`);
+    if (label) label.textContent = `ajuste: ${novo} ms`;
+    const t = this.ytTeste;
+    if (t?.id === id && t.clock) {
+      t.clock.offsetMs = novo;
+      t.ultimaBatida = Math.floor(t.clock.beat());
+    }
+  }
+
+  private async ajustarYoutube(id: string, delta: number): Promise<void> {
+    const yt = this.game.song(id)?.youtube;
+    if (!yt) return;
+    await this.mudarOffset(id, yt.offsetMs + delta);
+    this.say(
+      delta > 0
+        ? 'Os passos agora vêm um pouquinho mais tarde.'
+        : 'Os passos agora vêm um pouquinho mais cedo.',
+    );
+  }
+
+  /** O adulto toca no primeiro tempo forte: a batida 0 passa a cair neste ponto do vídeo. */
+  private async marcarComeco(id: string): Promise<void> {
+    const t = this.ytTeste;
+    const pos = t?.clock?.position();
+    if (!t || t.id !== id || pos === undefined) return;
+    await this.mudarOffset(id, pos * 1000);
+    this.say('Marcado! Se os cliques ainda escorregarem, acerte com os botões de ajuste.');
   }
 
   private async removeAudio(id: string): Promise<void> {

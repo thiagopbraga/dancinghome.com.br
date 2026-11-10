@@ -1,7 +1,7 @@
 // Web Audio: carregar, tocar, pausar, retomar, playbackRate e fade. O relógio do jogo vem daqui.
-import { SongClock } from './clock';
+import { SongClock, type MusicPlayer } from './clock';
 
-export class AudioEngine {
+export class AudioEngine implements MusicPlayer {
   ctx: AudioContext | null = null;
   clock: SongClock | null = null;
   buffer: AudioBuffer | null = null;

@@ -63,6 +63,8 @@ export const T = {
     estatuaQuase: 'Valeu a tentativa!',
     treinoEspera: 'Faça a pose para a música continuar',
     treinoBoa: 'Isso! Vamos em frente!',
+    carregandoMusica: 'Carregando a música...',
+    toqueVideo: 'Toque no vídeo para a música começar',
     jogadora: ['Rosa', 'Azul'],
   },
 
@@ -125,6 +127,7 @@ export const T = {
     medalha: 'Você ganhou uma medalha!',
     dupla: 'Fiquem lado a lado!',
     cadeado: 'Peça para um adulto carregar a música.',
+    palminhas: 'Hoje a música vai ser de palminhas! Vamos dançar!',
     comemoracoes: ['Uau!', 'Isso aí!', 'Que demais!', 'Arrasou!', 'Lindo!'],
   },
 

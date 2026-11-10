@@ -8,7 +8,30 @@ export interface TimeSource {
   readonly baseLatency?: number;
 }
 
-export class SongClock implements AudioClock {
+/** O relógio que a cena de dança usa: o do áudio carregado ou o do vídeo do YouTube. */
+export interface MusicClock extends AudioClock {
+  readonly bpm: number;
+  readonly offsetMs: number;
+  readonly rate: number;
+  readonly running: boolean;
+  /** Posição do arquivo (ou do vídeo) que está sendo ouvida, em segundos. */
+  position(): number;
+  positionOfBeat(b: number): number;
+}
+
+/** Quem toca a música da dança: o AudioEngine (arquivo no aparelho) ou o YouTubeMusic. */
+export interface MusicPlayer {
+  readonly clock: MusicClock | null;
+  /** Duração da música em segundos. */
+  readonly duration: number;
+  play(position?: number, rate?: number): void;
+  pause(): void;
+  resume(): void;
+  fadeOut(seconds: number): void;
+  stop(): void;
+}
+
+export class SongClock implements MusicClock {
   rate = 1;
   running = false;
   private anchorCtx = 0;
