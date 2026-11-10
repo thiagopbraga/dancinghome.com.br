@@ -29,7 +29,8 @@ export async function clicarBotao(page: Page, id: string): Promise<void> {
 /** Gesto simulado: segura a mão em cima do botão até a cena mudar ou o botão sumir. */
 export async function apontar(page: Page, id: string): Promise<void> {
   await page.waitForFunction((bid) => window.__ensaio?.botoes().some((b) => b.id === bid && !b.disabled), id);
-  await page.evaluate((bid) => window.__ensaio!.apontar(bid), id);
+  // a pose simulada termina de carregar um instante depois do "Começar"
+  await page.waitForFunction((bid) => window.__ensaio!.apontar(bid), id);
 }
 
 export async function soltar(page: Page): Promise<void> {

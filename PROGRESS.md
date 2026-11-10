@@ -15,7 +15,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 6     | Narração, progresso e as 5 músicas (MVP) | ✅     |
 | 7     | Celular e offline                        | ✅     |
 | 8     | Área dos Pais e editor                   | ✅     |
-| 9     | Gravador de coreografias e modo treino   | ⬜     |
+| 9     | Gravador de coreografias e modo treino   | ✅     |
 | 10    | Personagens, pets e desbloqueios         | ⬜     |
 | 11    | Extras                                   | ⬜     |
 
@@ -83,3 +83,8 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 - Feito: Área dos Pais (`src/game/scenes/Pais.ts`), aberta segurando o botão "Pais" por 3 s: carregar o áudio de cada música (guardado como Blob no IndexedDB, com o aviso de que não sai do aparelho), editor de partes (toca a música e o botão "Marcar" ou a barra de espaço marca cada parte na batida mais próxima), ajuste de `offsetMs` e BPM com metrônomo por cima da música, gravador de pose do catálogo (`GravarPose.ts`), exportar e importar os dados em JSON, e configurações (modelo, volume, voz, limites de nota).
 - Verificado: `npm run check` (`tests/unit/editor.test.ts`: marcações, pose final, duração, média de ângulos) e `npm run test:e2e` (`tests/e2e/etapa8.spec.ts`): carregar um WAV gerado no teste libera "Brilho" no menu e a partida roda com ele a 123 BPM; marcar as 5 partes com a barra de espaço grava `"calibrado": true`, o `offsetMs` novo e as seções, e tudo continua depois de recarregar; regravar a pose "Estrela" troca os ângulos pelos medidos (erro de até 3°) e "Voltar ao original" desfaz; exportar num contexto e importar em outro devolve o mesmo arquivo, sem áudio, e um arquivo errado é recusado com mensagem clara. Screenshots vistos: `etapa8-pais.png`, `etapa8-editor.png`, `etapa8-gravar-pose.png`, `etapa8-musica-liberada.png`.
 - Fica para o teste manual: carregar MP3 de verdade no celular e acertar o `offsetMs` de cada arquivo de ouvido.
+
+### Etapa 9 · Gravador e treino
+
+- Feito: gravador de coreografias (`src/game/scenes/Gravador.ts` e regras puras em `src/core/recorder.ts`) com os 5 passos: escolher a música e o intervalo (4 ou 8 batidas), dançar com a música, retrato a cada N batidas, revisão (tirar ou recolocar retratos, dar nome à dança e às poses novas) e salvar como fase com `eventos`. Retratos com pouca visibilidade ou parados são descartados e os membros que não se mexeram saem da pose. Modo treino a 0,5x pelo botão "Treinar": a música pausa na batida de cada pose até "Muito bem" ou 6 s.
+- Verificado: `npm run check` (`tests/unit/recorder.test.ts`) e `npm run test:e2e` (`tests/e2e/etapa9.spec.ts`): com `?sim=1`, gravar 16 batidas gera uma fase com 2 poses (uma do catálogo e uma nova, com o nome dado), que aparece no menu de músicas, é jogável com 100% de Perfeito e continua lá depois de recarregar; no treino a música toca a 0,5x, para na batida 4 enquanto ela está parada e só anda depois da pose, sem mexer nos recordes. Screenshots vistos: `etapa9-escolha.png`, `etapa9-gravando.png`, `etapa9-revisao.png`, `etapa9-nomes.png`, `etapa9-no-menu.png`, `etapa9-treino.png`.

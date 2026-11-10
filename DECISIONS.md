@@ -67,3 +67,12 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - O gravador de pose do catálogo usa contagem de 3 s e depois 2 s de média; guarda só os ângulos que a pose original já usava. Se o corpo aparece em menos de 60% das amostras, pede para tentar de novo.
 - A exportação leva configurações, progresso, personagens, coreografias e poses. O áudio nunca entra no arquivo.
 - Trocar o modelo (leve ou completo) vale na próxima vez que a câmera ligar.
+
+## Etapa 9
+
+- No gravador, o BPM vem da música escolhida (o adulto ajusta na Área dos Pais); ela só escolhe a música e se quer uma pose a cada 4 ou 8 batidas.
+- A gravação vai até o fim do trecho fácil da música (ou até o toque em "Pronto"); o primeiro retrato é na batida 4.
+- Um retrato é descartado quando os braços não aparecem bem ou quando ela está só em pé. Perna em pé (quadril e joelho perto de 180°) não entra na pose; se algum membro se mexeu, os dois braços entram.
+- Retrato parecido com uma pose do catálogo (diferença média de até 15°, mesmos ângulos) reaproveita a pose; o resto vira pose nova, com nome "Pose nova N" até alguém dar outro nome na caixa "Dar nomes" (só por toque).
+- A fase gravada usa o áudio da música de origem (`audioDe`), guarda `eventos` e vai para o nível fácil (ou normal, se tiver pose com perna). Precisa de pelo menos 2 poses para salvar.
+- O treino entra pelo botão "Treinar" do menu, sem dupla nem estátua, e não mexe nos recordes.

@@ -6,6 +6,7 @@ import { CalibracaoScene } from './Calibracao';
 import { ContagemScene } from './Contagem';
 import { DancaScene } from './Danca';
 import { EsqueletoScene } from './Esqueleto';
+import { GravadorScene } from './Gravador';
 import { GravarPoseScene } from './GravarPose';
 import { InicioScene } from './Inicio';
 import { MenuScene } from './Menu';
@@ -35,5 +36,7 @@ export function registerScenes(game: Game): void {
   r.danca = (g, p) => new DancaScene(g, (p as MatchSetup | undefined) ?? demoSetup(g));
   r.pais = (g, p) => new PaisScene(g, (p as PaisParams | undefined) ?? {});
   r.gravarPose = (g, p) => new GravarPoseScene(g, (p as string | undefined) ?? 'estrela');
+  r.gravador = (g) => new GravadorScene(g);
+  r.treinoMusicas = (g) => new MusicasScene(g, { modo: 'treino' });
   r.resultado = (g, p) => new ResultadoScene(g, p as Outcome);
 }

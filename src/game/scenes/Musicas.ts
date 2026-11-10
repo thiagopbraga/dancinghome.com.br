@@ -18,6 +18,10 @@ const CARD_COLORS = ['#ff5fa8', '#2f8fe0', '#ff9a3d', '#2aa86a', '#8a4dff', '#d9
 
 export interface MusicasParams {
   modo: PlayConfig['modo'];
+  /** Frase para o narrador dizer ao abrir (por exemplo, depois de salvar uma dança). */
+  aviso?: string;
+  /** 'fim': abre na última página, onde ficam as danças criadas por ela. */
+  pagina?: 'fim';
 }
 
 export class MusicasScene implements Scene {
@@ -40,11 +44,12 @@ export class MusicasScene implements Scene {
     this.ui = new ButtonSet([], (kind) => {
       if (kind === 'select') game.sfx.play('select');
     });
+    if (params.pagina === 'fim') this.page = Math.max(0, Math.ceil(this.songs.length / PER_PAGE) - 1);
     this.showList();
   }
 
   enter(): void {
-    this.game.narrator.say(T.narrador.escolhaMusica);
+    this.game.narrator.say(this.params.aviso ?? T.narrador.escolhaMusica);
   }
 
   private get pages(): number {
