@@ -10,7 +10,7 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 | 1     | Dados e regras puras                     | ✅     |
 | 2     | Áudio e relógio                          | ✅     |
 | 3     | Câmera e esqueleto                       | ✅     |
-| 4     | Cena de dança                            | ⬜     |
+| 4     | Cena de dança                            | ✅     |
 | 5     | Fluxo completo da partida                | ⬜     |
 | 6     | Narração, progresso e as 5 músicas (MVP) | ⬜     |
 | 7     | Celular e offline                        | ⬜     |
@@ -56,3 +56,8 @@ Legenda: ⬜ não começou · 🟨 em andamento · ✅ pronta
 - Feito: `camera.ts` (frontal, 640x480), `MediaPipePoseSource` com GPU e recuo para CPU carregando wasm e modelo de `public/mediapipe/`, filtro One Euro, `SimulatedPoseSource` (`?sim=1`), `PoseTracker`, gestos (`gestures.ts`), cena do vídeo espelhado com esqueleto (`?cena=esqueleto`), painel `?debug=1` com fps, visibilidade média, os 8 ângulos e "braço direito" ou "braço esquerdo", tela amigável quando a câmera não liga.
 - Verificado: `npm run check` (`tests/unit/gestures.test.ts`) e `npm run test:e2e` (`tests/e2e/etapa3.spec.ts`): com `?sim=1` o esqueleto aparece, o pulso sobe quando o roteiro levanta o braço direito e o painel escreve "braço direito"; com a câmera recusada aparece a tela "Precisamos da câmera" sem erro de página; com a câmera falsa do Chromium o MediaPipe de verdade carrega só de `localhost` e entrega quadros. Screenshots: `etapa3-esqueleto.png`, `etapa3-sem-camera.png`.
 - Fica para o teste manual: levantar o braço direito de verdade e o painel dizer "braço direito".
+
+### Etapa 4 · Cena de dança
+
+- Feito: cena da dança (`src/game/scenes/Danca.ts`) com o espelho no centro, cartões de pose desenhados em código que deslizam até o alvo 4 batidas antes, nome da próxima pose em letras grandes, placar, barra de progresso, palavra de incentivo e estrelinhas a cada nota, poses seguradas com barra, fade de 2 s no fim do trecho, pausa (gesto, toque ou Esc) e tela de resultado com as estrelas.
+- Verificado: `npm run test:e2e` (`tests/e2e/etapa4.spec.ts`): com `?sim=1&cena=danca` a demonstração inteira no fácil avalia os 15 eventos na ordem, com 100% de Perfeito e sem erro de página; errando de propósito a nota cai e a pose seguinte volta a ser Perfeito. Screenshots vistos: `etapa4-danca.png` e `etapa4-resultado.png`.

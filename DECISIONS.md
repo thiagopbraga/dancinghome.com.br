@@ -32,3 +32,13 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - **O filtro One Euro usa o relógio de parede**, não o do áudio, porque o relógio do áudio para na pausa e no treino.
 - **A regra do ESLint que barra `TODO` só olha o começo do comentário**, porque "todo" é uma palavra comum em português.
 - **O teste "sem permissão de câmera" troca o `getUserMedia` por uma recusa**, já que o Chromium dos testes roda com a permissão sempre aceita (`--use-fake-ui-for-media-stream`).
+
+## Etapas 4 e 5
+
+- Tela da dança: o espelho fica no centro, a pista de cartões embaixo (o alvo fica à esquerda, em x=230) e o cenário atrás. O nome da próxima pose fica na coluna da esquerda para não cobrir o rosto no espelho.
+- O gesto de pausa (duas mãos para o alto por 1 s) é ignorado perto de poses que pedem os dois braços para cima; a pausa também funciona com toque na tela e com a tecla Esc.
+- A pose simulada pode carregar depois da cena abrir, então a dança liga o roteiro da simulação no primeiro quadro em que ela existe.
+- O narrador fala o nome da pose só no nível fácil, para não atropelar a música no normal.
+- Quando o aparelho não tem voz em português, as falas viram legenda grande no pé da tela; os botões do resultado ficam acima dela.
+- Sinalizador `?fim=N` (só no servidor de desenvolvimento): termina a música depois de N batidas, para os testes curtos.
+- A calibração tem um botão "Pular" que só funciona por toque, para o adulto.

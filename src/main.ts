@@ -1,5 +1,6 @@
 import './style.css';
 import { Engine } from './game/engine';
+import { drawCaption } from './game/draw/caption';
 import { drawDebug } from './game/debug';
 import { Game, readFlags } from './game/game';
 import { registerScenes } from './game/scenes';
@@ -15,9 +16,11 @@ engine.onSceneChange = (name) => {
 };
 engine.beforeUpdate = (dt) => {
   game.time += dt;
+  game.narrator.update(dt);
   game.tracker.update(game.audio.clock?.now() ?? game.time);
 };
 engine.afterDraw = (g, v) => {
+  drawCaption(g, game.narrator.caption?.text ?? null);
   if (flags.debug) drawDebug(g, v, game);
 };
 

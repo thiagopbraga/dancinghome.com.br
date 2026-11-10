@@ -21,6 +21,8 @@ export interface Button {
   hidden?: boolean;
   selected?: boolean;
   fontSize?: number;
+  /** Desenho próprio do miolo do botão (substitui ícone e texto). */
+  content?: (g: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) => void;
   onSelect: () => void;
 }
 
@@ -30,7 +32,8 @@ export class ButtonSet {
   hoverId: string | null = null;
   progress = 0;
   private armed = true;
-  private grace = 0.5;
+  /** Tempo, em segundos, em que os gestos ainda não valem (evita escolher sem querer ao trocar de tela). */
+  grace = 0.5;
   private holdId: string | null = null;
   private holdTime = 0;
 
@@ -39,6 +42,16 @@ export class ButtonSet {
     private readonly onFeedback?: (kind: 'select' | 'hover') => void,
     private readonly dwell = DWELL_SECONDS,
   ) {}
+
+  /** Troca os botões (ao mudar de estado dentro da mesma cena). */
+  setButtons(buttons: Button[], grace = 0.7): void {
+    this.buttons = buttons;
+    this.hoverId = null;
+    this.progress = 0;
+    this.armed = true;
+    this.grace = grace;
+    this.holdId = null;
+  }
 
   find(id: string): Button | undefined {
     return this.buttons.find((b) => b.id === id);
@@ -141,7 +154,9 @@ export class ButtonSet {
       g.strokeStyle = b.selected ? COR.amarelo : COR.branco;
       g.stroke();
       const size = b.fontSize ?? Math.min(48, h * 0.32);
-      if (b.icon) {
+      if (b.content) {
+        b.content(g, x, y, w, h);
+      } else if (b.icon) {
         const iconSize = Math.min(w, h) * (b.label ? 0.42 : 0.6);
         b.icon(g, x + w / 2, y + h * (b.label ? 0.38 : 0.5), iconSize);
         if (b.label)

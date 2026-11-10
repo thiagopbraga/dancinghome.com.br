@@ -3,6 +3,7 @@ import type { SimAction, SimGesture } from '../core/simPose';
 import type { Landmark } from '../core/types';
 import { debugLines } from './debug';
 import type { Game } from './game';
+import type { DancaScene } from './scenes/Danca';
 import type { ButtonSet } from './ui';
 
 function sceneUi(game: Game): ButtonSet | undefined {
@@ -50,6 +51,23 @@ export function installTestApi(game: Game) {
       s.porEvento = porEvento;
     },
     sim: () => game.sim,
+    /** Resultados da partida em andamento (ou da última), por pessoa. */
+    resultados: (pessoa = 0) =>
+      (game.partida?.resultados[pessoa] ?? []).map((r) => ({
+        beat: r.event.beat,
+        pose: r.event.pose,
+        rating: r.rating,
+        points: r.points,
+        energy: r.energy,
+        diff: r.bestDiff,
+      })),
+    danca: () => (game.partida?.cena as DancaScene | undefined)?.estado() ?? null,
+    eventos: () => (game.partida?.cena as DancaScene | undefined)?.events ?? [],
+    legenda: () => game.narrator.caption?.text ?? null,
+    falas: () => [...game.narrator.history],
+    sons: () => ({ ...game.sfx.counts }),
+    /** Dados da cena atual que os testes consultam (estrelas do resultado, calibração...). */
+    cenaAtual: () => game.engine.scene as unknown as Record<string, unknown>,
   };
   window.__ensaio = api;
   return api;
