@@ -23,7 +23,9 @@ import { SemCameraScene } from './SemCamera';
 function demoSetup(game: Game): MatchSetup {
   const choreo = game.song(DEMO_ID);
   if (!choreo) throw new Error('música de demonstração ausente');
-  return { cfg: defaultConfig(DEMO_ID), choreo, buffer: game.demoAudio() };
+  const cfg = defaultConfig(DEMO_ID);
+  game.preparePlacarTicket(cfg, choreo);
+  return { cfg, choreo, buffer: game.demoAudio() };
 }
 
 export function registerScenes(game: Game): void {

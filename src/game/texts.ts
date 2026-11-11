@@ -89,6 +89,13 @@ export const T = {
     novaConquista: 'Medalha nova',
     desbloqueou: 'Você ganhou',
     proximoShow: 'Próximo show',
+    escolhaApelido: 'Escolha seu apelido do placar:',
+    outrosApelidos: 'Outros nomes',
+    mandarPlacar: 'Mandar para o placar',
+    enviandoPlacar: 'Enviando...',
+    placarTop10: 'Seu nome está no placar da semana!',
+    placarEnviado: 'Pontos enviados para o placar!',
+    placarOffline: 'Guardado aqui no aparelho!',
   },
 
   camera: {

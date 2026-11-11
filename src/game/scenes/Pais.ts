@@ -1,6 +1,7 @@
 // Área dos Pais: um painel em HTML por cima do jogo, para o adulto.
 // Carregar músicas, marcar as partes, regravar poses, configurações e exportar/importar os dados.
 import { z } from 'zod';
+import { gerarApelido } from '../../../shared/apelidos';
 import type { SongClock } from '../../core/clock';
 import { DEFAULT_THRESHOLDS } from '../../core/judge';
 import {
@@ -161,6 +162,7 @@ export class PaisScene implements Scene {
       this.musicas(),
       this.poses(),
       this.config(),
+      this.placar(),
       this.dados(),
     );
   }
@@ -199,11 +201,32 @@ export class PaisScene implements Scene {
         'data-musica': id,
         onchange: (ev) => void this.upload(id, ev.target as HTMLInputElement),
       });
+      const campoTitulo = el('input', {
+        type: 'text',
+        maxlength: 48,
+        value: song.title,
+        'data-titulo-musica': id,
+        'aria-label': `Título da música ${song.title}`,
+        style: 'width: 170px',
+      });
       sec.append(
         el(
           'div',
           { class: 'linha', 'data-linha': id },
           el('span', { class: 'nome' }, song.title),
+          campoTitulo,
+          el(
+            'button',
+            {
+              'data-salvar-titulo': id,
+              onclick: () =>
+                void game.saveSongTitle(id, campoTitulo.value).then(() => {
+                  this.aviso = `Título guardado: "${campoTitulo.value.trim()}".`;
+                  this.render();
+                }),
+            },
+            'Renomear',
+          ),
           el(
             'span',
             { class: tem || song.youtube ? 'ok' : '' },
@@ -606,6 +629,93 @@ export class PaisScene implements Scene {
           },
           'Padrão',
         ),
+      ),
+    );
+  }
+
+  private placar(): HTMLElement {
+    const game = this.game;
+    const s = game.settings;
+    return el(
+      'section',
+      { id: 'pais-placar' },
+      el('h2', {}, 'Placar online (opcional)'),
+      el(
+        'p',
+        {},
+        'Por padrão, o jogo funciona 100% no aparelho e não faz nenhuma conexão de rede para placar. ',
+        'Se um adulto ativar esta opção, ao final das músicas públicas serão enviados apenas: ',
+        el('strong', {}, 'um apelido sorteado da lista fechada, a música, o nível, os pontos e as estrelas'),
+        '. Imagens, vídeo, áudio e nome real nunca são coletados nem enviados. Veja a ',
+        el(
+          'a',
+          { href: '/privacidade', target: '_blank', rel: 'noopener noreferrer' },
+          'Política de Privacidade',
+        ),
+        '.',
+      ),
+      el(
+        'div',
+        { class: 'linha' },
+        el('span', { class: 'nome' }, 'Participação'),
+        el(
+          'label',
+          {},
+          el('input', {
+            type: 'checkbox',
+            id: 'cfg-placar',
+            checked: s.placarAtivo,
+            onchange: (ev) => {
+              const ativo = (ev.target as HTMLInputElement).checked;
+              void game.saveSettings({ ...game.settings, placarAtivo: ativo }).then(() => {
+                this.aviso = ativo
+                  ? 'Placar online ativado. Na próxima música pública ela poderá escolher um apelido e mandar a pontuação.'
+                  : 'Placar online desligado. Nenhuma pontuação será enviada pela rede.';
+                this.render();
+              });
+            },
+          }),
+          ' Participar do placar online',
+        ),
+      ),
+      el(
+        'div',
+        { class: 'linha' },
+        el('span', { class: 'nome' }, 'Apelido da lista fechada'),
+        el(
+          'strong',
+          { id: 'cfg-apelido-atual' },
+          s.apelido ?? 'Escolhido por gesto na próxima dança',
+        ),
+        el(
+          'button',
+          {
+            id: 'cfg-trocar-apelido',
+            onclick: () => {
+              let novo = gerarApelido();
+              if (novo === game.settings.apelido) novo = gerarApelido();
+              void game.saveSettings({ ...game.settings, apelido: novo }).then(() => {
+                this.aviso = `Novo apelido sorteado: "${novo}".`;
+                this.render();
+              });
+            },
+          },
+          'Trocar apelido',
+        ),
+        s.apelido &&
+          el(
+            'button',
+            {
+              id: 'cfg-escolher-na-danca',
+              onclick: () => {
+                void game.saveSettings({ ...game.settings, apelido: null }).then(() => {
+                  this.aviso = 'Na próxima dança o jogo vai mostrar 3 opções de apelido para escolher com a mão.';
+                  this.render();
+                });
+              },
+            },
+            'Escolher na dança',
+          ),
       ),
     );
   }

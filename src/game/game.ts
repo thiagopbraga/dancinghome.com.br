@@ -26,6 +26,7 @@ import { levelRange } from '../data/choreo';
 import type { Characters, Choreo, Progress, Settings, YoutubeRef } from '../data/schema';
 import { DEMO_ID, loadBaseData, PUBLIC_SONG_IDS } from '../data/songs';
 import { defaultCharacters, defaultProgress, defaultSettings, Storage } from '../data/storage';
+import { iniciarPartidaPlacar, musicaElegivelPlacar } from '../net/placar';
 import type { Companions } from './companions';
 import type { Engine, Scene, View } from './engine';
 import type { MatchSetup, Outcome, PlayConfig } from './match';
@@ -97,6 +98,8 @@ export class Game {
   cenario = 'sala';
   /** Partida em andamento, para os testes lerem os resultados ao vivo. */
   partida: { resultados: PoseResult[][]; cena: unknown } | null = null;
+  /** Ficha assinada da partida atual para envio opcional ao placar público. */
+  fichaPlacar: Promise<string | null> | null = null;
   estatuasFeitas = 0;
   /** A narração de boas-vindas já tocou nesta sessão? */
   welcomed = false;
@@ -351,6 +354,31 @@ export class Game {
     }
   }
 
+  /** Altera o título exibido de uma música base (para personalizar com o nome da música da família). */
+  async saveSongTitle(songId: string, title: string): Promise<void> {
+    const limpo = title.trim().slice(0, 48);
+    const song = this.song(songId);
+    if (!song || !limpo) return;
+    const next: Choreo = { ...song, title: limpo };
+    if (this.store) {
+      await this.store.saveChoreo(next);
+      await this.reload();
+    } else {
+      this.songs = this.songs.map((c) => (c.id === songId ? next : c));
+    }
+  }
+
+  /** Pede ficha de partida ao servidor em segundo plano se o placar online estiver ativo e a partida for elegível. */
+  preparePlacarTicket(cfg: PlayConfig, choreo: Choreo): void {
+    this.fichaPlacar = musicaElegivelPlacar(cfg, choreo)
+      ? iniciarPartidaPlacar(this.settings.placarAtivo, {
+          musica: choreo.id,
+          nivel: cfg.nivel,
+          versao: 1,
+        })
+      : null;
+  }
+
   /** Relógio da música que está tocando agora (arquivo ou YouTube). */
   musicClock(): MusicClock | null {
     return this.youtube.clock ?? this.audio.clock;
@@ -396,6 +424,7 @@ export class Game {
       return false;
     }
     void this.startPose(cfg.dupla ? 2 : 1);
+    this.preparePlacarTicket(cfg, choreo);
     const setup: MatchSetup = { cfg, choreo, buffer };
     if (yt) {
       // o vídeo carrega enquanto ela se posiciona na calibração

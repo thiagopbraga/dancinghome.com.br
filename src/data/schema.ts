@@ -94,6 +94,8 @@ export const SettingsSchema = z.object({
   volume: z.number().min(0).max(1).default(0.9),
   voz: z.boolean().default(true),
   limites: LimitesSchema.default({ perfeito: 20, muitoBem: 35, quase: 55 }),
+  placarAtivo: z.boolean().default(false),
+  apelido: z.string().nullable().default(null),
 });
 
 export const MelhorSchema = z.object({

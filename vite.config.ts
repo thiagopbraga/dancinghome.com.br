@@ -1,6 +1,7 @@
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { extname, join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -56,10 +57,73 @@ function serveSiteMiddleware(req: IncomingMessage, res: ServerResponse, next: ()
   next();
 }
 
+function createApiMiddleware() {
+  let workerPromise: Promise<{
+    handleApiRequest: typeof import('./worker/index').handleApiRequest;
+    env: import('./worker/types').WorkerEnv;
+  }> | null = null;
+
+  const getWorker = () => {
+    if (!workerPromise) {
+      const d1Url = pathToFileURL(resolve(process.cwd(), 'worker/d1Sqlite.ts')).href;
+      const idxUrl = pathToFileURL(resolve(process.cwd(), 'worker/index.ts')).href;
+      workerPromise = Promise.all([
+        import(/* @vite-ignore */ d1Url) as Promise<typeof import('./worker/d1Sqlite.ts')>,
+        import(/* @vite-ignore */ idxUrl) as Promise<typeof import('./worker/index.ts')>,
+      ]).then(([d1, wk]) => ({
+        handleApiRequest: wk.handleApiRequest,
+        env: {
+          DB: d1.criarBancoD1Memoria(process.cwd()),
+          FICHA_SEGREDO: 'segredo-local-vite-ensaio-de-danca',
+        },
+      }));
+    }
+    return workerPromise;
+  };
+
+  return (req: IncomingMessage, res: ServerResponse, next: () => void): void => {
+    const rawUrl = req.url ?? '/';
+    if (!rawUrl.startsWith('/api/')) {
+      next();
+      return;
+    }
+    const chunks: Buffer[] = [];
+    req.on('data', (chunk: Buffer) => chunks.push(chunk));
+    req.on('end', () => {
+      const bodyBuf = Buffer.concat(chunks);
+      const method = (req.method ?? 'GET').toUpperCase();
+      const headers = new Headers();
+      for (const [k, v] of Object.entries(req.headers)) {
+        if (typeof v === 'string') headers.set(k, v);
+        else if (Array.isArray(v)) headers.set(k, v.join(', '));
+      }
+      const webReq = new Request(`http://localhost${rawUrl}`, {
+        method,
+        headers,
+        body: method !== 'GET' && method !== 'HEAD' ? bodyBuf : undefined,
+      });
+      void getWorker()
+        .then(({ handleApiRequest, env }) => handleApiRequest(webReq, env))
+        .then(async (webRes) => {
+          res.statusCode = webRes.status;
+          webRes.headers.forEach((v, k) => res.setHeader(k, v));
+          const arrayBuf = await webRes.arrayBuffer();
+          res.end(Buffer.from(arrayBuf));
+        })
+        .catch((err: unknown) => {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.end(JSON.stringify({ ok: false, erro: String(err) }));
+        });
+    });
+  };
+}
+
 function cloudflareAssetsPlugin(): Plugin {
   return {
     name: 'ensaio-cloudflare-assets',
     configureServer(server) {
+      server.middlewares.use(createApiMiddleware());
       server.middlewares.use(serveSiteMiddleware);
     },
     configurePreviewServer(server) {
@@ -69,6 +133,7 @@ function cloudflareAssetsPlugin(): Plugin {
         }
         next();
       });
+      server.middlewares.use(createApiMiddleware());
       server.middlewares.use(serveSiteMiddleware);
     },
     closeBundle() {
