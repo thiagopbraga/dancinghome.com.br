@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Dúvidas e conversas abertas (Discussions)
+    url: https://github.com/thiagopbraga/ensaio-de-danca/discussions
+    about: Tire dúvidas sobre como usar o jogo em casa ou converse sobre ideias gerais.
+  - name: Relatar falha de segurança ou privacidade
+    url: https://github.com/thiagopbraga/ensaio-de-danca/security/advisories/new
+    about: Não abra issue pública para falhas de segurança. Use o relato privado (veja SECURITY.md).
