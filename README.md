@@ -1,10 +1,14 @@
 # Ensaio de Dança
 
-Jogo de dança no navegador, feito para jogar em casa. A câmera lê o corpo com o MediaPipe, cartões de pose chegam no ritmo da música e a criança ganha estrelas por imitar cada pose. Não tem servidor, login nem anúncio, e funciona sem internet depois da primeira visita.
+> *Contributions in English (issues, pull requests, and discussions) are also very welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md).*
 
-- Tudo roda no aparelho. A imagem da câmera não é gravada nem enviada para lugar nenhum.
-- As músicas não vêm com o jogo. Um adulto carrega os arquivos de áudio na Área dos Pais e eles ficam guardados só naquele aparelho.
-- Toda mensagem para a criança é positiva e a nota mínima é sempre 1 estrela.
+Jogo de dança infantil no navegador, feito para brincar em casa nos fins de semana. A câmera lê o corpo com o MediaPipe, cartões de pose chegam no ritmo da música e a criança ganha estrelas por imitar cada pose. Não tem login nem anúncio, e funciona sem internet depois da primeira visita.
+
+- **Tudo roda no aparelho.** A imagem da câmera é lida localmente e nunca é gravada nem enviada para lugar nenhum.
+- **Músicas sintetizadas prontas para jogar** e suporte para carregar seus próprios arquivos de áudio na Área dos Pais (guardados apenas no navegador daquele aparelho). **Pull requests com áudio, letra ou imagem de terceiros são recusados.**
+- **Sem derrota.** Toda mensagem para a criança é positiva e a nota mínima é sempre 1 estrela.
+
+![Cena de dança no modo simulado](./tests/e2e/screens/etapa4-danca.png)
 
 ## Instalar
 
@@ -13,7 +17,7 @@ Precisa do Node 20.19 ou mais novo.
 ```bash
 npm ci
 npm run setup:mediapipe   # copia o wasm e baixa os modelos de pose para public/mediapipe/
-npm run dev               # http://localhost:5173
+npm run dev               # abre no navegador local
 ```
 
 O `setup:mediapipe` precisa de internet uma vez. Depois disso o jogo carrega o MediaPipe do próprio endereço, sem CDN.
@@ -22,7 +26,7 @@ O `setup:mediapipe` precisa de internet uma vez. Depois disso o jogo carrega o M
 
 O navegador só libera a câmera em `https://` ou em `localhost`. Por isso existem dois caminhos:
 
-1. **Publicar na Vercel** (o mais simples, veja abaixo) e abrir o endereço `https://...` no celular.
+1. **Abrir a versão publicada em HTTPS** (Cloudflare Workers / Pages) no endereço do projeto (`/jogar/`).
 2. **Na rede de casa, só para testar:** rode `npm run dev` no computador e, no Chrome do Android com o celular ligado por cabo USB, use o encaminhamento de porta de `chrome://inspect` (porta 5173) para abrir `http://localhost:5173` no celular.
 
 No celular:
@@ -40,7 +44,7 @@ No menu, segure o botão "Pais" (canto de baixo, à direita) por 3 segundos.
 
 ### Carregar as músicas
 
-As cinco músicas aparecem no menu com cadeado até terem áudio: Brilho, Meu Pequeno Guaraná, O Som da Nossa Voz, Letal e Não Tem Perdão.
+As cinco coreografias de exemplo para uso doméstico aparecem no menu com cadeado até terem áudio: Brilho, Meu Pequeno Guaraná, O Som da Nossa Voz, Letal e Não Tem Perdão.
 
 1. Em "Músicas", escolha o arquivo de áudio (MP3, M4A, WAV ou OGG) de cada uma.
 2. O cadeado some na hora. O arquivo fica no IndexedDB do navegador daquele aparelho.
@@ -50,7 +54,7 @@ Os arquivos de áudio nunca entram no repositório nem na publicação.
 
 ### Tocar pelo YouTube (sem arquivo de áudio)
 
-Quem não tem o arquivo pode usar um vídeo do YouTube. A música toca dentro do jogo, num player pequeno no canto de cima, e começa sozinha junto com a dança. Não precisa abrir o YouTube nem dar play na hora certa.
+Quem não tem o arquivo pode usar um vídeo do YouTube. A música toca dentro do jogo, num player pequeno no canto de cima (`youtube-nocookie.com`), e começa sozinha junto com a dança. Não precisa abrir o YouTube nem dar play na hora certa.
 
 1. No YouTube, abra o vídeo da música e copie o link (Compartilhar → Copiar link).
 2. Na Área dos Pais, cole o link na linha "YouTube" da música e toque em "Salvar link". O cadeado some.
@@ -58,7 +62,7 @@ Quem não tem o arquivo pode usar um vídeo do YouTube. A música toca dentro do
 4. Toque em "Começou a batida!" no primeiro tempo forte da música. Isso acerta a maior parte da diferença (vídeos costumam ter uma introdução).
 5. Acerte o resto com "−100 / −10 / +10 / +100 ms" até os cliques caírem junto com a batida. "+" faz os passos virem mais tarde e "−" mais cedo. O ajuste fica guardado para aquela música, naquele aparelho.
 
-Como funciona: o jogo usa a API oficial de player do YouTube (nada é baixado). O vídeo começa a carregar sem som enquanto ela se posiciona na calibração e fica parado no ponto certo; quando a contagem acaba, ele toca e o relógio da dança passa a ser o tempo do próprio vídeo. Se o vídeo engasgar para carregar, os cartões esperam junto; na pausa, o vídeo pausa e volta do mesmo ponto.
+Como funciona: o jogo usa a API oficial de player do YouTube (nada é baixado). O vídeo começa a carregar sem som enquanto a criança se posiciona na calibração e fica parado no ponto certo; quando a contagem acaba, ele toca e o relógio da dança passa a ser o tempo do próprio vídeo. Se o vídeo engasgar para carregar, os cartões esperam junto; na pausa, o vídeo pausa e volta do mesmo ponto.
 
 Limitações:
 
@@ -79,7 +83,7 @@ As coreografias já vêm com as partes e as poses de cada música, mas o tempo e
 
 ### Regravar as poses
 
-Se alguma pose do catálogo não combina com o jeito dela de fazer, em "Poses" toque em "Regravar": a contagem dá 3 segundos, ela segura a pose por 2 segundos e o jogo guarda a média dos ângulos medidos. "Voltar ao original" desfaz.
+Se alguma pose do catálogo não combina com o jeito da criança fazer, em "Poses" toque em "Regravar": a contagem dá 3 segundos, ela segura a pose por 2 segundos e o jogo guarda a média dos ângulos medidos. "Voltar ao original" desfaz.
 
 ### Configurações e cópia dos dados
 
@@ -90,20 +94,21 @@ Se alguma pose do catálogo não combina com o jeito dela de fazer, em "Poses" t
 
 - **Dançar:** fácil ou normal, com os modos Dupla (duas pessoas, uma nota para cada) e Estátua (a música para e quem fica parado ganha bônus).
 - **Treinar:** a música toca na metade da velocidade e espera a pose.
-- **Criar dança:** ela dança, o jogo tira um retrato a cada 4 ou 8 batidas e a dança vira uma fase no menu.
+- **Criar dança:** a criança dança, o jogo tira um retrato a cada 4 ou 8 batidas e a dança vira uma fase no menu.
 - **Surpresa:** um adulto escolhe qualquer música do aparelho, o jogo detecta o BPM e sorteia as poses.
-- **Meu grupo:** três personagens originais com nome, cores, cabelo e acessório, cachorro e gato que pulam a cada "Perfeito!", e o desenho dela fotografado virando personagem.
+- **Meu grupo:** três personagens originais com nome, cores, cabelo e acessório, cachorro e gato que pulam a cada "Perfeito!", e o desenho no papel fotografado virando personagem.
 - **Álbum e Turnê:** 12 medalhas e uma história de 5 shows. Cenários e figurinos abrem com 5, 15 e 30 estrelas.
 
-## Publicar na Vercel
+## Privacidade
 
-1. Em vercel.com, crie um projeto novo a partir deste repositório do GitHub.
-2. Não precisa mudar nada: o `vercel.json` já manda rodar `npm run setup:mediapipe && npm run build` e publicar a pasta `dist`.
-3. Abra o endereço `https://...` que a Vercel mostrar. A cada commit na `main` ela publica de novo.
+- **A câmera nunca sai do aparelho:** o vídeo é lido localmente pelo MediaPipe e nunca é gravado nem enviado pela rede.
+- **Sem conta e sem rastreio:** não há login, cookies próprios, anúncios nem scripts de analytics de terceiros.
+- **Placar online opcional:** desligado por padrão. Só envia dados (apenas um apelido gerado de lista fechada, música pública, nível, pontos e estrelas) se um adulto ligar a opção na Área dos Pais.
+- A política completa está em `/privacidade` no site do projeto.
 
-Pela linha de comando também funciona: `npx vercel --prod`.
+## Como contribuir
 
-## Para quem for mexer no código
+Este é um projeto pessoal mantido nos fins de semana, e contribuições são muito bem-vindas! Leia o guia completo em [CONTRIBUTING.md](./CONTRIBUTING.md) e o nosso [Código de Conduta](./CODE_OF_CONDUCT.md). Para relatar falhas de segurança ou privacidade, siga as instruções em [SECURITY.md](./SECURITY.md).
 
 ```bash
 npm run check      # tipos, lint, testes de unidade e build
@@ -126,7 +131,7 @@ Organização:
 - `src/data/` schemas (zod), catálogo de poses, coreografias, progresso e armazenamento no IndexedDB.
 - `src/game/` motor de cenas num único canvas, desenhos feitos em código e as telas.
 - `tests/unit/` e `tests/e2e/` (com screenshots em `tests/e2e/screens/`).
-- `docs/` os três documentos de origem. `PROGRESS.md` conta o que foi feito e provado em cada etapa e `DECISIONS.md` lista as decisões tomadas pelo caminho.
+- `docs/` documentos de especificação e planos. `PROGRESS.md` conta o que foi feito e provado em cada etapa e `DECISIONS.md` lista as decisões tomadas pelo caminho.
 
 ## Roteiro de teste em casa
 
@@ -149,3 +154,10 @@ Depois com a criança:
 5. "Criar dança" com o Aquecimento e depois jogar a dança que ela criou.
 6. Uma rodada de Dupla com um adulto ao lado.
 7. Parar na dica de água, que aparece a cada 3 músicas seguidas.
+
+## Licença e Avisos
+
+- **Código-fonte:** licenciado sob a [Licença MIT](./LICENSE).
+- **Documentação, catálogo de poses e coreografias:** licenciados sob a [CC BY 4.0](./LICENSE-CONTEUDO.md).
+- **Software de terceiros:** veja [TERCEIROS.md](./TERCEIROS.md).
+- **Aviso de não afiliação:** Projeto independente, sem relação com Netflix, Sony ou os artistas. Não inclui nem distribui músicas de terceiros.

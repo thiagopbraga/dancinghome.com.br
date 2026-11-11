@@ -16,7 +16,7 @@ Cinco músicas de Guerreiras do K-pop nas versões dubladas em português, liber
 | 4 | Letal | Takedown | HUNTR/X | 140 | ~3:02 | 8 batidas, 3,4 s / 4 batidas, 1,7 s |
 | 5 | Não Tem Perdão | How It's Done | HUNTR/X | 160 | ~2:56 | 8 batidas, 3,0 s / 4 batidas, 1,5 s |
 
-A regra para 7 anos: no fácil, uma pose a cada 2 a 3 segundos; no normal, a cada 1 a 1,7 segundo. Nas músicas rápidas (Letal e Não Tem Perdão), o intervalo dobra em batidas para manter esse tempo.
+A regra para crianças de 6 a 9 anos: no fácil, uma pose a cada 2 a 3 segundos; no normal, a cada 1 a 1,7 segundo. Nas músicas rápidas (Letal e Não Tem Perdão), o intervalo dobra em batidas para manter esse tempo.
 
 Como as músicas têm de 2,5 a 4 minutos, o nível fácil usa **um trecho de 60 a 90 segundos** (introdução curta, um verso e o refrão). O normal usa a música inteira.
 

@@ -2,6 +2,7 @@
   "name": "ensaio-de-danca",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "Jogo de dança no navegador com MediaPipe, para jogar em casa.",
   "engines": {
