@@ -162,6 +162,7 @@ interface YTNamespace {
     el: HTMLElement,
     opts: {
       videoId: string;
+      host?: string;
       width?: string | number;
       height?: string | number;
       playerVars?: Record<string, string | number>;
@@ -173,6 +174,8 @@ interface YTNamespace {
     },
   ) => YTPlayer;
 }
+
+export const YOUTUBE_HOST = 'https://www.youtube-nocookie.com';
 
 declare global {
   interface Window {
@@ -312,6 +315,7 @@ export class YouTubeMusic implements MusicPlayer {
     const ready = new Promise<void>((r) => (this.readyResolve = r));
     this.player = new YT.Player(slot, {
       videoId,
+      host: YOUTUBE_HOST,
       width: '100%',
       height: '100%',
       playerVars: {

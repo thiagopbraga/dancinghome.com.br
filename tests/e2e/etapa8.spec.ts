@@ -92,7 +92,7 @@ test('etapa 8: marcar as partes grava "calibrado": true e continua depois de rec
   const salvo = await ler();
   expect(salvo).toEqual({ calibrado: true, offsetMs: 120, secoes: marcas, toca: true });
 
-  await page.goto('/?sim=1');
+  await page.goto('/jogar/?sim=1');
   await page.waitForFunction(() => document.body.dataset.cena === 'inicio');
   expect(await ler()).toEqual(salvo);
 

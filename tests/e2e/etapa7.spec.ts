@@ -35,7 +35,7 @@ async function botoesNaTela(page: Page): Promise<void> {
 
 test('etapa 7: na vertical aparece o aviso "Gire o celular"', async ({ page }) => {
   await page.setViewportSize({ width: 412, height: 915 });
-  await page.goto('/?sim=1');
+  await page.goto('/jogar/?sim=1');
   await expect(page.locator('#gire')).toBeVisible();
   await expect(page.locator('#gire')).toContainText('Gire o celular');
   await page.screenshot({ path: 'tests/e2e/screens/etapa7-gire.png' });

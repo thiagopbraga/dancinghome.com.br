@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { renderClickTrack } from '../../src/core/clickTrack';
-import { parseYouTubeId, VideoClock, youTubeErrorText } from '../../src/core/youtube';
+import { parseYouTubeId, VideoClock, YOUTUBE_HOST, youTubeErrorText } from '../../src/core/youtube';
 import { ChoreoSchema } from '../../src/data/schema';
 import brilho from '../../src/data/songs/brilho/choreo.json';
 
@@ -154,7 +154,8 @@ describe('dados', () => {
     expect(ChoreoSchema.safeParse({ ...brilho, youtube: { id: 'xx' } }).success).toBe(false);
   });
 
-  it('mensagens de erro do player para o adulto', () => {
+  it('mensagens de erro do player para o adulto e domínio youtube-nocookie', () => {
+    expect(YOUTUBE_HOST).toBe('https://www.youtube-nocookie.com');
     expect(youTubeErrorText(150)).toMatch(/não deixa/);
     expect(youTubeErrorText(101)).toMatch(/não deixa/);
     expect(youTubeErrorText(100)).toMatch(/não existe/);

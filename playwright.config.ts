@@ -26,13 +26,13 @@ export default defineConfig({
   webServer: [
     {
       command: 'npx vite --port 5173 --strictPort',
-      url: 'http://localhost:5173',
+      url: 'http://localhost:5173/jogar/',
       reuseExistingServer: true,
       timeout: 120_000,
     },
     {
       command: 'npx vite build && npx vite preview --port 4173 --strictPort',
-      url: 'http://localhost:4173',
+      url: 'http://localhost:4173/jogar/',
       reuseExistingServer: true,
       timeout: 240_000,
     },

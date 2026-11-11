@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test('etapa 2: com a música de demonstração, o relógio avança 2 batidas por segundo', async ({ page }) => {
-  await page.goto('/?test=1&cena=metronomo');
+  await page.goto('/jogar/?test=1&cena=metronomo');
   await page.waitForFunction(() => {
     const a = window.__ensaio?.amostra();
     return !!a && a.tocando && a.beat > 1;

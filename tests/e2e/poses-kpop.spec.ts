@@ -48,9 +48,9 @@ test('poses k-pop: gera vitrine visual das 15 novas poses do catálogo', async (
 
   const totalNovas = await page.evaluate(async (grupos) => {
     const load = <T>(u: string): Promise<T> => import(u) as Promise<T>;
-    const { drawPoseCard } = await load<typeof CardMod>('/src/game/draw/card.ts');
-    const { drawBackdrop } = await load<typeof BackdropMod>('/src/game/draw/backdrop.ts');
-    const { roundRect, text } = await load<typeof UtilMod>('/src/game/draw/util.ts');
+    const { drawPoseCard } = await load<typeof CardMod>('/jogar/src/game/draw/card.ts');
+    const { drawBackdrop } = await load<typeof BackdropMod>('/jogar/src/game/draw/backdrop.ts');
+    const { roundRect, text } = await load<typeof UtilMod>('/jogar/src/game/draw/util.ts');
     const g = window.__ensaio!.game;
 
     const canvas = document.createElement('canvas');

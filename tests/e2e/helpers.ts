@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test';
 
 /** Abre o jogo e toca em "Começar". */
 export async function comecar(page: Page, query: string): Promise<void> {
-  await page.goto(`/?${query}`);
+  await page.goto(`/jogar/?${query}`);
   await page.waitForFunction(() => document.body.dataset.cena === 'inicio');
   await clicarBotao(page, 'comecar');
 }
