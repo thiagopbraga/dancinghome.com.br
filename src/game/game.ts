@@ -11,7 +11,7 @@ import { handCursors, type Cursor } from '../core/gestures';
 import { MediaPipePoseSource } from '../core/poseSource';
 import type { SimulatedPoseSource } from '../core/simPose';
 import { PoseTracker } from '../core/tracker';
-import { DEMO_BPM, renderDemoSong } from '../core/demoSong';
+import { DEMO_BPM, renderDemoSong, renderPublicSong } from '../core/demoSong';
 import { Sfx } from '../core/sfx';
 import type { Angles, Catalog, PoseResult } from '../core/types';
 import {
@@ -24,7 +24,7 @@ import {
 } from '../data/progress';
 import { levelRange } from '../data/choreo';
 import type { Characters, Choreo, Progress, Settings, YoutubeRef } from '../data/schema';
-import { DEMO_ID, loadBaseData } from '../data/songs';
+import { DEMO_ID, loadBaseData, PUBLIC_SONG_IDS } from '../data/songs';
 import { defaultCharacters, defaultProgress, defaultSettings, Storage } from '../data/storage';
 import type { Companions } from './companions';
 import type { Engine, Scene, View } from './engine';
@@ -152,6 +152,7 @@ export class Game {
   /** Chamado quando uma medalha nova é liberada. */
   onAchievements: ((novas: Conquista[]) => void) | null = null;
   private demoBuffer: AudioBuffer | null = null;
+  private readonly publicBuffers = new Map<string, AudioBuffer>();
 
   constructor(
     readonly engine: Engine,
@@ -321,7 +322,11 @@ export class Game {
   /** A música tem arquivo de áudio no aparelho? (o gravador e o editor de partes precisam dele) */
   hasAudioFile(choreo: Choreo): boolean {
     const id = choreo.audioDe ?? choreo.id;
-    return id === DEMO_ID || this.audioIds.has(id) || this.tempAudio.has(id);
+    return (
+      (PUBLIC_SONG_IDS as readonly string[]).includes(id) ||
+      this.audioIds.has(id) ||
+      this.tempAudio.has(id)
+    );
   }
 
   /** Vídeo do YouTube da música (as danças gravadas usam o da música de origem). */
@@ -362,6 +367,7 @@ export class Game {
   async audioFor(choreo: Choreo): Promise<AudioBuffer | null> {
     const id = choreo.audioDe ?? choreo.id;
     if (id === DEMO_ID) return this.demoAudio();
+    if ((PUBLIC_SONG_IDS as readonly string[]).includes(id)) return this.publicAudio(id);
     const temp = this.tempAudio.get(id);
     if (temp) return temp;
     const cached = this.audioCache.get(id);
@@ -460,6 +466,19 @@ export class Game {
       this.demoBuffer = this.audio.fromSamples(renderDemoSong(ctx.sampleRate), ctx.sampleRate);
     }
     return this.demoBuffer;
+  }
+
+  /** Áudio das músicas públicas sintetizadas em código ("ensaio-brisa", "ensaio-festa", etc.). */
+  publicAudio(id: string): AudioBuffer | null {
+    if (id === DEMO_ID) return this.demoAudio();
+    const cached = this.publicBuffers.get(id);
+    if (cached) return cached;
+    const ctx = this.audio.ensure();
+    const samples = renderPublicSong(id, ctx.sampleRate);
+    if (!samples) return null;
+    const buf = this.audio.fromSamples(samples, ctx.sampleRate);
+    this.publicBuffers.set(id, buf);
+    return buf;
   }
 
   get demoBpm(): number {

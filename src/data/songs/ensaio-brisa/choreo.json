@@ -1,0 +1,58 @@
+{
+  "id": "ensaio-brisa",
+  "title": "Brisa Solar",
+  "tema": "ritmo calmo para começar",
+  "bpm": 100,
+  "offsetMs": 0,
+  "calibrado": true,
+  "duracaoBeats": 64,
+  "origem": "demo",
+  "niveis": {
+    "facil": {
+      "secoes": [
+        {
+          "nome": "aquecimento",
+          "inicioBeat": 0,
+          "aCada": 4,
+          "poses": ["raio-de-sol", "estrela", "coracao", "onda-de-som"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 32,
+          "aCada": 4,
+          "poses": ["coroa-dourada", "bracos-pra-cima", "voz-pro-ceu", "coracao"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 56,
+          "aCada": 4,
+          "poses": ["coracao"],
+          "segurar": 4
+        }
+      ]
+    },
+    "normal": {
+      "secoes": [
+        {
+          "nome": "aquecimento",
+          "inicioBeat": 0,
+          "aCada": 2,
+          "poses": ["raio-de-sol", "estrela", "onda-de-som", "inclinacao"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 32,
+          "aCada": 2,
+          "poses": ["coroa-dourada", "passo-de-diva", "voz-pro-ceu", "perna-de-lado"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 56,
+          "aCada": 2,
+          "poses": ["coracao"],
+          "segurar": 4
+        }
+      ]
+    }
+  }
+}

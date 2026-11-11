@@ -1,5 +1,5 @@
 // Percentual e estrelas de uma partida. O bônus de energia não entra aqui, só no placar.
-import type { PoseResult } from './types';
+import type { PoseResult } from './types.ts';
 
 export const STAR_2 = 0.55;
 export const STAR_3 = 0.75;

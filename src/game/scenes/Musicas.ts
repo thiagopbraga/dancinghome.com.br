@@ -44,8 +44,9 @@ export class MusicasScene implements Scene {
     private readonly game: Game,
     private readonly params: MusicasParams,
   ) {
-    // A demonstração primeiro, depois as 5 músicas e as danças gravadas por ela.
-    const order = (s: Choreo): number => (s.id === DEMO_ID ? 0 : s.origem === 'base' ? 1 : 2);
+    // A demonstração primeiro, depois as 5 músicas base, as outras músicas públicas sintetizadas e as danças gravadas.
+    const order = (s: Choreo): number =>
+      s.id === DEMO_ID ? 0 : s.origem === 'base' ? 1 : s.origem === 'demo' ? 2 : 3;
     this.songs = [...game.songs].sort((a, b) => order(a) - order(b));
     this.file = document.createElement('input');
     this.file.type = 'file';

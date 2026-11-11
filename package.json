@@ -19,7 +19,8 @@
     "check": "tsc --noEmit && eslint . && vitest run && vite build",
     "test:e2e": "playwright test --trace off",
     "setup:mediapipe": "node scripts/setup-mediapipe.mjs",
-    "icons": "node scripts/make-icons.mjs"
+    "icons": "node scripts/make-icons.mjs",
+    "gerar:sql": "node scripts/gerar-musicas-sql.mjs"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "1.2.2",
