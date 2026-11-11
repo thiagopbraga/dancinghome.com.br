@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Dance em casa com a câmera do celular. Jogo infantil de dança no navegador: sem login, sem anúncio, sem enviar imagem."
+    />
+    <meta name="theme-color" content="#1a0f30" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/site.css" />
+    <title>Ensaio de Dança — Jogo de dança em casa, 100% privacidade</title>
+  </head>
+  <body>
+    <a class="pular-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+    <header class="topo-site">
+      <div class="container topo-interno">
+        <a class="marca" href="/">
+          <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+            <rect width="64" height="64" rx="14" fill="#3d1a85" />
+            <polygon
+              points="32,8 39,23 55,25 43,36 46,52 32,44 18,52 21,36 9,25 25,23"
+              fill="#ffd640"
+              stroke="#24163d"
+              stroke-width="3"
+            />
+          </svg>
+          <span>Ensaio de Dança</span>
+        </a>
+        <nav aria-label="Navegação principal">
+          <ul class="nav-lista">
+            <li><a href="#como-funciona">Como funciona</a></li>
+            <li><a href="#privacidade">Privacidade</a></li>
+            <li><a href="#para-os-pais">Para os pais</a></li>
+            <li><a href="/contribuir">Contribuir</a></li>
+            <li><a class="botao-jogar botao-jogar-pequeno" href="/jogar/">Jogar agora</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo-principal">
+      <!-- 1. Hero -->
+      <section class="hero" aria-labelledby="hero-titulo">
+        <div class="container hero-grade">
+          <div>
+            <span class="selo">Código aberto · 100% privacidade · Funciona offline</span>
+            <h1 id="hero-titulo">Ensaio de Dança</h1>
+            <p class="hero-frase">
+              Dance em casa com a câmera do celular. Sem login, sem anúncio, sem enviar imagem.
+            </p>
+            <div class="hero-acoes">
+              <a class="botao-jogar" id="hero-jogar" href="/jogar/">Jogar agora</a>
+              <a class="botao-secundario" href="#como-funciona">Ver como funciona</a>
+            </div>
+          </div>
+
+          <aside class="placar-card" id="hero-placar" aria-labelledby="placar-semana-titulo">
+            <div class="placar-cabecalho">
+              <h2 id="placar-semana-titulo">Destaques da semana</h2>
+              <span class="placar-contador" id="placar-contador">Placar opcional</span>
+            </div>
+            <div id="placar-conteudo" aria-live="polite">
+              <div class="placar-vazio">
+                <strong>Dance e apareça aqui!</strong>
+                <span>Jogue uma música e peça para um adulto ativar o placar na Área dos Pais.</span>
+              </div>
+            </div>
+            <p class="placar-nota">
+              Só apelidos inventados pelo jogo (ex.: <em>Gatinha Brilhante 27</em>). Nenhuma informação pessoal.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 2. Como funciona em 3 passos (com bonecos desenhados em código) -->
+      <section class="secao" id="como-funciona" aria-labelledby="titulo-como-funciona">
+        <div class="container">
+          <h2 class="secao-titulo" id="titulo-como-funciona">Como funciona em 3 passos</h2>
+          <p class="secao-subtitulo">
+            Pensado para crianças de 6 a 9 anos: tudo controlado por gestos no ar, com voz em português e sem
+            existir derrota.
+          </p>
+
+          <div class="grade-3">
+            <article class="cartao">
+              <div class="ilustracao-pose" aria-hidden="true">
+                <!-- Boneco em código: Pose Estrela dentro da moldura de calibração -->
+                <svg width="160" height="150" viewBox="0 0 160 150" role="img" aria-label="Boneco na pose Estrela">
+                  <rect
+                    x="18"
+                    y="10"
+                    width="124"
+                    height="130"
+                    rx="16"
+                    fill="none"
+                    stroke="#3ddc84"
+                    stroke-width="3"
+                    stroke-dasharray="8 6"
+                  />
+                  <!-- Pernas -->
+                  <path
+                    d="M72 86 L70 112 L68 132 M88 86 L90 112 L92 132"
+                    stroke="#5b2bb5"
+                    stroke-width="10"
+                    stroke-linecap="round"
+                  />
+                  <!-- Tronco -->
+                  <polygon
+                    points="66,52 94,52 90,86 70,86"
+                    fill="#ff5fa8"
+                    stroke="#24163d"
+                    stroke-width="3"
+                    stroke-linejoin="round"
+                  />
+                  <!-- Braços abertos (Estrela) -->
+                  <path
+                    d="M66 54 L32 54 M94 54 L128 54"
+                    stroke="#ffe0c2"
+                    stroke-width="9"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="30" cy="54" r="6" fill="#ffe0c2" />
+                  <circle cx="130" cy="54" r="6" fill="#ffe0c2" />
+                  <!-- Pés -->
+                  <circle cx="68" cy="133" r="6" fill="#ffd640" />
+                  <circle cx="92" cy="133" r="6" fill="#ffd640" />
+                  <!-- Cabeça e sorriso -->
+                  <circle cx="80" cy="34" r="14" fill="#ffe0c2" stroke="#24163d" stroke-width="3" />
+                  <circle cx="75" cy="32" r="2" fill="#24163d" />
+                  <circle cx="85" cy="32" r="2" fill="#24163d" />
+                  <path d="M74 37 Q80 43 86 37" fill="none" stroke="#24163d" stroke-width="2.2" />
+                </svg>
+              </div>
+              <span class="passo-numero">1</span>
+              <h3>Apoie o celular</h3>
+              <p>
+                Coloque o celular deitado a uns 2 metros de distância, com o chão livre. A silhueta fica verde
+                quando o corpo inteiro aparece.
+              </p>
+            </article>
+
+            <article class="cartao">
+              <div class="ilustracao-pose" aria-hidden="true">
+                <!-- Boneco em código: Cartão de pose Coração -->
+                <svg width="160" height="150" viewBox="0 0 160 150" role="img" aria-label="Cartão da pose Coração">
+                  <rect
+                    x="26"
+                    y="8"
+                    width="108"
+                    height="134"
+                    rx="18"
+                    fill="#261545"
+                    stroke="#38c6ff"
+                    stroke-width="4"
+                  />
+                  <!-- Pernas -->
+                  <path
+                    d="M72 90 L70 114 L68 130 M88 90 L90 114 L92 130"
+                    stroke="#5b2bb5"
+                    stroke-width="9"
+                    stroke-linecap="round"
+                  />
+                  <!-- Tronco -->
+                  <polygon
+                    points="67,58 93,58 89,90 71,90"
+                    fill="#38c6ff"
+                    stroke="#24163d"
+                    stroke-width="3"
+                    stroke-linejoin="round"
+                  />
+                  <!-- Braços formando coração no alto -->
+                  <path
+                    d="M67 58 L54 34 L73 18 M93 58 L106 34 L87 18"
+                    fill="none"
+                    stroke="#ffe0c2"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <!-- Cabeça -->
+                  <circle cx="80" cy="40" r="13" fill="#ffe0c2" stroke="#24163d" stroke-width="3" />
+                  <circle cx="75" cy="38" r="2" fill="#24163d" />
+                  <circle cx="85" cy="38" r="2" fill="#24163d" />
+                  <path d="M75 43 Q80 48 85 43" fill="none" stroke="#24163d" stroke-width="2" />
+                </svg>
+              </div>
+              <span class="passo-numero">2</span>
+              <h3>Imite a pose</h3>
+              <p>
+                Os cartões deslizam no ritmo da música e o narrador anuncia cada pose. Escolha opções no menu só
+                levantando a mão, sem precisar tocar na tela.
+              </p>
+            </article>
+
+            <article class="cartao">
+              <div class="ilustracao-pose" aria-hidden="true">
+                <!-- Boneco em código: Raio de Sol comemorando com 3 estrelas -->
+                <svg
+                  width="160"
+                  height="150"
+                  viewBox="0 0 160 150"
+                  role="img"
+                  aria-label="Boneco comemorando com 3 estrelas"
+                >
+                  <!-- 3 estrelas no topo -->
+                  <polygon
+                    points="42,14 45,22 54,23 47,29 49,37 42,32 35,37 37,29 30,23 39,22"
+                    fill="#ffd640"
+                  />
+                  <polygon
+                    points="80,6 84,16 94,17 86,24 89,34 80,28 71,34 74,24 66,17 76,16"
+                    fill="#ffd640"
+                  />
+                  <polygon
+                    points="118,14 121,22 130,23 123,29 125,37 118,32 111,37 113,29 106,23 115,22"
+                    fill="#ffd640"
+                  />
+                  <!-- Pernas -->
+                  <path
+                    d="M72 94 L66 118 L62 134 M88 94 L94 118 L98 134"
+                    stroke="#5b2bb5"
+                    stroke-width="9"
+                    stroke-linecap="round"
+                  />
+                  <!-- Tronco -->
+                  <polygon
+                    points="67,62 93,62 89,94 71,94"
+                    fill="#ff5fa8"
+                    stroke="#24163d"
+                    stroke-width="3"
+                    stroke-linejoin="round"
+                  />
+                  <!-- Braços em V (Raio de Sol) -->
+                  <path
+                    d="M67 62 L44 34 M93 62 L116 34"
+                    stroke="#ffe0c2"
+                    stroke-width="8.5"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="44" cy="34" r="5.5" fill="#ffe0c2" />
+                  <circle cx="116" cy="34" r="5.5" fill="#ffe0c2" />
+                  <!-- Cabeça -->
+                  <circle cx="80" cy="46" r="13" fill="#ffe0c2" stroke="#24163d" stroke-width="3" />
+                  <circle cx="75" cy="44" r="2" fill="#24163d" />
+                  <circle cx="85" cy="44" r="2" fill="#24163d" />
+                  <path d="M74 49 Q80 55 86 49" fill="none" stroke="#24163d" stroke-width="2.2" />
+                </svg>
+              </div>
+              <span class="passo-numero">3</span>
+              <h3>Ganhe estrelas</h3>
+              <p>
+                Toda música termina com 1 a 3 estrelas, confete, cachorrinho e gatinho pulando a cada "Perfeito!"
+                e novos cenários para desbloquear.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Privacidade em uma frase por item -->
+      <section class="secao" id="privacidade" aria-labelledby="titulo-privacidade">
+        <div class="container">
+          <h2 class="secao-titulo" id="titulo-privacidade">Privacidade de verdade, sem letras miúdas</h2>
+          <p class="secao-subtitulo">
+            Feito por um pai para jogar em família. Veja a <a href="/privacidade">Política de Privacidade</a>
+            completa.
+          </p>
+
+          <ul class="lista-privacidade">
+            <li>
+              <strong>A câmera não sai do aparelho</strong>
+              O vídeo é processado localmente no navegador (com MediaPipe) para medir os ângulos dos braços e
+              pernas, e nunca é gravado nem enviado pela rede.
+            </li>
+            <li>
+              <strong>Não tem conta nem rastreio</strong>
+              Não existe cadastro, senha, cookie de rastreio, anúncio ou script de analytics. O progresso fica
+              salvo apenas no próprio aparelho.
+            </li>
+            <li>
+              <strong>O placar é opcional e anônimo</strong>
+              Começa desligado por padrão na Área dos Pais e, quando ligado por um adulto, envia apenas a
+              pontuação com um apelido gerado pelo jogo.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 4. Para os pais -->
+      <section class="secao" id="para-os-pais" aria-labelledby="titulo-pais">
+        <div class="container">
+          <h2 class="secao-titulo" id="titulo-pais">Pensado para os pais e para a sala de casa</h2>
+          <p class="secao-subtitulo">
+            A Área dos Pais fica protegida por um toque longo de 3 segundos e permite ajustar tudo para o ritmo da
+            criança.
+          </p>
+
+          <div class="grade-2">
+            <article class="cartao">
+              <h3>Espaço livre e luz</h3>
+              <p>
+                Antes de cada música, a calibração lembra de afastar os móveis e avisa se a iluminação da sala
+                estiver baixa para a câmera enxergar melhor.
+              </p>
+            </article>
+
+            <article class="cartao">
+              <h3>Pausa para beber água</h3>
+              <p>
+                Partidas curtas de 1 a 2 minutos. A cada 3 músicas dançadas em sequência, os pets fazem uma pausa
+                amigável sugerindo beber água e descansar.
+              </p>
+            </article>
+
+            <article class="cartao">
+              <h3>Modo Dupla e Estátua</h3>
+              <p>
+                Adulto e criança podem dançar juntos lado a lado na mesma câmera, cada um com sua nota, ou brincar
+                de congelar quando a música para no modo Estátua.
+              </p>
+            </article>
+
+            <article class="cartao">
+              <h3>Suas músicas em casa</h3>
+              <p>
+                O jogo já vem com música sintetizada pronta para dançar offline. Na Área dos Pais, você também pode
+                carregar arquivos MP3/WAV do seu aparelho ou colar um link do YouTube.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Código aberto -->
+      <section class="secao" id="codigo-aberto" aria-labelledby="titulo-opensource">
+        <div class="container">
+          <h2 class="secao-titulo" id="titulo-opensource">Código aberto e feito pela comunidade</h2>
+          <p class="secao-subtitulo">
+            Todo o código, catálogo de poses e coreografias estão abertos no GitHub. Quer criar uma pose nova,
+            compor uma faixa livre de direitos ou melhorar a acessibilidade?
+          </p>
+          <div class="hero-acoes">
+            <a class="botao-secundario" href="/contribuir">Como contribuir</a>
+            <a
+              class="botao-secundario"
+              href="https://github.com/thiagopbraga/ensaio-de-danca"
+              rel="noopener noreferrer"
+              >Ver repositório no GitHub</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 6. Rodapé -->
+    <footer class="rodape">
+      <div class="container">
+        <nav class="rodape-links" aria-label="Links do rodapé">
+          <a href="/jogar/">Jogar agora</a>
+          <a href="/privacidade">Política de Privacidade</a>
+          <a href="/contribuir">Como Contribuir</a>
+          <a href="https://github.com/thiagopbraga/ensaio-de-danca" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        <p>
+          <strong>Aviso de não afiliação:</strong> Projeto independente e gratuito, sem nenhuma relação com
+          Netflix, Sony Pictures Animation, gravadoras ou artistas. Não inclui nem distribui músicas ou imagens de
+          terceiros.
+        </p>
+        <p>
+          Licença: código sob <a href="https://github.com/thiagopbraga/ensaio-de-danca/blob/main/LICENSE">MIT</a> e
+          documentação/coreografias sob
+          <a href="https://github.com/thiagopbraga/ensaio-de-danca/blob/main/LICENSE-CONTEUDO.md">CC BY 4.0</a>.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
