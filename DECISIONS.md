@@ -104,3 +104,11 @@ Cada linha é uma decisão que o plano não fechava, com a justificativa.
 - Arquivo de áudio tem prioridade sobre o vídeo quando os dois existem.
 - Sem internet, vídeo bloqueado para embutir (erros 101/150) ou vídeo que não começa em 45 s: a dança segue com palminhas no BPM da música (`src/core/clickTrack.ts`) e o narrador avisa de um jeito positivo. Se o erro vier no meio da dança, as palminhas continuam da batida em que parou.
 - Os testes usam um `window.YT` falso (o container de testes não acessa o YouTube), que imita estados, anúncio, leituras em degraus de 250 ms, engasgo e erro 150.
+
+## Open Source, Site e Placar Público (`docs/plano-opensource-site.md`)
+
+- **Licenciamento duplo:** código-fonte sob MIT (`LICENSE`) e coreografias/documentação sob CC BY 4.0 (`LICENSE-CONTEUDO.md`), com atribuição do runtime MediaPipe (Apache-2.0) em `TERCEIROS.md`.
+- **Roteamento unificado na Cloudflare:** o site estático (`site/`) é copiado para a raiz de `dist/` (`/`, `/privacidade`, `/contribuir`, `/placar`, `/admin/`), o jogo PWA compila em `dist/jogar/` (`/jogar/`), e o Cloudflare Worker responde apenas em `/api/*` (`run_worker_first: ["/api/*"]`), mantendo custo zero para visitas estáticas.
+- **Três músicas públicas 100% sintetizadas em Web Audio (`PUBLIC_SONG_IDS`):** além de `"Aquecimento"` (`120 BPM`), entraram `"Brisa Solar"` (`100 BPM`, 64 batidas) e `"Festa Estelar"` (`136 BPM`, 104 batidas). No menu de músicas (`Musicas.ts`), `"Aquecimento"` fica na página 1 junto com as duas primeiras músicas base, preservando a paginação esperada pelos testes E2E originais, e as novas músicas públicas entram na página 3.
+- **Adjetivos uniformes na lista fechada de apelidos (`shared/apelidos.ts`):** as 40 qualidades foram escolhidas entre adjetivos de dois gêneros em português (`Brilhante`, `Veloz`, `Dançante`, `Estelar`, `Musical`, etc.), garantindo concordância gramatical perfeita com qualquer um dos 40 animais (femininos ou masculinos).
+- **Testes do Worker com SQLite real da biblioteca padrão (`node:sqlite`):** `worker/d1Sqlite.ts` implementa a interface `D1Database` sobre `DatabaseSync(':memory:')` carregando `0001_placar.sql` e `0002_musicas.sql`, permitindo testar todas as queries SQL, constraints e janelas analíticas (`ROW_NUMBER() OVER (PARTITION BY ...)`) no Vitest e no servidor Vite sem dependências nativas externas.

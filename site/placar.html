@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Placar público opcional do Ensaio de Dança — apenas apelidos da lista fechada, sem dados pessoais."
+    />
+    <meta name="theme-color" content="#1a0f30" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/site.css" />
+    <title>Placar da Semana — Ensaio de Dança</title>
+  </head>
+  <body>
+    <a class="pular-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+    <header class="topo-site">
+      <div class="container topo-interno">
+        <a class="marca" href="/">
+          <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+            <rect width="64" height="64" rx="14" fill="#3d1a85" />
+            <polygon
+              points="32,8 39,23 55,25 43,36 46,52 32,44 18,52 21,36 9,25 25,23"
+              fill="#ffd640"
+              stroke="#24163d"
+              stroke-width="3"
+            />
+          </svg>
+          <span>Ensaio de Dança</span>
+        </a>
+        <nav aria-label="Navegação principal">
+          <ul class="nav-lista">
+            <li><a href="/">Início</a></li>
+            <li><a href="/placar" aria-current="page">Placar</a></li>
+            <li><a href="/privacidade">Privacidade</a></li>
+            <li><a href="/contribuir">Contribuir</a></li>
+            <li><a class="botao-jogar botao-jogar-pequeno" href="/jogar/">Jogar agora</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo-principal" class="pagina-interna">
+      <div class="container" id="placar-pagina">
+        <span class="selo">100% opt-in · Apenas apelidos da lista fechada</span>
+        <h1>Placar das Músicas Públicas</h1>
+        <p class="secao-subtitulo">
+          Este placar mostra apenas as músicas públicas sintetizadas do jogo, quando um adulto ativa a opção na
+          Área dos Pais. Nenhum nome real ou dado pessoal é aceito.
+        </p>
+
+        <div class="cartao filtros-placar" role="region" aria-label="Filtros do placar">
+          <div class="grupo-filtro">
+            <span class="rotulo-filtro">Música:</span>
+            <button type="button" class="botao-filtro filtro-ativo" data-filtro-musica="ensaio-aquecimento" aria-pressed="true">
+              Aquecimento
+            </button>
+            <button type="button" class="botao-filtro" data-filtro-musica="ensaio-brisa" aria-pressed="false">
+              Brisa Solar
+            </button>
+            <button type="button" class="botao-filtro" data-filtro-musica="ensaio-festa" aria-pressed="false">
+              Festa Estelar
+            </button>
+          </div>
+
+          <div class="grupo-filtro">
+            <span class="rotulo-filtro">Nível:</span>
+            <button type="button" class="botao-filtro filtro-ativo" data-filtro-nivel="facil" aria-pressed="true">
+              Fácil
+            </button>
+            <button type="button" class="botao-filtro" data-filtro-nivel="normal" aria-pressed="false">
+              Normal
+            </button>
+          </div>
+
+          <div class="grupo-filtro">
+            <span class="rotulo-filtro">Período:</span>
+            <button type="button" class="botao-filtro filtro-ativo" data-filtro-periodo="semana" aria-pressed="true">
+              Esta semana
+            </button>
+            <button type="button" class="botao-filtro" data-filtro-periodo="sempre" aria-pressed="false">
+              De sempre
+            </button>
+          </div>
+        </div>
+
+        <section class="placar-card" style="margin-top: 1.5rem" aria-labelledby="placar-resumo-filtro">
+          <div class="placar-cabecalho">
+            <h2 id="placar-resumo-filtro">Aquecimento · Nível Fácil · Esta semana</h2>
+            <span class="placar-contador">Top 10</span>
+          </div>
+
+          <ol class="placar-lista" id="placar-lista-completa" aria-live="polite"></ol>
+
+          <div class="placar-vazio" id="placar-vazio-pagina">
+            <strong>Dance e apareça aqui!</strong>
+            <span>Ainda não há pontuações para este filtro. Abra o jogo, dance e mande sua nota!</span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="rodape">
+      <div class="container">
+        <nav class="rodape-links" aria-label="Links do rodapé">
+          <a href="/">Início</a>
+          <a href="/jogar/">Jogar agora</a>
+          <a href="/privacidade">Política de Privacidade</a>
+          <a href="/contribuir">Como Contribuir</a>
+          <a href="https://github.com/thiagopbraga/ensaio-de-danca" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        <p>
+          <strong>Aviso de não afiliação:</strong> Projeto independente e gratuito, sem nenhuma relação com
+          Netflix, Sony Pictures Animation, gravadoras ou artistas.
+        </p>
+      </div>
+    </footer>
+
+    <script src="/site.js" defer></script>
+  </body>
+</html>

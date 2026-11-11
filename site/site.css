@@ -482,6 +482,58 @@ a:hover {
   max-width: 72ch;
 }
 
+/* Filtros do Placar e Moderação */
+.filtros-placar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.grupo-filtro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.rotulo-filtro {
+  font-weight: 800;
+  color: var(--amarelo);
+  min-width: 5.2rem;
+}
+
+.botao-filtro {
+  background: rgba(20, 10, 40, 0.7);
+  color: var(--texto);
+  border: 2px solid var(--borda);
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.botao-filtro:hover {
+  border-color: var(--amarelo);
+}
+
+.botao-filtro.filtro-ativo {
+  background: var(--amarelo);
+  color: var(--bg-escuro);
+  border-color: #ffffff;
+}
+
+.botao-filtro.botao-perigo {
+  border-color: #ff6b6b;
+  color: #ffb8b8;
+}
+
+.admin-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 /* Rodapé */
 .rodape {
   border-top: 1px solid rgba(255, 255, 255, 0.16);

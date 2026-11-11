@@ -132,3 +132,21 @@ Os testes automáticos usam pose simulada, a câmera falsa do Chromium e áudio 
 - Músicas de verdade: o BPM e as partes das 5 coreografias vêm dos documentos e estão com `"calibrado": false`; o `offsetMs` e o começo de cada parte precisam ser marcados no editor para o arquivo que for carregado.
 - Detector de BPM em música de verdade (provado só com batidas sintéticas), foto de um desenho de verdade e modo dupla com duas pessoas.
 - Publicação na Vercel: o `vercel.json` está pronto, mas nenhuma publicação foi feita daqui.
+
+## Lançamento Open Source, Site e Placar (`docs/plano-opensource-site.md`)
+
+| Etapa | Nome                                                       | Status |
+| ----- | ---------------------------------------------------------- | ------ |
+| 1     | Preparar para Open Source (MIT, CC BY 4.0, CI, comunidade) | ✅     |
+| 3     | Base Cloudflare (`/jogar/`, `wrangler.jsonc`, `_headers`)  | ✅     |
+| 4     | Site de apresentação (`/`, `/privacidade`, `/contribuir`)  | ✅     |
+| 5     | API do placar (Cloudflare Worker + D1 + músicas públicas)  | ✅     |
+| 6     | Placar opcional no jogo com Porteira dos Pais              | ✅     |
+| 7 / 8 | Placar no site (`/placar`), painel `/admin/` e fechamento  | ✅     |
+
+- **Etapa 1 (Open Source):** `LICENSE` (MIT), `LICENSE-CONTEUDO.md` (CC BY 4.0), `TERCEIROS.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `.github/workflows/ci.yml`, `.github/dependabot.yml`, `.github/CODEOWNERS` e templates de Issue/PR.
+- **Etapa 3 (Cloudflare Base):** jogo servido em `/jogar/` (`dist/jogar`), PWA com `scope: '/jogar/'`, `wrangler.jsonc`, cabeçalhos de segurança em `public/_headers` e player do YouTube usando `https://www.youtube-nocookie.com`. Provado em `tests/unit/etapa3.test.ts`.
+- **Etapa 4 (Site Institucional):** páginas estáticas em `site/` (`/`, `/privacidade`, `/contribuir`, `/404.html`, `/site.css`) sem rastreadores nem CDNs externas, copiadas para a raiz de `dist/` no build. Provado em `tests/unit/site.test.ts` e `tests/e2e/site.spec.ts`.
+- **Etapa 5 (API + D1 + Apelidos + Músicas Sintetizadas):** músicas públicas sintetizadas `ensaio-brisa` ("Brisa Solar", 100 BPM) e `ensaio-festa` ("Festa Estelar", 136 BPM) somadas ao `ensaio-aquecimento`; lista fechada de 160.000 apelidos em `shared/apelidos.ts`; migrações SQL em `worker/migrations/` (`npm run gerar:sql`); Worker em `worker/index.ts` com validação em 7 camadas e retenção de 90 dias. Provado em `tests/unit/apelidos.test.ts` e `tests/unit/worker.test.ts`.
+- **Etapa 6 (Placar no Jogo):** opt-in na Área dos Pais (`#cfg-placar`, desligado por padrão), cliente exclusivo em `src/net/placar.ts`, escolha de 3 apelidos por gesto na cena `Resultado` e envio com comemoração positiva. Provado em `tests/unit/placar.test.ts` e `tests/e2e/placar-jogo.spec.ts`.
+- **Etapas 7 e 8 (Placar no Site e Moderação):** hidratação de `#hero-placar` em `/`, página `/placar` com filtros por música/nível/período e painel `/admin/` para ocultar/apagar pontuações e pausar músicas em 1 clique (`site/site.js`). Provado em `tests/unit/placar-site.test.ts` e `tests/e2e/placar-site.spec.ts`.
