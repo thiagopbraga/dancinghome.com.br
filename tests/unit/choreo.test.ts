@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { expandSections, levelRange, missingPoses } from '../../src/data/choreo';
 import { ChoreoSchema, type Choreo } from '../../src/data/schema';
-import { BASE_SONG_IDS, DEMO_ID, loadBaseData } from '../../src/data/songs';
+import { BASE_SONG_IDS, DEMO_ID, loadBaseData, PUBLIC_SONG_IDS } from '../../src/data/songs';
 
 function make(niveis: unknown, duracaoBeats = 64): Choreo {
   return ChoreoSchema.parse({
@@ -148,14 +148,16 @@ describe('dados que vêm com o jogo', () => {
     expect(data.catalog['mao-no-queixo']).toBeUndefined();
   });
 
-  it('as 6 coreografias passam no schema e só citam poses do catálogo', () => {
+  it('as 8 coreografias passam no schema e só citam poses do catálogo', () => {
     expect(data.errors).toEqual([]);
-    expect(data.songs.map((s) => s.id).sort()).toEqual([...BASE_SONG_IDS, DEMO_ID].sort());
+    expect(data.songs.map((s) => s.id).sort()).toEqual([...BASE_SONG_IDS, ...PUBLIC_SONG_IDS].sort());
     for (const s of data.songs) expect(missingPoses(s, data.catalog)).toEqual([]);
   });
 
-  it('as 5 músicas saem com calibrado false e a demonstração com true', () => {
-    for (const s of data.songs) expect(s.calibrado).toBe(s.id === DEMO_ID);
+  it('as 5 músicas base saem com calibrado false e as 3 públicas sintetizadas com true', () => {
+    for (const s of data.songs) {
+      expect(s.calibrado).toBe((PUBLIC_SONG_IDS as readonly string[]).includes(s.id));
+    }
   });
 
   it('o ritmo das poses segue a regra dos 7 anos', () => {
@@ -172,9 +174,11 @@ describe('dados que vêm com o jogo', () => {
     }
   });
 
-  it('o fácil só usa poses de braço e dura de 60 a 90 segundos', () => {
-    for (const s of data.songs.filter((x) => x.id !== DEMO_ID)) {
+  it('o fácil só usa poses de braço e nas músicas base dura de 60 a 90 segundos', () => {
+    for (const s of data.songs) {
       for (const e of expandSections(s, 'facil')) expect(data.catalog[e.pose].nivel).toBe('facil');
+    }
+    for (const s of data.songs.filter((x) => x.origem === 'base')) {
       const { inicio, fim } = levelRange(s, 'facil');
       const secs = ((fim - inicio) * 60) / s.bpm;
       expect(secs).toBeGreaterThanOrEqual(60);

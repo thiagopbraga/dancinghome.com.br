@@ -1,0 +1,58 @@
+{
+  "id": "ensaio-festa",
+  "title": "Festa Estelar",
+  "tema": "batida animada de palco",
+  "bpm": 136,
+  "offsetMs": 0,
+  "calibrado": true,
+  "duracaoBeats": 104,
+  "origem": "demo",
+  "niveis": {
+    "facil": {
+      "secoes": [
+        {
+          "nome": "aquecimento",
+          "inicioBeat": 0,
+          "aCada": 8,
+          "poses": ["pose-de-idol", "v-da-vitoria", "estrela", "swagger"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 48,
+          "aCada": 8,
+          "poses": ["bracos-pra-cima", "espada-de-luz", "apontar", "raio-de-sol"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 96,
+          "aCada": 8,
+          "poses": ["v-da-vitoria"],
+          "segurar": 4
+        }
+      ]
+    },
+    "normal": {
+      "secoes": [
+        {
+          "nome": "aquecimento",
+          "inicioBeat": 0,
+          "aCada": 4,
+          "poses": ["pose-de-idol", "v-da-vitoria", "pulo-pop", "swagger"]
+        },
+        {
+          "nome": "refrao",
+          "inicioBeat": 48,
+          "aCada": 4,
+          "poses": ["bracos-pra-cima", "pose-de-turne", "espada-de-luz", "mola"]
+        },
+        {
+          "nome": "final",
+          "inicioBeat": 96,
+          "aCada": 4,
+          "poses": ["v-da-vitoria"],
+          "segurar": 4
+        }
+      ]
+    }
+  }
+}

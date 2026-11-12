@@ -44,6 +44,8 @@ test('etapa 6: as 5 músicas aparecem com cadeado e a demonstração é jogável
     { id: 'o-som-da-nossa-voz', toca: false },
     { id: 'letal', toca: false },
     { id: 'nao-tem-perdao', toca: false },
+    { id: 'ensaio-brisa', toca: true },
+    { id: 'ensaio-festa', toca: true },
   ]);
   await apontar(page, 'jogar');
   await esperarCena(page, 'musicas');
