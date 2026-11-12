@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#1a0f30" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/site.css" />
+    <title>Moderação do Placar — Ensaio de Dança</title>
+  </head>
+  <body>
+    <a class="pular-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+    <header class="topo-site">
+      <div class="container topo-interno">
+        <a class="marca" href="/">
+          <span>Ensaio de Dança · Admin</span>
+        </a>
+        <nav aria-label="Navegação administrativa">
+          <ul class="nav-lista">
+            <li><a href="/">Voltar ao site</a></li>
+            <li><a href="/placar">Ver placar público</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo-principal" class="pagina-interna">
+      <div class="container" id="admin-painel">
+        <h1>Painel de Moderação do Placar</h1>
+        <p class="secao-subtitulo">
+          Protegido por Cloudflare Access na borda. Use os controles abaixo para ocultar ou apagar pontuações em 1
+          clique ou pausar o recebimento de envios por música.
+        </p>
+
+        <div class="cartao filtros-placar" style="margin-bottom: 1.5rem">
+          <div class="grupo-filtro">
+            <label class="rotulo-filtro" for="admin-token">Token (opcional):</label>
+            <input
+              type="password"
+              id="admin-token"
+              placeholder="Bearer token (se configurado)"
+              style="padding: 0.45rem 0.75rem; border-radius: 0.5rem; border: 1px solid #5d3d96; background: #1a0f30; color: #fff"
+            />
+            <button type="button" class="botao-filtro filtro-ativo" id="admin-atualizar">
+              Atualizar lista
+            </button>
+          </div>
+          <p id="admin-status" class="placar-nota" aria-live="polite">Pronto.</p>
+        </div>
+
+        <section class="placar-card" style="margin-bottom: 1.8rem" aria-labelledby="titulo-admin-musicas">
+          <div class="placar-cabecalho">
+            <h2 id="titulo-admin-musicas">Músicas públicas cadastradas</h2>
+          </div>
+          <ul class="placar-lista" id="admin-musicas-lista"></ul>
+        </section>
+
+        <section class="placar-card" aria-labelledby="titulo-admin-pontuacoes">
+          <div class="placar-cabecalho">
+            <h2 id="titulo-admin-pontuacoes">Últimas 50 pontuações</h2>
+          </div>
+          <ul class="placar-lista" id="admin-pontuacoes-lista"></ul>
+        </section>
+      </div>
+    </main>
+
+    <script src="/site.js" defer></script>
+  </body>
+</html>
