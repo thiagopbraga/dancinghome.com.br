@@ -1,13 +1,15 @@
 // Tela de estrelas: 1 a 3 estrelas, confete e comemoração. Nunca mostra derrota.
+import { sugerirApelidos } from '../../../shared/apelidos';
 import type { Summary } from '../../core/stars';
+import { enviarPontuacaoPlacar, musicaElegivelPlacar } from '../../net/placar';
 import { drawBackdrop } from '../draw/backdrop';
 import { Particles } from '../draw/particles';
-import { COR, clamp, drawStar, easeOutBack, roundRect, text } from '../draw/util';
+import { COR, clamp, drawStar, easeOutBack, makeRng, roundRect, text } from '../draw/util';
 import { BASE_W, type PointerKind, type Scene, type View } from '../engine';
 import type { Game, MatchReport } from '../game';
 import type { Outcome } from '../match';
 import { T } from '../texts';
-import { ButtonSet, drawCursors } from '../ui';
+import { ButtonSet, drawCursors, type Button } from '../ui';
 
 const CORES = [COR.rosa, COR.azul];
 
@@ -17,6 +19,13 @@ export class ResultadoScene implements Scene {
   /** Estrelas de cada pessoa (preenchido quando o resultado fica pronto). */
   estrelas: number[] = [];
   report: MatchReport | null = null;
+  /** Mensagem do placar online (ex.: "Seu nome está no placar da semana!"). */
+  placarMsg = '';
+  /** Apelidos sugeridos quando a criança ainda não escolheu o dela. */
+  opcoesApelido: string[] = [];
+  private ficha: string | null = null;
+  private enviando = false;
+  private enviado = false;
   private age = 0;
   private readonly particles = new Particles();
   private starSounds = 0;
@@ -25,44 +34,206 @@ export class ResultadoScene implements Scene {
     private readonly game: Game,
     private readonly outcome: Outcome,
   ) {
+    this.ui = new ButtonSet(this.baseButtons(), () => game.sfx.play('select'));
+    this.ui.grace = 2.2;
+  }
+
+  private baseButtons(compact = false): Button[] {
+    const game = this.game;
+    const outcome = this.outcome;
     const historia = outcome.cfg.historia !== undefined;
-    this.ui = new ButtonSet(
-      [
+    if (compact) {
+      return [
         {
           id: 'deNovo',
-          x: 230,
-          y: 478,
+          x: 80,
+          y: 582,
+          w: 340,
+          h: 100,
+          label: T.resultado.deNovo,
+          color: COR.rosa,
+          onSelect: () => void game.startMatch(outcome.cfg),
+        },
+        {
+          id: 'outrosApelidos',
+          x: 450,
+          y: 582,
           w: 380,
+          h: 100,
+          label: T.resultado.outrosApelidos,
+          color: '#2f8fe0',
+          onSelect: () => {
+            this.opcoesApelido = sugerirApelidos(3, Math.random, this.opcoesApelido[0] ?? null);
+            this.refreshButtons();
+          },
+        },
+        {
+          id: 'menu',
+          x: 860,
+          y: 582,
+          w: 340,
+          h: 100,
+          label: historia ? T.resultado.proximoShow : T.resultado.menu,
+          color: COR.roxoClaro,
+          onSelect: () => game.go(historia ? 'historia' : 'menu'),
+        },
+      ];
+    }
+
+    const mostrarBotaoPlacar =
+      game.settings.placarAtivo &&
+      !!game.settings.apelido &&
+      !!this.ficha &&
+      !this.enviado;
+
+    if (mostrarBotaoPlacar) {
+      return [
+        {
+          id: 'deNovo',
+          x: 70,
+          y: 478,
+          w: 340,
           h: 120,
           label: T.resultado.deNovo,
           color: COR.rosa,
           onSelect: () => void game.startMatch(outcome.cfg),
         },
         {
-          id: 'menu',
-          x: 670,
+          id: 'enviarPlacar',
+          x: 440,
           y: 478,
-          w: 380,
+          w: 400,
+          h: 120,
+          label: this.enviando ? T.resultado.enviandoPlacar : T.resultado.mandarPlacar,
+          fontSize: 32,
+          color: '#2aa86a',
+          disabled: this.enviando,
+          onSelect: () => void this.enviarAoPlacar(),
+        },
+        {
+          id: 'menu',
+          x: 870,
+          y: 478,
+          w: 340,
           h: 120,
           label: historia ? T.resultado.proximoShow : T.resultado.menu,
           color: COR.roxoClaro,
           onSelect: () => game.go(historia ? 'historia' : 'menu'),
         },
-      ],
-      () => game.sfx.play('select'),
-    );
-    this.ui.grace = 2.2;
+      ];
+    }
+
+    return [
+      {
+        id: 'deNovo',
+        x: 230,
+        y: 478,
+        w: 380,
+        h: 120,
+        label: T.resultado.deNovo,
+        color: COR.rosa,
+        onSelect: () => void game.startMatch(outcome.cfg),
+      },
+      {
+        id: 'menu',
+        x: 670,
+        y: 478,
+        w: 380,
+        h: 120,
+        label: historia ? T.resultado.proximoShow : T.resultado.menu,
+        color: COR.roxoClaro,
+        onSelect: () => game.go(historia ? 'historia' : 'menu'),
+      },
+    ];
+  }
+
+  private refreshButtons(): void {
+    const game = this.game;
+    const precisaEscolherApelido =
+      game.settings.placarAtivo &&
+      !game.settings.apelido &&
+      !!this.ficha &&
+      !this.enviado;
+
+    if (precisaEscolherApelido) {
+      if (this.opcoesApelido.length === 0) {
+        const rng = game.flags.semente !== null ? makeRng(game.flags.semente) : Math.random;
+        this.opcoesApelido = sugerirApelidos(3, rng);
+      }
+      const botoesApelido: Button[] = this.opcoesApelido.map((nome, idx) => ({
+        id: `apelido-${idx}`,
+        x: 60 + idx * 395,
+        y: 472,
+        w: 370,
+        h: 92,
+        label: nome,
+        fontSize: 26,
+        color: idx === 0 ? '#2aa86a' : idx === 1 ? '#ff9a3d' : '#8a4dff',
+        onSelect: () => void this.escolherApelido(nome),
+      }));
+      this.ui.setButtons([...botoesApelido, ...this.baseButtons(true)]);
+      return;
+    }
+
+    this.ui.setButtons(this.baseButtons(false));
+  }
+
+  private async escolherApelido(nome: string): Promise<void> {
+    await this.game.saveSettings({ ...this.game.settings, apelido: nome });
+    this.refreshButtons();
+  }
+
+  private async enviarAoPlacar(): Promise<void> {
+    const game = this.game;
+    const apelido = game.settings.apelido;
+    const report = this.report;
+    if (!game.settings.placarAtivo || !apelido || !this.ficha || !report || this.enviando || this.enviado) {
+      return;
+    }
+    this.enviando = true;
+    this.refreshButtons();
+    const resumo = report.resumos[0];
+    const bonus = this.outcome.bonus[0] ?? 0;
+    const poses = this.outcome.resultados[0]?.length ?? 0;
+    const res = await enviarPontuacaoPlacar(game.settings.placarAtivo, {
+      ficha: this.ficha,
+      apelido,
+      pontos: resumo.score + bonus,
+      estrelas: resumo.stars,
+      perfeitos: resumo.perfeitos,
+      poses,
+    });
+    this.enviando = false;
+    this.enviado = true;
+    if (res?.top10) {
+      this.placarMsg = T.resultado.placarTop10;
+      if (!report.novidades.includes(T.resultado.placarTop10)) {
+        report.novidades.unshift(T.resultado.placarTop10);
+      }
+      game.narrator.say(T.resultado.placarTop10);
+    } else if (res?.ok) {
+      this.placarMsg = T.resultado.placarEnviado;
+    } else {
+      this.placarMsg = T.resultado.placarOffline;
+    }
+    this.refreshButtons();
   }
 
   enter(): void {
     const game = this.game;
     game.sfx.play('fanfarra');
-    void game.finishMatch(this.outcome).then((report) => {
+    const elegivel =
+      game.settings.placarAtivo && musicaElegivelPlacar(this.outcome.cfg, this.outcome.choreo);
+    const promessaFicha = elegivel ? (game.fichaPlacar ?? Promise.resolve(null)) : Promise.resolve(null);
+
+    void Promise.all([game.finishMatch(this.outcome), promessaFicha]).then(([report, ficha]) => {
       this.report = report;
+      this.ficha = ficha;
       this.estrelas = report.resumos.map((r) => r.stars);
       const melhor = Math.max(...this.estrelas);
       game.narrator.say(T.narrador.fim[melhor]);
       if (report.novidades.includes(T.resultado.agua)) game.narrator.say(T.narrador.agua, { caption: false });
+      this.refreshButtons();
     });
   }
 
@@ -139,7 +310,11 @@ export class ResultadoScene implements Scene {
           this.drawSummary(g, s, this.outcome.bonus[i] ?? 0, cx, false, CORES[i]);
         });
       }
-      const news = [...(report.recorde ? [T.resultado.recorde] : []), ...report.novidades];
+      const news = [
+        ...(this.placarMsg ? [this.placarMsg] : []),
+        ...(report.recorde ? [T.resultado.recorde] : []),
+        ...report.novidades,
+      ];
       if (news.length > 0) {
         const idx = Math.floor(this.age / 2.5) % news.length;
         text(g, news[idx], BASE_W / 2, 134, {
