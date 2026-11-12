@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Saiba como contribuir com o Ensaio de Dança: poses novas, coreografias, faixas livres de direitos e código."
+    />
+    <meta name="theme-color" content="#1a0f30" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/site.css" />
+    <title>Como Contribuir — Ensaio de Dança</title>
+  </head>
+  <body>
+    <a class="pular-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+    <header class="topo-site">
+      <div class="container topo-interno">
+        <a class="marca" href="/">
+          <span>Ensaio de Dança</span>
+        </a>
+        <nav aria-label="Navegação principal">
+          <ul class="nav-lista">
+            <li><a href="/">Início</a></li>
+            <li><a href="/privacidade">Privacidade</a></li>
+            <li><a class="botao-jogar botao-jogar-pequeno" href="/jogar/">Jogar agora</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="pagina-interna" id="conteudo-principal">
+      <div class="container prosa">
+        <h1>Como Contribuir</h1>
+        <p>
+          O <strong>Ensaio de Dança</strong> é um projeto de código aberto mantido nos fins de semana. Você pode
+          ajudar mesmo sem programar!
+        </p>
+
+        <div class="grade-2">
+          <article class="cartao">
+            <h3>1. Criar poses e coreografias</h3>
+            <p>
+              As poses ficam em <code>src/data/poses/catalog.json</code> e usam até 8 ângulos de braços e pernas.
+              Você pode usar o gravador do próprio jogo para testar ideias novas e enviar um PR.
+            </p>
+          </article>
+
+          <article class="cartao">
+            <h3>2. Compor músicas livres</h3>
+            <p>
+              Queremos ampliar as músicas públicas com faixas sintetizadas em código (Web Audio) ou músicas
+              originais doadas sob licença CC0 / CC BY 4.0.
+            </p>
+          </article>
+
+          <article class="cartao">
+            <h3>3. Testar em aparelhos diferentes</h3>
+            <p>
+              Testar o modo offline, a câmera frontal e a orientação horizontal em diferentes modelos de Android e
+              iPhone ajuda muito a manter o jogo fluido.
+            </p>
+          </article>
+
+          <article class="cartao">
+            <h3>4. Código, acessibilidade e traduções</h3>
+            <p>
+              Melhorias de contraste, leitor de tela, desempenho em celulares antigos e tradução da interface para
+              inglês e espanhol estão entre as prioridades.
+            </p>
+          </article>
+        </div>
+
+        <h2>Regras de ouro do projeto</h2>
+        <ul>
+          <li>
+            <strong>Nada de conteúdo protegido de terceiros:</strong> PRs com áudio, letra, imagem, personagem ou
+            logotipo de terceiros são recusados.
+          </li>
+          <li>
+            <strong>Privacidade inegociável:</strong> nenhuma dependência de analytics, CDN externa ou envio de
+            dados sem passar pela Política de Privacidade.
+          </li>
+          <li>
+            <strong>Tom positivo:</strong> toda mensagem para a criança é encorajadora e a nota mínima é sempre 1
+            estrela.
+          </li>
+          <li>
+            <strong>Sem fotos ou vídeos de pessoas reais:</strong> nos testes e nas issues, use sempre o modo
+            simulado (<code>?sim=1</code>).
+          </li>
+        </ul>
+
+        <h2>Rodando no seu computador</h2>
+        <pre><code>npm ci
+npm run setup:mediapipe
+npm run dev          # abre o site em / e o jogo em /jogar/
+npm run check        # tipos, lint, testes de unidade e build
+npm run test:e2e     # testes ponta a ponta no Playwright</code></pre>
+
+        <p>
+          Veja os detalhes completos em
+          <a href="https://github.com/thiagopbraga/ensaio-de-danca/blob/main/CONTRIBUTING.md" rel="noopener noreferrer"
+            >CONTRIBUTING.md</a
+          >, o nosso
+          <a
+            href="https://github.com/thiagopbraga/ensaio-de-danca/blob/main/CODE_OF_CONDUCT.md"
+            rel="noopener noreferrer"
+            >Código de Conduta</a
+          >
+          e as issues marcadas com <code>boa primeira contribuição</code> no
+          <a href="https://github.com/thiagopbraga/ensaio-de-danca/issues" rel="noopener noreferrer">GitHub</a>.
+        </p>
+      </div>
+    </main>
+
+    <footer class="rodape">
+      <div class="container">
+        <nav class="rodape-links" aria-label="Links do rodapé">
+          <a href="/">Início</a>
+          <a href="/jogar/">Jogar agora</a>
+          <a href="/privacidade">Política de Privacidade</a>
+          <a href="https://github.com/thiagopbraga/ensaio-de-danca" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        <p>Ensaio de Dança · Código aberto (MIT / CC BY 4.0).</p>
+      </div>
+    </footer>
+  </body>
+</html>

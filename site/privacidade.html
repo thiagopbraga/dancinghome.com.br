@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Política de Privacidade do Ensaio de Dança: sem envio de câmera, sem login, sem cookies de rastreio."
+    />
+    <meta name="theme-color" content="#1a0f30" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/site.css" />
+    <title>Política de Privacidade — Ensaio de Dança</title>
+  </head>
+  <body>
+    <a class="pular-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+    <header class="topo-site">
+      <div class="container topo-interno">
+        <a class="marca" href="/">
+          <span>Ensaio de Dança</span>
+        </a>
+        <nav aria-label="Navegação principal">
+          <ul class="nav-lista">
+            <li><a href="/">Início</a></li>
+            <li><a href="/contribuir">Contribuir</a></li>
+            <li><a class="botao-jogar botao-jogar-pequeno" href="/jogar/">Jogar agora</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="pagina-interna" id="conteudo-principal">
+      <div class="container prosa">
+        <h1>Política de Privacidade</h1>
+        <p>Versão de 10 de novembro de 2026</p>
+
+        <section class="caixa-criancas" aria-labelledby="resumo-criancas">
+          <h2 id="resumo-criancas">Para crianças (em 3 frases)</h2>
+          <ol>
+            <li>
+              A câmera só olha os seus movimentos aí no seu aparelho para dar estrelas e nunca tira foto nem manda
+              vídeo para ninguém.
+            </li>
+            <li>
+              As suas estrelas, medalhas e personagens ficam guardadas só no navegador do seu celular ou
+              computador.
+            </li>
+            <li>
+              Se um adulto ligar o placar da semana, o jogo inventa um apelido divertido (como
+              <em>Gatinha Brilhante 27</em>) para que ninguém precise dizer o próprio nome!
+            </li>
+          </ol>
+        </section>
+
+        <h2>1. Quem é o responsável e como falar conosco</h2>
+        <p>
+          O <strong>Ensaio de Dança</strong> é um projeto independente de código aberto mantido por Thiago Braga.
+          Para dúvidas sobre privacidade, pedidos de remoção de pontuação do placar ou relatos de segurança, entre
+          em contato pelo repositório oficial no GitHub (<a
+            href="https://github.com/thiagopbraga/ensaio-de-danca"
+            rel="noopener noreferrer"
+            >github.com/thiagopbraga/ensaio-de-danca</a
+          >) ou pelo canal privado de segurança em
+          <a
+            href="https://github.com/thiagopbraga/ensaio-de-danca/security/advisories/new"
+            rel="noopener noreferrer"
+            >Security Advisories</a
+          >.
+        </p>
+
+        <h2>2. A câmera</h2>
+        <p>
+          O vídeo da câmera é lido exclusivamente dentro do próprio aparelho pelo modelo de visão computacional
+          MediaPipe (executado localmente no navegador). <strong>Nenhuma imagem, foto, quadro de vídeo ou áudio da
+          câmera é gravado no aparelho ou enviado pela internet.</strong>
+        </p>
+
+        <h2>3. O que fica guardado no seu aparelho</h2>
+        <p>
+          Progresso (estrelas e medalhas), configurações, personagens criadas, poses regravadas, coreografias e
+          arquivos de áudio carregados na Área dos Pais ficam armazenados localmente no banco
+          <code>IndexedDB</code> do seu navegador. Nada disso sai do aparelho automaticamente. Para apagar tudo,
+          basta limpar os dados do site nas configurações do navegador.
+        </p>
+
+        <h2>4. O placar online (opcional)</h2>
+        <p>
+          O placar online vem <strong>desligado por padrão</strong>. Enquanto estiver desligado, o jogo não faz
+          nenhuma requisição para a API do placar. Quando um adulto entra na Área dos Pais (segurando o botão por 3
+          segundos) e ativa a opção <em>"Participar do placar online"</em>, o jogo envia apenas:
+        </p>
+        <ul>
+          <li>Um <strong>apelido gerado pelo jogo</strong> a partir de listas fechadas (Animal + Qualidade + número de 2 dígitos);</li>
+          <li>O identificador da música pública e o nível jogado (fácil ou normal);</li>
+          <li>Os pontos, o número de poses perfeitas e as estrelas (1 a 3) da partida;</li>
+          <li>Uma ficha temporária assinada para validar a duração mínima da música.</li>
+        </ul>
+        <p>
+          Não existe campo de texto livre no placar: o servidor recusa qualquer apelido que não pertença à lista
+          fechada do jogo. Nunca enviamos nome real, e-mail, foto, vídeo, localização nem identificador do
+          aparelho.
+        </p>
+
+        <h2>5. Dados técnicos e hospedagem</h2>
+        <p>
+          O site, o jogo e a API do placar são hospedados na <strong>Cloudflare</strong> (Cloudflare Workers e D1).
+          Durante o envio de uma pontuação ao placar, o endereço IP passa pela memória do Worker apenas pelo
+          instante necessário para aplicar um limite de requisições contra abusos (usando um hash descartável com
+          sal que muda todo dia, <code>SHA-256(IP + sal_do_dia)</code>). O endereço IP <strong>não é gravado no
+          banco de dados nem em logs</strong>, e o horário da pontuação é arredondado para a hora cheia. Consulte
+          também a
+          <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer"
+            >Política de Privacidade da Cloudflare</a
+          >.
+        </p>
+
+        <h2>6. Cookies e serviços de terceiros</h2>
+        <p>
+          O site e o jogo do <strong>Ensaio de Dança</strong> não usam cookies próprios, pixels de rastreio nem
+          ferramentas de analytics que identifiquem visitantes.
+        </p>
+        <p>
+          Caso um adulto decida colar um link de vídeo do YouTube na Área dos Pais para tocar como música de
+          fundo, o jogo carrega o player oficial do YouTube no domínio de privacidade aprimorada
+          (<code>www.youtube-nocookie.com</code>). Nesse caso, o YouTube é um serviço de terceiro sujeito à
+          <a href="https://policies.google.com/privacy" rel="noopener noreferrer"
+            >Política de Privacidade do Google/YouTube</a
+          >
+          e pode definir cookies próprios quando o vídeo é reproduzido. Se nenhum link do YouTube for configurado,
+          nenhum recurso do YouTube é carregado.
+        </p>
+
+        <h2>7. Prazo de retenção das pontuações</h2>
+        <p>
+          No placar online, as pontuações são mantidas por <strong>90 dias</strong>. Uma tarefa automática diária
+          remove as pontuações com mais de 90 dias que não estejam entre as 10 melhores de sempre de cada música e
+          nível, além de limpar as fichas temporárias de partida após 2 dias.
+        </p>
+
+        <h2>8. Como pedir para apagar uma pontuação</h2>
+        <p>
+          Como não guardamos conta, e-mail, IP nem identificador do aparelho, não sabemos quem enviou cada
+          pontuação. Ainda assim, se você quiser remover uma pontuação específica do placar, basta enviar uma
+          mensagem pelo contato indicado no item 1 informando o <strong>apelido gerado</strong>, a
+          <strong>música</strong> e o <strong>dia aproximado</strong>, e nós a removeremos pelo painel de
+          moderação.
+        </p>
+
+        <h2>9. Proteção de crianças (LGPD, COPPA e GDPR)</h2>
+        <p>
+          Este projeto foi desenhado desde o início para cumprir os princípios de proteção à infância da LGPD (art.
+          14), COPPA e Age Appropriate Design Code: não coletamos dados pessoais identificáveis, todas as opções de
+          rede começam desligadas por padrão e qualquer interação externa depende de ação na Área dos Pais.
+        </p>
+
+        <h2>10. Mudanças nesta política</h2>
+        <p>
+          Qualquer alteração nesta Política de Privacidade será publicada nesta página com a data atualizada e terá
+          seu histórico completo público no repositório do GitHub.
+        </p>
+      </div>
+    </main>
+
+    <footer class="rodape">
+      <div class="container">
+        <nav class="rodape-links" aria-label="Links do rodapé">
+          <a href="/">Início</a>
+          <a href="/jogar/">Jogar agora</a>
+          <a href="/contribuir">Como Contribuir</a>
+          <a href="https://github.com/thiagopbraga/ensaio-de-danca" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        <p>Ensaio de Dança · Código aberto (MIT / CC BY 4.0).</p>
+      </div>
+    </footer>
+  </body>
+</html>
