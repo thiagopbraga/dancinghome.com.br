@@ -83,7 +83,7 @@ test('etapa 10: ela muda cor, cabelo, acessório, nomes e cenário, e tudo fica 
   };
   expect(await page.evaluate(() => window.__ensaio!.game.characters.idols[1])).toEqual(esperado);
 
-  await page.goto('/?sim=1');
+  await page.goto('/jogar/?sim=1');
   await page.waitForFunction(() => document.body.dataset.cena === 'inicio');
   const c = await page.evaluate(() => window.__ensaio!.game.characters);
   expect(c.idols[1]).toEqual(esperado);

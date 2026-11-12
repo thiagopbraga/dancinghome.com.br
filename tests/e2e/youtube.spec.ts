@@ -16,6 +16,7 @@ async function youtubeFalso(page: Page, opts: { erro?: number; anuncio?: number 
       anuncio: o.anuncio ?? 0,
       passo: 0.25,
       chamadas: [] as string[],
+      hostUsado: '',
       player: null as unknown as FakePlayer,
       carregar(seg: number) {
         fake.player.travar(seg);
@@ -38,9 +39,10 @@ async function youtubeFalso(page: Page, opts: { erro?: number; anuncio?: number 
       adLeft = fake.anuncio;
       constructor(
         el: HTMLElement,
-        private readonly opts: { events?: Ev },
+        private readonly opts: { host?: string; events?: Ev },
       ) {
         fake.player = this;
+        fake.hostUsado = opts.host ?? '';
         const f = document.createElement('iframe');
         f.title = 'youtube falso';
         el.replaceWith(f);
@@ -168,10 +170,11 @@ test('youtube: com o link do vídeo, a música toca no jogo e a dança segue o t
   const estado = await page.evaluate(() => window.__ensaio!.danca());
   expect(estado?.musica).toBe('youtube');
   const chamadas = await page.evaluate(
-    () => (window as unknown as { __ytFake: { chamadas: string[] } }).__ytFake.chamadas,
+    () => (window as unknown as { __ytFake: { chamadas: string[]; hostUsado: string } }).__ytFake,
   );
-  expect(chamadas[0]).toBe('play-mudo');
-  expect(chamadas).toContain('play');
+  expect(chamadas.hostUsado).toBe('https://www.youtube-nocookie.com');
+  expect(chamadas.chamadas[0]).toBe('play-mudo');
+  expect(chamadas.chamadas).toContain('play');
   await expect(page.locator('#youtube')).toHaveAttribute('data-modo', 'visivel');
 
   // o relógio da dança acompanha o vídeo (a batida 0 cai em 2 s do vídeo)

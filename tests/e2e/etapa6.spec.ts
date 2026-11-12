@@ -11,7 +11,7 @@ test('etapa 6: o progresso continua depois de recarregar a página', async ({ pa
 
   await page.reload();
   await page.waitForFunction(() => document.body.dataset.cena === 'inicio');
-  await page.goto('/?sim=1');
+  await page.goto('/jogar/?sim=1');
   await page.waitForFunction(() => document.body.dataset.cena === 'inicio');
   await clicarBotao(page, 'comecar');
   await esperarCena(page, 'menu');

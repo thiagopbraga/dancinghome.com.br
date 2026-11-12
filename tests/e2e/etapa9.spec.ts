@@ -102,7 +102,7 @@ test('etapa 9: gravar 16 batidas gera uma fase jogável que aparece no menu', as
   expect(res.every((r) => r.rating === 'perfeito')).toBe(true);
 
   // e continua lá depois de recarregar
-  await page.goto('/?sim=1');
+  await page.goto('/jogar/?sim=1');
   await page.waitForFunction(() => document.body.dataset.cena === 'inicio');
   expect(
     await page.evaluate(() => window.__ensaio!.game.songs.filter((s) => s.origem === 'gravada').length),
