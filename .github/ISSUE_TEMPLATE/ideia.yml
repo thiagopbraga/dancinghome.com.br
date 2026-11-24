@@ -1,0 +1,30 @@
+name: Ideia de pose, música ou melhoria
+description: Sugerir uma pose nova, coreografia, faixa livre de direitos ou melhoria no jogo/site
+title: "[Ideia]: "
+labels: ["ajuda bem-vinda"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tem uma ideia para deixar o **Ensaio de Dança** mais divertido? Conte aqui!
+        Lembre-se das regras do projeto: nada de músicas ou imagens protegidas por direitos autorais, e nenhuma foto ou vídeo de pessoas reais.
+  - type: dropdown
+    id: categoria
+    attributes:
+      label: Tipo de ideia
+      options:
+        - Pose nova para o catálogo
+        - Coreografia ou música livre de direitos (sintetizada / CC0 / CC BY)
+        - Modo de jogo ou melhoria na interface
+        - Acessibilidade ou privacidade
+        - Site ou placar
+    validations:
+      required: true
+  - type: textarea
+    id: descricao
+    attributes:
+      label: Como funciona a sua ideia?
+      description: Se for uma pose, descreva como ficam os braços e pernas (e se é para o nível Fácil ou Normal).
+      placeholder: "Descreva a ideia de forma simples..."
+    validations:
+      required: true

@@ -1,0 +1,51 @@
+name: Relatar um problema (bug)
+description: Algo não funcionou como esperado no jogo ou no site
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por avisar!
+        **Importante:** **NUNCA anexe vídeo, foto ou nome de criança** nesta issue. Se precisar ilustrar uma pose, use o modo simulado (`?sim=1`).
+  - type: dropdown
+    id: aparelho
+    attributes:
+      label: Aparelho / Sistema
+      options:
+        - Android (celular / tablet)
+        - iPhone / iPad (iOS)
+        - Computador (Linux / Windows / macOS)
+        - Outro
+    validations:
+      required: true
+  - type: input
+    id: navegador
+    attributes:
+      label: Navegador
+      placeholder: "Ex.: Chrome 130, Safari 18, Firefox..."
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: Como reproduzir
+      description: Quais passos você seguiu até o problema acontecer?
+      placeholder: |
+        1. Abri o jogo em /jogar/
+        2. Toquei em Começar...
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que você esperava que acontecesse?
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacidade
+    attributes:
+      label: Confirmação de privacidade
+      options:
+        - label: Confirmo que não anexei fotos, vídeos ou dados pessoais de crianças neste relato.
+          required: true

@@ -6,9 +6,9 @@
 
 Um jogo de dança no navegador: a webcam lê o corpo dela com o MediaPipe, cartões de pose chegam no ritmo da música e ela ganha estrelas por imitar cada pose. Roda no navegador do celular, na horizontal, e também no computador. Não precisa de servidor nem de internet depois de carregado.
 
-**Para quem:** uma menina de 7 anos que gosta de K-pop, aventura, cachorros, gatos, patins e bicicleta.
+**Para quem:** crianças de 6 a 9 anos que gostam de K-pop, aventura, cachorros, gatos, patins e bicicleta.
 
-**Princípios de design para 7 anos:**
+**Princípios de design para crianças de 6 a 9 anos:**
 
 - **Sem derrota.** Não existe "game over". Toda música termina com estrelas e uma comemoração.
 - **Pouco texto.** Ícones, cores e uma voz narrando. Ela não precisa ler para jogar.

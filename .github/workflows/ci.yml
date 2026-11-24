@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Tipos, Lint, Unidade, Build e E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Cache dos modelos do MediaPipe
+        uses: actions/cache@v4
+        with:
+          path: public/mediapipe
+          key: mediapipe-${{ hashFiles('scripts/setup-mediapipe.mjs', 'package-lock.json') }}
+
+      - name: Baixar wasm e modelos do MediaPipe
+        run: npm run setup:mediapipe
+
+      - name: Verificação completa (tipos, lint, unidade e build)
+        run: npm run check
+
+      - name: Instalar Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Testes ponta a ponta (Playwright)
+        run: npm run test:e2e
